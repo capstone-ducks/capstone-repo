@@ -24,6 +24,7 @@ app.use(morgan("dev"));
 // Api Routes
 //
 //
+app.use("/api/users/", require("./api/routes/userRoute"));
 
 // Send the app
 app.get("/", (req, res) => {
