@@ -9,7 +9,7 @@
         "start:dev": "npm run start-server & npm run build-watch",
         "build-watch": "webpack -w --mode=development",
         "start-server": "nodemon server --ignore public",
-        "test": "mocha \"**/*.spec.js\" --timeout 5000",
+        "test": "mocha \"**/*.spec.js\" --exit",
         "test:dev": "DATABASE_URL=postgres://localhost/capstone_test npm run test -- --watch"
     },
     "keywords": [],
