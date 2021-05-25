@@ -9,8 +9,7 @@
         "start:dev": "npm run start-server & npm run build-watch",
         "build-watch": "webpack -w --mode=development",
         "start-server": "nodemon server --ignore public",
-        "test": "mocha \"**/*.spec.js\"",
-        "test2": "jest --detectOpenHandles"
+        "test": "mocha \"**/*.spec.js\""
     },
     "keywords": [],
     "author": "",
@@ -34,7 +33,6 @@
         "@babel/preset-react": "^7.13.13",
         "babel-loader": "^8.2.2",
         "chai": "^4.3.4",
-        "jest": "^26.6.3",
         "mocha": "^8.4.0",
         "morgan": "^1.10.0",
         "nodemon": "^2.0.7",

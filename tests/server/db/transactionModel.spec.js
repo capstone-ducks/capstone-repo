@@ -1,16 +1,24 @@
 
 const { db, User, Transaction } = require('../../../server/db/index');
 const syncAndSeed  = require('../../../server/db/seed');
+let expect = require('chai').expect;
+// beforeAll(async () => {
+//   await syncAndSeed();
+// });
 
-beforeAll(async () => {
+// afterAll(async () => {
+//   db.close();
+// });
+
+before(async () => {
   await syncAndSeed();
 });
 
-afterAll(async () => {
+after(async () => {
   db.close();
 });
 
-it('Transaction Model exists', async (done) => {
+it('Transaction Model exists', async () => {
     const user1 = await User.create({});
     const user2 = await User.create({});
 
@@ -19,7 +27,7 @@ it('Transaction Model exists', async (done) => {
         donorId: user1.id,
         recipientId: user2.id
   });
-  expect(transaction.amount).toBe('150.50');
-  done();
+  //console.log(transaction);
+  expect(transaction.amount).to.equal('150.50');
 });
 
