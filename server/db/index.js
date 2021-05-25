@@ -5,6 +5,13 @@ const {
 const syncAndSeed = require("./syncAndSeed");
 
 //associations will go here
+// Transaction.belongsTo(User, {
+//     as: 'donor'
+//   });
+  
+//   Transaction.belongsTo(User, {
+//     as: 'recipient'
+//   });
 
 module.exports = {
     syncAndSeed,

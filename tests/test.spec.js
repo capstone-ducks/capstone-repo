@@ -15,7 +15,7 @@ describe("Models", () => {
         // Clears the test database before we run tests
         // before(() => db.sync({ force: true }));
         // after(() => db.close());
-
+        
         it("defaults firstName to `Anonymous` if not provided", async () => {
             const user = User.build({});
             expect(user.firstName).to.equal("Anonymous");
@@ -97,13 +97,13 @@ describe("Models", () => {
     describe("Transaction Model", () =>{
      
         it('Transaction Model exists', async () => {
-        //     const transaction = await Transaction.create({
-        //         amount: 150.5,
-        //         // donorId: user1.id,
-        //         // recipientId: user2.id
-        //   });
-          //expect(transaction.amount).to.equal('150.00');
+            const transaction = await Transaction.create({
+                amount: 150.5,
+                donorId: 1,
+                recipientId: 2
+          });
+          console.log(transaction);
+          expect(transaction.amount).to.equal('150.00');
         });
-        expect(transaction.amount).to.equal('150.00');
     });
 });
