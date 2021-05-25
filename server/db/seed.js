@@ -1,4 +1,4 @@
-const { db, User } = require('./index');
+const { db, User, Transaction } = require('./index');
 
 const syncAndSeed = async () => {
   try {
