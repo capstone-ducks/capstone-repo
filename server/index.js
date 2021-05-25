@@ -5,6 +5,10 @@ const path = require("path");
 const PORT = process.env.PORT || 4500;
 const morgan = require("morgan");
 
+// Database Import
+const { syncAndSeed } = require("./db");
+syncAndSeed();
+
 // Import api routes
 //
 //
