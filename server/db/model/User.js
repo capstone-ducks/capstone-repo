@@ -32,7 +32,13 @@ User.init(
         publicKey: {
             type: DataTypes.STRING,
             validate: {
-                len: [128, 128],
+                len: [130, 130],
+            },
+        },
+        cryptoAddress: {
+            type: DataTypes.STRING,
+            validate: {
+                len: [40, 40],
             },
         },
         isDonor: {

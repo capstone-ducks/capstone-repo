@@ -19,7 +19,8 @@ const seedUsers = async () => {
                 lastName: faker.name.lastName(),
                 email: faker.internet.email(),
                 password: faker.internet.password(),
-                publicKey: faker.random.alphaNumeric(128),
+                publicKey: faker.random.alphaNumeric(130),
+                cryptoAddress: faker.random.alphaNumeric(40),
                 isDonor,
             }).save();
 
