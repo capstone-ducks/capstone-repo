@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const { db } = require('../index');
+const db  = require('./db');
 
 const Transaction = db.define('transaction', {
   amount: {
@@ -8,6 +8,5 @@ const Transaction = db.define('transaction', {
     defaultValue: 0,
   },
 });
-
 
 module.exports = Transaction;

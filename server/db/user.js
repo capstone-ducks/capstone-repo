@@ -1,5 +1,6 @@
-const Sequelize = require('sequelize');
-const db = require('../db');
+//const Sequelize = require('sequelize');
+const { Sequelize, DataTypes, Model } = require('sequelize');
+const db = require('./db');
 
 
 class User extends Model {}
@@ -38,7 +39,7 @@ User.init(
     },
 
   },
-  { sequelize: db, modelName: 'user' }
+  { sequelize: db, modelName: 'User' }
 );
 
 // Additional column fields from our schema that I didn't add at this time
