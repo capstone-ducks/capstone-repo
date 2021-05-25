@@ -1,11 +1,15 @@
-
-const db = require('./db');
-
-const User = require('./user');
+const db = require("./db");
+const {
+    model: { User },
+} = require("./model");
+const syncAndSeed = require("./syncAndSeed");
 
 //associations will go here
 
 module.exports = {
-  db,
-  User
+    syncAndSeed,
+    db,
+    model: {
+        User,
+    },
 };
