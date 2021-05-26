@@ -1,0 +1,151 @@
+#main-logo {
+    width: 150px;
+    height: auto;
+}
+
+/* Header Styles */
+
+#app-header {
+    max-width: 100%;
+    font-family: "Inter", sans-serif;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* padding: 3.3vh; */
+    padding: 0rem 10vw;
+    background-color: #fff1f7;
+    z-index: 5;
+    /* position: sticky; */
+    top: 0;
+    box-shadow: 0px -12px 9px 5px rgba(0, 0, 0, 0);
+    transition: 0.2s ease-in-out;
+}
+
+#header-home > * {
+    text-decoration: none;
+    color: black;
+    font-size: xx-large;
+    font-variant: small-caps;
+    font-weight: 500;
+    letter-spacing: -1px;
+}
+
+#app-header > * {
+    margin: 1rem;
+}
+
+#header-links {
+    display: flex;
+    flex-direction: row;
+}
+
+#header-links > * {
+    margin-left: 2rem;
+    align-self: center;
+    color: black;
+    text-decoration: none;
+    font-size: larger;
+    padding-bottom: 8px;
+    position: relative;
+}
+.btn-text {
+    font-family: "Inter", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#sign-up {
+    position: relative;
+    top: -4px;
+    padding: 12px 13px;
+    border-radius: 0.5rem;
+    background-color: #2654ba;
+    color: white;
+    transform: translateY(2px);
+    box-shadow: 0px 0px 0px 0px rgba(58, 58, 58, 0.589);
+    transition: all ease-in-out 0.2s;
+}
+
+#sign-in {
+    position: relative;
+    top: -4px;
+    padding: 12px 13px;
+    border-radius: 0.5rem;
+    background-color: #73848d;
+    color: white;
+    transform: translateY(2px);
+    box-shadow: 0px 0px 0px 0px rgba(58, 58, 58, 0.589);
+    transition: all ease-in-out 0.2s;
+}
+
+/* Header Animations */
+
+.header-link::before,
+.header-link::after {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: black;
+}
+.header-link::before {
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: transform 0s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0s;
+}
+
+.header-link::after {
+    opacity: 0;
+    transform: translateY(4px);
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        opacity 0.2s;
+}
+.header-link:hover::before,
+.header-link:hover::after,
+.header-link:focus::before,
+.header-link:focus::after,
+#about-us:focus::before,
+#about-us:focus::after {
+    opacity: 1;
+    transform: translateY(0);
+}
+.header-link:hover::before,
+.header-link:focus::before {
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        opacity 0.2s;
+}
+.header-link:hover::after,
+.header-link:focus::after {
+    transition: transform 0s 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        opacity 0s 0.2s;
+}
+
+#sign-up:hover {
+    /* color: rgb(232, 255, 104); */
+    transform: translateY(-2px);
+    box-shadow: 0px 8px 6px -6px rgba(87, 87, 87, 0.589);
+    background-color: #123962;
+    transition: all ease-in-out 0.2s;
+}
+
+#sign-in:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 8px 6px -6px rgba(87, 87, 87, 0.589);
+    background-color: rgb(69, 83, 91);
+    color: white;
+    transition: all ease-in-out 0.2s;
+}
+
+#sign-up:focus,
+#sign-up:hover {
+    /* color: rgb(232, 255, 104); */
+}
+
+#sign-up:active,
+#sign-in:active {
+    transform: translateY(-2px);
+    transform: scale(0.95, 0.95);
+    transition: transform 0.1s;
+}
