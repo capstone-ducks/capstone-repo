@@ -7,7 +7,7 @@ const morgan = require("morgan");
 
 // Database Import
 const { syncAndSeed } = require("./db");
-syncAndSeed();
+//syncAndSeed();
 
 // Import api routes
 //
@@ -37,12 +37,24 @@ app.use((err, req, res, next) => {
     res.send(err.message || "Internal server error");
 });
 
-app.listen(PORT, () =>
-    console.log(`
-        Listening on Port ${PORT}
-        http://localhost:${PORT}
-`),
-);
+
+const init = async () => {
+    try {
+      await syncAndSeed();
+      if (!module.parent) {
+        app.listen(PORT, () =>
+        console.log(`
+            Listening on Port ${PORT}
+            http://localhost:${PORT}
+        `),
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  init();
+
 
 process.on("SIGINT", () => {
     console.log("Bye bye!");
