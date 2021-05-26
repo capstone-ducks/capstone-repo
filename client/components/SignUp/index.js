@@ -1,4 +1,4 @@
-import SignIn from "./SignIn.jsx";
+import SignInForm from "./SignIn.jsx";
 import SignUp from "./SignUp.jsx";
 
-export { SignIn, SignUp };
+export { SignInForm, SignUp };
