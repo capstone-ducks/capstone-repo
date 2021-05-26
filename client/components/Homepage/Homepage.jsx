@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "../../../public/assets/homepage.css";
 // import mainImg from "../../../public/images/charity-img.png";
 import mainImg from "../../../public/images/multicultural.png";
+import HomepagePanel from "./HomepagePanel.jsx";
 import { Link, NavLink } from "react-router-dom";
 
 class Homepage extends Component {
@@ -12,7 +13,7 @@ class Homepage extends Component {
     render() {
         return (
             <div className="homepage-container">
-                <div className="homepage-init-cont">
+                <section className="homepage-init-cont">
                     <div className="main-item-cont">
                         <div className="main-text-cont">
                             <div className="homepage-text">
@@ -50,7 +51,18 @@ class Homepage extends Component {
                             <img src={mainImg} alt="" id="main-img" />
                         </div>
                     </div>
-                </div>
+                </section>
+                <section className="two-panel-container">
+                    <div className="h-header-cont">
+                        <h2 className="sub-header-h">
+                            Whether you wish to donate or receive, we can help.
+                        </h2>
+                    </div>
+                    <div className="h-panel-cont">
+                        <HomepagePanel donate={false} />
+                        <HomepagePanel donate={true} />
+                    </div>
+                </section>
             </div>
         );
     }
