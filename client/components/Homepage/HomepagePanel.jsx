@@ -8,7 +8,6 @@ import "../../../public/assets/homepage.css";
 
 const HomepagePanel = ({ donate }) => {
     const buttonStyle = {
-        backgroundColor: `${donate ? "#2654ba" : "#d77064"}`,
         fontFamily: "sans-serif",
         color: "white",
         letterSpacing: "0.05em",
@@ -17,9 +16,6 @@ const HomepagePanel = ({ donate }) => {
         lineHeight: "150%",
         padding: "1rem 3rem",
         borderRadius: "0.5rem",
-        // "&:hover": {
-        //     backgroundColor: `${donate ? "#123962" : "#9d3528"}`,
-        // },
     };
 
     return (
@@ -43,7 +39,11 @@ const HomepagePanel = ({ donate }) => {
                     </p>
                 </div>
                 <div className="panel-btn-container">
-                    <NavLink to="#" className="panel-btn" style={buttonStyle}>
+                    <NavLink
+                        to="#"
+                        className={`panel-btn ${donate ? "blue-h" : "red-h"}`}
+                        style={buttonStyle}
+                    >
                         {donate ? "Donate Now" : "Get Started"}
                     </NavLink>
                 </div>

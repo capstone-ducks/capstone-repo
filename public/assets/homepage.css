@@ -156,17 +156,18 @@ p {
     align-items: center;
 }
 
-.panel-btn {
-    font-family: sans-serif;
-    color: white;
-    letter-spacing: 0.05em;
-    font-weight: 400;
-    font-size: larger;
-    line-height: 150%;
-    padding: 1rem 3rem;
-    border-radius: 0.5rem;
+.blue-h {
     background-color: #2654ba;
 }
 
-.panel-btn:hover {
+.red-h {
+    background-color: #d77064;
+}
+
+.blue-h:hover {
+    background-color: #123962;
+}
+
+.red-h:hover {
+    background-color: #aa574e;
 }
