@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
-import donateImg from "../../../public/images/donate.jpg";
-import receiveImg from "../../../public/images/receive.jpg";
+import donateImg from "../../../public/images/donate.png";
+import receiveImg from "../../../public/images/receive.png";
 import styled from "styled-components";
 
 import "../../../public/assets/homepage.css";
