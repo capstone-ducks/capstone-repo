@@ -18,14 +18,16 @@ h1 {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    background-color: #fff1f7;
 }
 
 .homepage-init-cont {
+    width: 102%;
     padding-top: 1rem;
     padding-left: 5rem;
     padding-right: 5rem;
-    padding-bottom: 3rem;
+    padding-bottom: 13rem;
+    background-color: #fff1f7;
+    box-shadow: 0px 11px 14px -14px #000000;
 }
 
 .main-item-cont {
@@ -98,4 +100,83 @@ p {
 
 #donate-button:hover {
     background-color: #123962;
+}
+
+.two-panel-container {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.h-header-cont {
+    padding-bottom: 2rem;
+}
+
+.sub-header-h {
+    text-align: center;
+}
+
+.h-panel-cont {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.h-panel {
+    width: 325px;
+    margin-right: 3rem;
+    border: 2px solid #123962;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0px 5px 12px -7px #000000;
+    background-color: #fff1f7;
+}
+
+.panel-img-cont {
+    text-align: center;
+}
+
+.panel-inside-h {
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-img {
+    height: 9rem;
+    width: auto;
+}
+
+.panel-header-text {
+    font-family: "Libre Franklin", sans-serif;
+    font-size: 200%;
+    text-align: center;
+}
+
+.panel-btn-container {
+    margin: 2rem 0 1rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.blue-h {
+    background-color: #2654ba;
+}
+
+.red-h {
+    background-color: #d77064;
+}
+
+.blue-h,
+.red-h {
+    box-shadow: 0px 5px 12px -10px #000000;
+}
+
+.blue-h:hover {
+    background-color: #123962;
+}
+
+.red-h:hover {
+    background-color: #aa574e;
 }
