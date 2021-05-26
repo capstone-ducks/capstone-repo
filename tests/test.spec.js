@@ -6,7 +6,7 @@ const axios = require("axios");
 
 const {
     db,
-    model: { User },
+    model: { User, Transaction},
 } = require("../server/db");
 
 describe("Models", () => {
@@ -94,15 +94,13 @@ describe("Models", () => {
         });
     });
     describe("Transaction Model", () =>{
-     
         it('Transaction Model exists', async () => {
             const transaction = await Transaction.create({
                 amount: 150.5,
                 donorId: 1,
                 recipientId: 2
           });
-          console.log(transaction);
-          expect(transaction.amount).to.equal('150.00');
+          expect(transaction.amount).to.equal('150.50');
         });
     });
 });
