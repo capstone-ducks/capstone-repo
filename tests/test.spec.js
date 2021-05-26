@@ -95,12 +95,12 @@ describe("Models", () => {
     });
     describe("Transaction Model", () =>{
         it('Transaction Model exists', async () => {
-            const transaction = await Transaction.create({
+            const transaction = await Transaction.build({
                 amount: 150.5,
                 donorId: 1,
                 recipientId: 2
           });
-          expect(transaction.amount).to.equal('150.50');
+          expect(transaction.amount).to.equal(150.5);
         });
     });
 });
