@@ -3,11 +3,9 @@ html {
 }
 
 body {
-    background-color: #f7f4ef;
 }
 
 h1 {
-    padding-top: 4rem;
     font-family: "Libre Franklin", sans-serif;
     font-size: 4rem;
     letter-spacing: -1px;
@@ -20,9 +18,11 @@ h1 {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    background-color: #f7f4ef;
 }
 
 .homepage-init-cont {
+    padding-top: 1rem;
     padding-left: 5rem;
     padding-right: 5rem;
     padding-bottom: 3rem;
@@ -53,6 +53,10 @@ h1 {
 #main-img {
     max-width: 563px;
     height: auto;
+}
+
+.homepage-subheader {
+    margin-top: 0.4rem;
 }
 
 .highlighted-blue {

@@ -17,9 +17,9 @@ class Homepage extends Component {
                             <div className="homepage-text">
                                 <div className="homepage-header">
                                     <h1>
-                                        Send crypto direct,{" "}
+                                        Send crypto directly,{" "}
                                         <span className="highlighted-blue">
-                                            to those in need.
+                                            to those who need it most.
                                         </span>
                                     </h1>
                                 </div>
