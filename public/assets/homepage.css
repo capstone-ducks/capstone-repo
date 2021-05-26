@@ -18,7 +18,7 @@ h1 {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    background-color: #f7f4ef;
+    background-color: #fff1f7;
 }
 
 .homepage-init-cont {
@@ -57,6 +57,7 @@ h1 {
 
 .homepage-subheader {
     margin-top: 0.4rem;
+    font-size: 110%;
 }
 
 .highlighted-blue {

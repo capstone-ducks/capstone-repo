@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "../../../public/assets/homepage.css";
-import mainImg from "../../../public/images/charity-img.png";
+// import mainImg from "../../../public/images/charity-img.png";
+import mainImg from "../../../public/images/multicultural.png";
 import { Link, NavLink } from "react-router-dom";
 
 class Homepage extends Component {
@@ -24,7 +25,7 @@ class Homepage extends Component {
                                     </h1>
                                 </div>
                                 <div className="homepage-subheader">
-                                    <p>
+                                    <p className="subheader-text">
                                         <span className="highlighted-bold">
                                             Donate with trust, give without
                                             hassle,
