@@ -29,6 +29,11 @@ const webpackConfig = {
                     presets: ["@babel/preset-react"],
                 },
             },
+            {
+                test: /\.js$/,
+                enforce: 'pre',
+                use: ['source-map-loader'],
+              },
         ],
     },
 };

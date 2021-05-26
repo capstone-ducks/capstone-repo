@@ -6,7 +6,7 @@ import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 // Component Imports
 import { Homepage } from "./Homepage";
 import { AppHeader } from "./AppHeader";
-import { SignIn, SignUp } from "./SignUp";
+import { SignInForm, SignUp } from "./SignUp";
 
 class App extends Component {
     constructor(props) {
@@ -20,8 +20,8 @@ class App extends Component {
                 <main>
                     <Switch>
                         <Route exact path="/" component={Homepage} />
-                        <Route exact path="/sign-up" component={SignIn} />
-                        <Route exact path="/sign-in" component={SignUp} />
+                        <Route exact path="/sign-in" component={SignInForm} />
+                        <Route exact path="/sign-up" component={SignUp} />
                     </Switch>
                 </main>
             </React.Fragment>
