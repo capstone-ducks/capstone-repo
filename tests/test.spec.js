@@ -1,13 +1,16 @@
 const { expect } = require("chai");
-const { syncAndSeed } = require("../server/db");
-const _app = require("../server");
-const app = require("supertest");
+//const { syncAndSeed } = require("../server/db");
+const {app} = require("../server");
+const _app = require("supertest");
 const axios = require("axios");
+const Sequelize = require('sequelize');
+const request = _app(app);
 
 const {
     db,
-    model: { User, Transaction},
-} = require("../server/db");
+    syncAndSeed,
+    models: { User, Transaction},
+} = require("../server/db/index");
 
 describe("Models", () => {
     describe("User Model", () => {
@@ -102,5 +105,26 @@ describe("Models", () => {
           });
           expect(transaction.amount).to.equal(150.5);
         });
+    });
+});
+
+describe("Routes", () => {
+    describe("Transaction API routes", () => { 
+        it("GET /api/transactions length", async() => {
+            const response = await request.get("/api/transactions/");
+            //console.log(response.body.length, 'response');
+            expect(response.body.length).to.equal(9);
+        });
+        // it("POST /api/transactions", async() => {
+        //     let id = 9;
+        //     const transaction = {
+        //         amount: 100.00,
+        //         donorId: id,
+        //         recipientId: 2
+        //     }
+        //     const response = await request.post(`/api/transactions/${id}/transactions`).send(transaction);
+        //     //console.log(response, 'response');
+        //     expect(response.body.amount).to.equal(transaction.amount);
+        // });
     });
 });

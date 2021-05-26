@@ -1,12 +1,13 @@
 const db = require("../db");
 const {
-    model: { User },
-} = require("../model");
+    models: { User, Transaction },
+} = require("../model/index");
 
 const faker = require("faker");
 
 const seedUsers = async () => {
     try {
+        await db.sync({ force: true });
         // Change this to modify number of users
         const NUM_FAKE_USERS = 10;
 
@@ -28,6 +29,62 @@ const seedUsers = async () => {
         }
 
         await Promise.all(fakeUsers);
+
+        //create transactions
+        const testDonors = await User.findAll({
+            where: {
+              isDonor: true,
+            },
+        });
+        const testRecipients = await User.findAll({
+            where: {
+              isDonor: false,
+            },
+        });
+
+        let transactionArr = [];
+        for(let i = 0; i < 9; i++){
+            const transaction = new Transaction({
+                amount: (Math.floor(Math.random() * 300)),
+                donorId: testDonors[Math.floor(Math.random() * testDonors.length)].id,
+                recipientId: testRecipients[Math.floor(Math.random() * testRecipients.length)].id
+            }).save();
+            transactionArr.push(transaction);
+        }
+        await Promise.all(transactionArr);
+        // await Promise.all([
+        //     Transaction.create({
+        //         amount: 150.00,
+        //         donorId: testDonors[Math.floor(Math.random() * testDonors.length)].id,
+        //         recipientId: testRecipients[Math.floor(Math.random() * testRecipients.length)].id
+        //     }),
+        //     Transaction.create({
+        //         amount: 200.00,
+        //         donorId: testDonors[Math.floor(Math.random() * testDonors.length)].id,
+        //         recipientId: testRecipients[Math.floor(Math.random() * testRecipients.length)].id
+        //     }),
+        //     Transaction.create({
+        //         amount: 60.00,
+        //         donorId: testDonors[Math.floor(Math.random() * testDonors.length)].id,
+        //         recipientId: testRecipients[Math.floor(Math.random() * testRecipients.length)].id
+        //     }),
+        //     Transaction.create({
+        //         amount: 120.50,
+        //         donorId: testDonors[Math.floor(Math.random() * testDonors.length)].id,
+        //         recipientId: testRecipients[Math.floor(Math.random() * testRecipients.length)].id
+        //     }),
+        //     Transaction.create({
+        //         amount: 80.00,
+        //         donorId: testDonors[Math.floor(Math.random() * testDonors.length)].id,
+        //         recipientId: testRecipients[Math.floor(Math.random() * testRecipients.length)].id
+        //     }),
+        //     Transaction.create({
+        //         amount: 55.00,
+        //         donorId: testDonors[Math.floor(Math.random() * testDonors.length)].id,
+        //         recipientId: testRecipients[Math.floor(Math.random() * testRecipients.length)].id
+        //     }),
+        //   ]);
+
     } catch (err) {
         console.error(err);
     }
