@@ -59,8 +59,8 @@ class Homepage extends Component {
                         </h2>
                     </div>
                     <div className="h-panel-cont">
-                        <HomepagePanel donate={false} />
                         <HomepagePanel donate={true} />
+                        <HomepagePanel donate={false} />
                     </div>
                 </section>
             </div>
