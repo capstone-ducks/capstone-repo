@@ -124,9 +124,10 @@ p {
 .h-panel {
     width: 325px;
     margin-right: 3rem;
-    border: 2px solid black;
+    border: 2px solid #123962;
     border-radius: 0.5rem;
     padding: 1rem;
+    box-shadow: 0px 5px 12px -7px #000000;
 }
 
 .panel-img-cont {
@@ -162,6 +163,11 @@ p {
 
 .red-h {
     background-color: #d77064;
+}
+
+.blue-h,
+.red-h {
+    box-shadow: 0px 5px 12px -10px #000000;
 }
 
 .blue-h:hover {
