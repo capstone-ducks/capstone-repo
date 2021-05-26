@@ -93,4 +93,16 @@ describe("Models", () => {
             // );
         });
     });
+    describe("Transaction Model", () =>{
+     
+        it('Transaction Model exists', async () => {
+            const transaction = await Transaction.create({
+                amount: 150.5,
+                donorId: 1,
+                recipientId: 2
+          });
+          console.log(transaction);
+          expect(transaction.amount).to.equal('150.00');
+        });
+    });
 });
