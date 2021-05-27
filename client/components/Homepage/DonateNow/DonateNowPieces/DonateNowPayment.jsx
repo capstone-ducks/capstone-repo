@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Form, Image, Message, Icon } from "semantic-ui-react";
 import ethereumLogo from "../../../../../public/images/ethereum-logo.svg";
 import MetaMaskOnboarding from "@metamask/onboarding";
+// import { ethers } from "ethers";
 
 class DonateNowPaymentForm extends Component {
     constructor(props) {
@@ -13,10 +14,28 @@ class DonateNowPaymentForm extends Component {
         this.isMetaMaskInstalled = this.isMetaMaskInstalled.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.installMetaMask = this.installMetaMask.bind(this);
+        this.getClientWalletInfo = this.getClientWalletInfo.bind(this);
     }
 
+    // On mount, see if MetaMask is installed. If it is, get wallet balance/information
     async componentDidMount() {
-        this.isMetaMaskInstalled();
+        const metaMaskInstalled = this.isMetaMaskInstalled();
+        if (metaMaskInstalled) {
+            await this.getClientWalletInfo();
+            // const provider = new ethers.providers.Web3Provider(window.ethereum);
+            // console.log(provider);
+
+            this.setState({
+                metaMaskInstalled,
+            });
+        }
+    }
+
+    // Used to detect if a user installs MetaMask now. Not working yet.
+    async componentDidUpdate(prevProps, prevState) {
+        if (prevState.metaMaskInstalled !== this.state.metaMaskInstalled) {
+            console.log("USER CONNECTED METAMASK");
+        }
     }
 
     //Created check function to see if the MetaMask extension is installed
@@ -25,17 +44,24 @@ class DonateNowPaymentForm extends Component {
         const { ethereum } = window;
         const metaMaskInstalled = Boolean(ethereum && ethereum.isMetaMask);
 
-        this.setState({
-            metaMaskInstalled,
-        });
+        return metaMaskInstalled;
     }
 
     // Sends user to MetaMask to install it
     installMetaMask() {
-        //We create a new MetaMask onboarding object to use in our app
+        // We create a new MetaMask onboarding object to use in our app
         const forwarderOrigin = "http://localhost:4500";
         const onboarding = new MetaMaskOnboarding({ forwarderOrigin });
         onboarding.startOnboarding();
+    }
+
+    async getClientWalletInfo() {
+        const { ethereum } = window;
+        await ethereum.request({ method: "eth_requestAccounts" });
+        const accounts = await ethereum.request({ method: "eth_accounts" });
+
+        const clientWalletAddress = accounts[0];
+        console.log(clientWalletAddress);
     }
 
     // Handles the donation submission
