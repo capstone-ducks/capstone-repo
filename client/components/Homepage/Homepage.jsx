@@ -10,11 +10,6 @@ class Homepage extends Component {
     constructor(props) {
         super(props);
         this.state = {};
-        this.bringUpModal = this.bringUpModal.bind(this);
-    }
-
-    bringUpModal() {
-        console.log(this.props);
     }
 
     render() {
@@ -51,11 +46,7 @@ class Homepage extends Component {
                             <div className="homepage-btn">
                                 <DonateNowModal
                                     trigger={
-                                        <NavLink
-                                            to="/"
-                                            id="donate-button"
-                                            onClick={this.bringUpModal}
-                                        >
+                                        <NavLink to="/" id="donate-button">
                                             Donate Now
                                         </NavLink>
                                     }

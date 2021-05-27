@@ -29,17 +29,18 @@ class DonateNowPaymentForm extends Component {
         });
     }
 
+    // Sends user to MetaMask to install it
     installMetaMask() {
         console.log("INSTALL META MASK");
     }
 
+    // Handles the donation submission
     handleSubmit() {
         console.log("SUBMIT DONATION!");
     }
 
     render() {
         const { metaMaskInstalled, selectedCurrency } = this.state;
-        console.log(metaMaskInstalled);
 
         // If meta mask is not installed, show this
         if (!metaMaskInstalled)

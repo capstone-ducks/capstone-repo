@@ -63,8 +63,6 @@ class DonateNowForm extends Component {
             emailErrorMsg,
         } = this.state;
 
-        console.log(nameError, emailError);
-
         return (
             <Form
                 style={{
