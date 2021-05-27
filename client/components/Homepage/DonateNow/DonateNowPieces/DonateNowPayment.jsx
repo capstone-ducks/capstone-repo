@@ -9,24 +9,25 @@ class DonateNowPaymentForm extends Component {
         super(props);
         this.state = {
             metaMaskInstalled: false,
+            clientWalletAddress: "",
         };
 
         this.isMetaMaskInstalled = this.isMetaMaskInstalled.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.installMetaMask = this.installMetaMask.bind(this);
-        this.getClientWalletInfo = this.getClientWalletInfo.bind(this);
+        this.getClientWalletAddress = this.getClientWalletAddress.bind(this);
     }
 
     // On mount, see if MetaMask is installed. If it is, get wallet balance/information
     async componentDidMount() {
-        const metaMaskInstalled = this.isMetaMaskInstalled();
+        const metaMaskInstalled = this.isMetaMaskInstalled(); // Gets
         if (metaMaskInstalled) {
-            await this.getClientWalletInfo();
-            // const provider = new ethers.providers.Web3Provider(window.ethereum);
-            // console.log(provider);
+            const clientWalletAddress = await this.getClientWalletAddress();
+            console.log(clientWalletAddress);
 
             this.setState({
                 metaMaskInstalled,
+                clientWalletAddress,
             });
         }
     }
@@ -40,7 +41,7 @@ class DonateNowPaymentForm extends Component {
 
     //Created check function to see if the MetaMask extension is installed
     isMetaMaskInstalled() {
-        //Have to check the ethereum binding on the window object to see if it's installed
+        // Have to check the ethereum binding on the window object to see if it's installed
         const { ethereum } = window;
         const metaMaskInstalled = Boolean(ethereum && ethereum.isMetaMask);
 
@@ -55,13 +56,12 @@ class DonateNowPaymentForm extends Component {
         onboarding.startOnboarding();
     }
 
-    async getClientWalletInfo() {
+    async getClientWalletAddress() {
         const { ethereum } = window;
         await ethereum.request({ method: "eth_requestAccounts" });
         const accounts = await ethereum.request({ method: "eth_accounts" });
 
-        const clientWalletAddress = accounts[0];
-        console.log(clientWalletAddress);
+        return accounts[0];
     }
 
     // Handles the donation submission
