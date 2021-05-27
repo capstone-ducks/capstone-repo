@@ -34,6 +34,7 @@ class DonateNowForm extends Component {
     handleSubmit(e) {
         e.preventDefault();
         const { name, email } = this.state;
+        const { setStep } = this.props;
 
         const nameError = !name;
 
@@ -41,12 +42,14 @@ class DonateNowForm extends Component {
             ? "Please type 'Anonymous' for anonymous donations."
             : "";
 
-        console.log(email);
-
         const emailError = email === "" ? false : !Email.validate(email);
         const emailErrorMsg = emailError
             ? "Email invalid. Leave empty for anonymous donation."
             : "";
+
+        if (!nameError && !emailError) {
+            setStep(2);
+        }
 
         this.setState({
             ...this.state,

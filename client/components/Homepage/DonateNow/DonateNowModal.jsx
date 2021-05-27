@@ -1,15 +1,24 @@
 import React, { useState } from "react";
 import { Button, Header, Image, Modal, Popup } from "semantic-ui-react";
-import DonateNowForm from "./DonateForm.jsx";
-import DonateAccordion from "./DonateAccordion.jsx";
+import {
+    DonateNowForm,
+    DonateAccordion,
+    DonateNowPaymentForm,
+} from "./DonateNowPieces";
 import questionMark from "../../../../public/images/question-mark.png";
 
 const DonateNowModal = ({ trigger }) => {
     const [open, setOpen] = React.useState(false);
+    const [step, setStep] = React.useState(1);
+
+    const closeModal = () => {
+        setOpen(false);
+        setStep(1);
+    };
 
     return (
         <Modal
-            onClose={() => setOpen(false)}
+            onClose={() => closeModal()}
             onOpen={() => setOpen(true)}
             open={open}
             trigger={trigger}
@@ -19,36 +28,47 @@ const DonateNowModal = ({ trigger }) => {
             size="small"
         >
             <Modal.Header>Donate Now</Modal.Header>
-            <Modal.Content>
-                Please enter the following information:{" "}
-                <span>
-                    &nbsp;
-                    <Popup
-                        trigger={
-                            <Image
-                                src={questionMark}
-                                alt=""
-                                style={{
-                                    width: "14px",
-                                    height: "auto",
-                                    filter: "opacity(40%)",
-                                    position: "relative",
-                                    top: "-1px",
-                                }}
-                                avatar
+
+            {step === 1 ? (
+                <React.Fragment>
+                    <Modal.Content>
+                        Please enter the following information:{" "}
+                        <span>
+                            &nbsp;
+                            <Popup
+                                trigger={
+                                    <Image
+                                        src={questionMark}
+                                        alt=""
+                                        style={{
+                                            width: "14px",
+                                            height: "auto",
+                                            filter: "opacity(40%)",
+                                            position: "relative",
+                                            top: "-1px",
+                                        }}
+                                        avatar
+                                    />
+                                }
+                                content="The merchant has requested that you provide this information to complete the transaction."
+                                inverted
                             />
-                        }
-                        content="The merchant has requested that you provide this information to complete the transaction."
-                        inverted
-                    />
-                </span>
-            </Modal.Content>
-            <Modal.Content>
-                <DonateNowForm />
-            </Modal.Content>
-            <Modal.Content>
-                <DonateAccordion />
-            </Modal.Content>
+                        </span>
+                    </Modal.Content>
+                    <Modal.Content>
+                        <DonateNowForm setStep={setStep} />
+                    </Modal.Content>
+                    <Modal.Content>
+                        <DonateAccordion />
+                    </Modal.Content>
+                </React.Fragment>
+            ) : (
+                <React.Fragment>
+                    <Modal.Content>
+                        <DonateNowPaymentForm />
+                    </Modal.Content>
+                </React.Fragment>
+            )}
         </Modal>
     );
 };

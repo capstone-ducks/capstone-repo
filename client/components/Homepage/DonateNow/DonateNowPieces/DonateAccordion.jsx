@@ -38,7 +38,7 @@ class DonateAccordion extends Component {
                         Your name is just used to share with the recipient of
                         your donation! It is a nice reminder of the humanity of
                         peer-to-peer giving. Of course, any donation can be
-                        anonymous.
+                        anonymous. Just type "Anonymous" instead of your name.
                     </p>
                 </Accordion.Content>
 
@@ -58,7 +58,7 @@ class DonateAccordion extends Component {
                         We do not share your email with your recipient. Your
                         email is used to receive confirmation that your donation
                         was processed for tax purposes. You can always choose to
-                        leave your email private.
+                        leave your email private by not typing it.
                     </p>
                 </Accordion.Content>
             </Accordion>
