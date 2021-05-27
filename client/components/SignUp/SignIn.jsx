@@ -10,6 +10,7 @@ import {
 } from "semantic-ui-react";
 // import sign in action creator
 
+
 const SignInForm = () => (
     <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
         <Grid.Column style={{ maxWidth: 450 }}>
@@ -30,16 +31,16 @@ const SignInForm = () => (
                         type="password"
                     />
 
-                    <Button color="blue" fluid size="large">
-                        Login
-                    </Button>
-                </Segment>
-            </Form>
-            <Message>
-                New to us? <a href="#">Sign Up</a>
-            </Message>
-        </Grid.Column>
-    </Grid>
-);
+          <Button color='teal' fluid size='large'>
+            Login
+          </Button>
+        </Segment>
+      </Form>
+      <Message>
+        New to us? <Link to={'/sign-up'}>Sign Up</Link>
+      </Message>
+    </Grid.Column>
+  </Grid>
+)
 
 export default SignInForm;
