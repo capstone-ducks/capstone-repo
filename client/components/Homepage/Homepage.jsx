@@ -3,13 +3,20 @@ import "../../../public/assets/homepage.css";
 // import mainImg from "../../../public/images/charity-img.png";
 import mainImg from "../../../public/images/multicultural.png";
 import HomepagePanel from "./HomepagePanel.jsx";
+import { DonateNowModal } from "./DonateNow";
 import { Link, NavLink } from "react-router-dom";
 
 class Homepage extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+        this.bringUpModal = this.bringUpModal.bind(this);
     }
+
+    bringUpModal() {
+        console.log(this.props);
+    }
+
     render() {
         return (
             <div className="homepage-container">
@@ -42,9 +49,17 @@ class Homepage extends Component {
                                 </div>
                             </div>
                             <div className="homepage-btn">
-                                <NavLink to="/sign-in" id="donate-button">
-                                    Donate Now
-                                </NavLink>
+                                <DonateNowModal
+                                    trigger={
+                                        <NavLink
+                                            to="/"
+                                            id="donate-button"
+                                            onClick={this.bringUpModal}
+                                        >
+                                            Donate Now
+                                        </NavLink>
+                                    }
+                                />
                             </div>
                         </div>
                         <div className="main-img-cont">
