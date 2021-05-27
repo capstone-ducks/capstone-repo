@@ -1,6 +1,8 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
 // import sign in action creator
+
 
 const SignInForm = () => (
   <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
@@ -24,7 +26,7 @@ const SignInForm = () => (
         </Segment>
       </Form>
       <Message>
-        New to us? <a href='#'>Sign Up</a>
+        New to us? <Link to={'/sign-up'}>Sign Up</Link>
       </Message>
     </Grid.Column>
   </Grid>
