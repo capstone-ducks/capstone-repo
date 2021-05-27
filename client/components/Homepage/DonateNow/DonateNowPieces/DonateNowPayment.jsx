@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Form, Image, Message, Icon } from "semantic-ui-react";
 import ethereumLogo from "../../../../../public/images/ethereum-logo.svg";
+import MetaMaskOnboarding from "@metamask/onboarding";
 
 class DonateNowPaymentForm extends Component {
     constructor(props) {
@@ -31,7 +32,10 @@ class DonateNowPaymentForm extends Component {
 
     // Sends user to MetaMask to install it
     installMetaMask() {
-        console.log("INSTALL META MASK");
+        //We create a new MetaMask onboarding object to use in our app
+        const forwarderOrigin = "http://localhost:4500";
+        const onboarding = new MetaMaskOnboarding({ forwarderOrigin });
+        onboarding.startOnboarding();
     }
 
     // Handles the donation submission
