@@ -52,38 +52,7 @@ const seedUsers = async () => {
             transactionArr.push(transaction);
         }
         await Promise.all(transactionArr);
-        // await Promise.all([
-        //     Transaction.create({
-        //         amount: 150.00,
-        //         donorId: testDonors[Math.floor(Math.random() * testDonors.length)].id,
-        //         recipientId: testRecipients[Math.floor(Math.random() * testRecipients.length)].id
-        //     }),
-        //     Transaction.create({
-        //         amount: 200.00,
-        //         donorId: testDonors[Math.floor(Math.random() * testDonors.length)].id,
-        //         recipientId: testRecipients[Math.floor(Math.random() * testRecipients.length)].id
-        //     }),
-        //     Transaction.create({
-        //         amount: 60.00,
-        //         donorId: testDonors[Math.floor(Math.random() * testDonors.length)].id,
-        //         recipientId: testRecipients[Math.floor(Math.random() * testRecipients.length)].id
-        //     }),
-        //     Transaction.create({
-        //         amount: 120.50,
-        //         donorId: testDonors[Math.floor(Math.random() * testDonors.length)].id,
-        //         recipientId: testRecipients[Math.floor(Math.random() * testRecipients.length)].id
-        //     }),
-        //     Transaction.create({
-        //         amount: 80.00,
-        //         donorId: testDonors[Math.floor(Math.random() * testDonors.length)].id,
-        //         recipientId: testRecipients[Math.floor(Math.random() * testRecipients.length)].id
-        //     }),
-        //     Transaction.create({
-        //         amount: 55.00,
-        //         donorId: testDonors[Math.floor(Math.random() * testDonors.length)].id,
-        //         recipientId: testRecipients[Math.floor(Math.random() * testRecipients.length)].id
-        //     }),
-        //   ]);
+       
 
     } catch (err) {
         console.error(err);
