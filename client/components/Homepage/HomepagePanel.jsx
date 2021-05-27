@@ -44,7 +44,7 @@ const HomepagePanel = ({ donate }) => {
                         className={`panel-btn ${donate ? "blue-h" : "red-h"}`}
                         style={buttonStyle}
                     >
-                        {donate ? "Donate Now" : "Get Started"}
+                        {donate ? "Sign Up" : "Get Started"}
                     </NavLink>
                 </div>
             </div>

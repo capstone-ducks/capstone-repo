@@ -3,6 +3,7 @@ import "../../../public/assets/homepage.css";
 // import mainImg from "../../../public/images/charity-img.png";
 import mainImg from "../../../public/images/multicultural.png";
 import HomepagePanel from "./HomepagePanel.jsx";
+import { DonateNowModal } from "./DonateNow";
 import { Link, NavLink } from "react-router-dom";
 
 class Homepage extends Component {
@@ -10,6 +11,7 @@ class Homepage extends Component {
         super(props);
         this.state = {};
     }
+
     render() {
         return (
             <div className="homepage-container">
@@ -42,9 +44,13 @@ class Homepage extends Component {
                                 </div>
                             </div>
                             <div className="homepage-btn">
-                                <NavLink to="/sign-in" id="donate-button">
-                                    Donate Now
-                                </NavLink>
+                                <DonateNowModal
+                                    trigger={
+                                        <NavLink to="/" id="donate-button">
+                                            Donate Now
+                                        </NavLink>
+                                    }
+                                />
                             </div>
                         </div>
                         <div className="main-img-cont">
