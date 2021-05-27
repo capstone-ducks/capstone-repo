@@ -52,7 +52,24 @@ const seedUsers = async () => {
             transactionArr.push(transaction);
         }
         await Promise.all(transactionArr);
-       
+
+        const donorTest = await User.create({
+            firstName: 'Ms.',
+            lastName: 'Moneybags',
+            email: 'donortest@gmail.com',
+            password: '123',
+            isDonor: true
+        })
+        donorTest.save();
+
+        const recipTest = await User.create({
+            firstName: 'Tiny',
+            lastName: 'Tim',
+            email: 'recipienttest@gmail.com',
+            password: '123',
+            isDonor: false
+        })
+        recipTest.save();
 
     } catch (err) {
         console.error(err);
