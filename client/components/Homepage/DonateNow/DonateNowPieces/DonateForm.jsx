@@ -1,12 +1,5 @@
 import React, { Component } from "react";
-import {
-    Form,
-    Input,
-    TextArea,
-    Button,
-    Select,
-    Checkbox,
-} from "semantic-ui-react";
+import { Form } from "semantic-ui-react";
 
 import * as Email from "email-validator";
 

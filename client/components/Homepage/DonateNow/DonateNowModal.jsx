@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Header, Image, Modal, Popup } from "semantic-ui-react";
+import { Image, Modal, Popup } from "semantic-ui-react";
 import {
     DonateNowForm,
     DonateAccordion,

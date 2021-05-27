@@ -1,15 +1,5 @@
 import React, { Component } from "react";
-import {
-    Form,
-    Input,
-    TextArea,
-    Button,
-    Select,
-    Checkbox,
-    Image,
-    Message,
-    Icon,
-} from "semantic-ui-react";
+import { Form, Image, Message, Icon } from "semantic-ui-react";
 import ethereumLogo from "../../../../../public/images/ethereum-logo.svg";
 
 class DonateNowPaymentForm extends Component {
@@ -76,7 +66,7 @@ class DonateNowPaymentForm extends Component {
                         size="large"
                         onClick={this.installMetaMask}
                     >
-                        Submit Donation
+                        Install MetaMask
                     </Form.Button>
                     <Message>
                         <Message.Header>
