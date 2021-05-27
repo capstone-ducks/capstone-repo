@@ -4,6 +4,7 @@ const app = express();
 const path = require("path");
 const PORT = process.env.PORT || 4500;
 const morgan = require("morgan");
+let server = '';
 
 // Database Import
 const { syncAndSeed } = require("./db");
@@ -25,6 +26,7 @@ app.use(morgan("dev"));
 //
 //
 app.use("/api/users/", require("./api/routes/userRoute"));
+app.use("/api/transactions/", require("./api/routes/transactionRoute"));
 
 // Send the app
 app.get("/", (req, res) => {
@@ -40,9 +42,9 @@ app.use((err, req, res, next) => {
 
 const init = async () => {
     try {
-      await syncAndSeed();
+      syncAndSeed();
       if (!module.parent) {
-        app.listen(PORT, () =>
+        server = app.listen(PORT, () =>
         console.log(`
             Listening on Port ${PORT}
             http://localhost:${PORT}
