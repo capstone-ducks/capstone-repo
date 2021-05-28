@@ -1,32 +1,6 @@
 const router = require('express').Router();
 const User = require('../../db/model/User');
 
-async function requireToken(req, res, next) {
-    try {
-      if (!req.headers.authorization) res.status(401).send('GTFO');
-      const token = req.headers.authorization;
-      console.log(token)
-      const user = await User.byToken(token);
-      req.user = user;
-      next();
-    } catch (error) {
-      next(error);
-    }
-  }
-
-
-// user login get route
-
-router.get('/', requireToken, async (req, res, next) => {
-    try {
-      res.status(200).send(req.user);
-    } catch (error) {
-      next(error);
-    }
-});
-
-
-
 //post routes
 
 router.post('/', async (req, res, next) => {

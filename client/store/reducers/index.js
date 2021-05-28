@@ -1,4 +1,4 @@
-import {EDIT_USER, DELETE_USER, LOAD_USER, CREATE_USER} from '../action-types/index';
+import {EDIT_USER, DELETE_USER, LOAD_USER, CREATE_USER, SIGNIN} from '../action-types/index';
 
 const initialState = {
     user:{},
@@ -6,7 +6,7 @@ const initialState = {
 }
 
 const userReducer = (state = initialState, action) =>{
-    if(action.type === LOAD_USER){
+    if(action.type === SIGNIN){
         const {user, token} = action;
         state = {...state, user, token}
     }

@@ -1,7 +1,7 @@
 import axios from 'axios';
-import {editUser, loginUser, deleteUser, createUser} from '../action-creators/index';
+import {editUser, signInUser, deleteUser, createUser} from '../action-creators/index';
 
-const fetchUser = (userId) =>{
+const signIn = () =>{
     return async (dispatch) =>{
         const headerToken ={
             headers:{
@@ -9,8 +9,13 @@ const fetchUser = (userId) =>{
             },
         };
         const {data: user} = await axios.get('api/users', headerToken);
-        dispatch(loginUser(user));
+        dispatch(signInUser(user));
     }
-}
+};
 
-export  { fetchUser};
+
+
+// upon clicking signin button
+// >> handle submit
+
+export { signIn };

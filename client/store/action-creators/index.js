@@ -14,9 +14,9 @@ export const deleteUser = (userId) =>{
     }
 }
 
-export const loginUser = ({user, token}) =>{
+export const signInUser = ({user, token}) =>{
     return{
-        type: LOAD_USER,
+        type: SIGNIN,
         user,
         token
     }
