@@ -1,4 +1,4 @@
-import{CREATE_USER, EDIT_USER, DELETE_USER, LOAD_USER} from '../action-types/index';
+import{CREATE_USER, EDIT_USER, DELETE_USER, SIGNIN} from '../action-types/index';
 
 export const editUser = (user) =>{
     return{
@@ -14,11 +14,10 @@ export const deleteUser = (userId) =>{
     }
 }
 
-export const signInUser = ({user, token}) =>{
+export const signInUser = (user) =>{
     return{
         type: SIGNIN,
         user,
-        token
     }
 }
 

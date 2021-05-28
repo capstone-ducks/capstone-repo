@@ -8,8 +8,11 @@ const signIn = () =>{
                 authorization: window.localStorage.getItem('token')
             },
         };
-        const {data: user} = await axios.get('api/users', headerToken);
-        dispatch(signInUser(user));
+        const {data: user} = await axios.get('api/auth', headerToken);
+        if(user)
+            dispatch(signInUser(user));
+        else
+            console.log('email password combo bad');
     }
 };
 

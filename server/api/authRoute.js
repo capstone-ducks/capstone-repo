@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const User = require('../../db/model/User');
+const User = require('../db/model/User');
 
 async function requireToken(req, res, next) {
     try {
@@ -19,7 +19,8 @@ async function requireToken(req, res, next) {
 
 router.get('/', requireToken, async (req, res, next) => {
     try {
-      res.status(200).send(req.user);
+      const {user} = req;
+      res.status(200).send(user);
     } catch (error) {
       next(error);
     }
@@ -28,12 +29,15 @@ router.get('/', requireToken, async (req, res, next) => {
 // post route for logging in and signing up
 
 router.post("/", async (req, res, next) => {
-  const { username, password } = req.body;
-  await Users.authenticate({ username, password })
+  const { email, password } = req.body;
+  await User.authenticate({ email, password })
       .then((token) => {
           res.status(201).send({ token });
       })
       .catch((err) => {
+        //console.log(err);
           next(err);
       });
 });
+
+module.exports = router;
