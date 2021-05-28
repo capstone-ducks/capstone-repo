@@ -1,29 +1,41 @@
-import{CREATE_USER, EDIT_USER, DELETE_USER, SIGNIN} from '../action-types/index';
+import {
+    CREATE_USER,
+    EDIT_USER,
+    DELETE_USER,
+    SIGNIN,
+    LOGOUT,
+} from "../action-types/index";
 
-export const editUser = (user) =>{
-    return{
+export const editUser = (user) => {
+    return {
         type: EDIT_USER,
-        user
-    }
-}
+        user,
+    };
+};
 
-export const deleteUser = (userId) =>{
-    return{
+export const deleteUser = (userId) => {
+    return {
         type: DELETE_USER,
-        userId
-    }
-}
+        userId,
+    };
+};
 
-export const signInUser = (user) =>{
-    return{
+export const signInUser = (user) => {
+    return {
         type: SIGNIN,
         user,
-    }
-}
+    };
+};
 
-export const createUser = (user) =>{
-    return{
+export const createUser = (user) => {
+    return {
         type: CREATE_USER,
-        user
-    }
-}
+        user,
+    };
+};
+
+export const logoutUser = () => {
+    return {
+        type: LOGOUT,
+    };
+};
