@@ -7,16 +7,16 @@ import { HashRouter as Router } from "react-router-dom";
 
 // Redux Imports
 import { Provider } from "react-redux";
-// import store from "./store";
+import store from "./store/index";
 
 // Component Imports
 import { App } from "./components";
 
 ReactDom.render(
-    // <Provider store={store}>
+     <Provider store={store}>
     <Router>
         <App />
     </Router>,
-    // </Provider>,
+     </Provider>,
     document.querySelector("#app"),
 );

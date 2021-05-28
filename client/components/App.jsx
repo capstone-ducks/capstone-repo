@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import {connect} from 'react-redux';
+import{fetchUser} from '../store/thunk/index';
 
 // React Router Imports
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
@@ -12,6 +14,11 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+    }
+
+    async componentDidMount(){
+        const user = await this.props.loginUser(1);
+        console.log(user)
     }
     render() {
         return (
@@ -28,5 +35,12 @@ class App extends Component {
         );
     }
 }
-
-export default App;
+const mapStateToProps = (state) =>{
+    return state;
+}
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        loginUser: (id) => dispatch(fetchUser(id))
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(App);
