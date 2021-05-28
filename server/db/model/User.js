@@ -76,15 +76,39 @@ User.authenticate = async ({ email, password }) => {
     const user = await User.findOne({
         where: { email },
     });
+    console.log(user);
+    console.log(process.env.JWT);
     if (user && (await bcrypt.compare(password, user.password))) {
-        return await jwt.sign(user.id, process.env.JWT); // token w/ user ID
+        return await jwt.sign({id: user.id}, process.env.JWT); // token w/ user ID
     }
     throw error();
 };
 
+// Users.authenticate = async ({ username, password }) => {
+//     try {
+//         const user = await Users.findOne({
+//             where: {
+//                 username,
+//             },
+//         });
+
+//         // if password matches, sign a token that contains the id to match later
+//         if (user && (await bcrypt.compare(password, user.password))) {
+//             return jwt.sign({ id: user.id }, process.env.JWT);
+//         } else {
+//             const error = Error("Bad credentials");
+//             error.status = 401;
+//             throw error;
+//         }
+//     } catch (err) {
+//         throw err;
+//     }
+// };
+
+
 User.byToken = async (token) => {
     try {
-      const id = jwt.verify(token, process.env.JWT);
+      const {id} = jwt.verify(token, process.env.JWT);
       const user = await User.findByPk(id);
       if (user) return user;
       throw error();

@@ -4,6 +4,8 @@ const app = express();
 const path = require("path");
 const PORT = process.env.PORT || 4500;
 const morgan = require("morgan");
+require("dotenv").config();
+
 let server = '';
 
 // Database Import
@@ -25,8 +27,9 @@ app.use(morgan("dev"));
 // Api Routes
 //
 //
-app.use("/api/users/", require("./api/routes/userRoute"));
-app.use("/api/transactions/", require("./api/routes/transactionRoute"));
+app.use("/api/users", require("./api/userRoute"));
+app.use("/api/transactions", require("./api/transactionRoute"));
+app.use("/api/auth", require("./api/authRoute"));
 
 // Send the app
 app.get("/", (req, res) => {

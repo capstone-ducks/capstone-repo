@@ -8,7 +8,7 @@ import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 // Component Imports
 import { Homepage } from "./Homepage";
 import { AppHeader } from "./AppHeader";
-import { SignInForm, SignUp } from "./SignUp";
+import { SignInForm, SignUp } from "./Auth";
 
 class App extends Component {
     constructor(props) {

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {models: {User,Transaction} }= require('../../db/model/index');
+const {models: {User,Transaction} }= require('../db/model/index');
 
 //get all transactions
 router.get('/', async (req, res, next) => {

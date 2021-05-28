@@ -9,6 +9,9 @@ import {
     Segment,
 } from "semantic-ui-react";
 import { Link } from 'react-router-dom';
+import authenticate from './Authenticate';
+import {signIn} from '../../store/thunk';
+import {connect} from "react-redux";
 // import sign in action creator
 
 class SignInForm extends Component {
@@ -24,7 +27,10 @@ class SignInForm extends Component {
 
   async handleSubmit(e) {
     e.preventDefault();
-     console.log('THIS', this)
+    const { email, password} = this.state;
+     //console.log('THIS', this)
+     await authenticate({email, password});
+     await this.props.attemptLogIn();
   }
 
   handleChange(e) {
@@ -87,4 +93,9 @@ class SignInForm extends Component {
 
 //   }
 // }
-export default SignInForm;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    attemptLogIn: () => dispatch(signIn())
+  }
+}
+export default connect(null, mapDispatchToProps)(SignInForm);
