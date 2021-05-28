@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import {connect} from 'react-redux';
-import{signIn} from '../store/thunk/index';
+
+import { connect } from "react-redux";
+import { signIn } from "../store/thunk/index";
 
 // React Router Imports
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
@@ -9,6 +10,7 @@ import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { Homepage } from "./Homepage";
 import { AppHeader } from "./AppHeader";
 import { SignInForm, SignUp } from "./Auth";
+import { UserProfile } from "./UserProfile";
 
 class App extends Component {
     constructor(props) {
@@ -16,10 +18,14 @@ class App extends Component {
         this.state = {};
     }
 
-    async componentDidMount(){
-        // const user = await this.props.loginUser(1);
-        // console.log(user)
+    async componentDidMount() {
+        // Attempts a log in automatically if user has a token on page refresh
+        const token = window.localStorage.getItem("token");
+        if (token) {
+            await this.props.attemptLogin();
+        }
     }
+
     render() {
         return (
             <React.Fragment>
@@ -29,18 +35,24 @@ class App extends Component {
                         <Route exact path="/" component={Homepage} />
                         <Route exact path="/sign-in" component={SignInForm} />
                         <Route exact path="/sign-up" component={SignUp} />
+                        <Route path="/user/:id" component={UserProfile} />
                     </Switch>
                 </main>
             </React.Fragment>
         );
     }
 }
-const mapStateToProps = (state) =>{
-    return state;
-}
-const mapDispatchToProps = (dispatch) =>{
-    return{
-        // loginUser: (id) => dispatch(signIn(id))
-    }
-}
+
+const mapStateToProps = (state) => {
+    return {
+        loggedInUser: state.auth.user,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        attemptLogin: () => dispatch(signIn()),
+    };
+};
+
 export default connect(mapStateToProps, mapDispatchToProps)(App);
