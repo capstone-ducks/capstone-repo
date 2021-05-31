@@ -9,7 +9,7 @@ import { Link, NavLink } from "react-router-dom";
 
 // Redux Imports
 import { connect } from "react-redux";
-import { logOutUser } from "../../store/thunk";
+import { logout } from "../../store/thunk";
 
 // Component Imports
 import { AreYouSure } from "../Utils";
@@ -21,7 +21,7 @@ class AppHeader extends Component {
     }
 
     render() {
-        const { loggedInUser, logout } = this.props;
+        const { loggedInUser, logoutUser } = this.props;
 
         return (
             <header id="app-header">
@@ -61,7 +61,7 @@ class AppHeader extends Component {
                                     </NavLink>
                                 }
                                 message="Are you sure you want to sign out?"
-                                callback={logout}
+                                callback={logoutUser}
                             />
                         </React.Fragment>
                     )}
@@ -78,7 +78,7 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        logout: () => dispatch(logOutUser()),
+        logoutUser: () => dispatch(logout()),
     };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AppHeader);

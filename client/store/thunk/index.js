@@ -20,8 +20,18 @@ const signIn = () => {
     };
 };
 
+const register = (newUser) => {
+    return async (dispatch) => {
+
+        const { data: token } = await axios.post("api/auth/signup", newUser);
+        window.localStorage.setItem("token", token);
+        dispatch(signIn);
+
+    }
+};
+
 // Logs out (only a thunk bc we might add to it)
-const logOutUser = () => async (dispatch) => {
+const logout = () => async (dispatch) => {
     try {
         window.localStorage.removeItem("token");
         dispatch(logoutUser());
@@ -30,7 +40,5 @@ const logOutUser = () => async (dispatch) => {
     }
 };
 
-// upon clicking signin button
-// >> handle submit
 
-export { signIn, logOutUser };
+export { signIn, logout, register };

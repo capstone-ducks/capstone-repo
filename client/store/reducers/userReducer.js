@@ -15,8 +15,12 @@ const userReducer = (state = initialState, action) => {
     if (action.type === SIGNIN) {
         const { user } = action;
         state = { ...state, user };
-    } else if (action.type === LOGOUT) {
+    }
+    else if (action.type === LOGOUT) {
         state = { ...state, user: null };
+    }
+    else if (action.type === CREATE_USER) {
+        state = {...state, ...action.user};
     }
     return state;
 };
