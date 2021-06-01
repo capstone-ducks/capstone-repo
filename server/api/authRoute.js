@@ -29,6 +29,7 @@ router.get("/", requireToken, async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
     const { email, password } = req.body;
+    console.log('LOGIN BODY', req.body)
     await User.authenticate({ email, password })
         .then((token) => {
             res.status(201).send({ token });
@@ -46,15 +47,20 @@ router.post("/", async (req, res, next) => {
 router.post("/signup", async (req, res, next) => {
     try {
         const { firstName, lastName, email, password, isDonor } = req.body;
-        const alreadyRegistered = await User.findAll({ where: email });
-        if (alreadyRegistered) {
+        // console.log('BODY', req.body)
+        const alreadyRegistered = await User.findAll({ where: {email} });
+        // console.log('alreadyRegistered', alreadyRegistered)
+        if (alreadyRegistered.length) {
             res.status(401).send(`Email address ${email} already in use.`);
         }
         else {
             const newUser = await User.create({
                 firstName, lastName, email, password, isDonor
             });
+            console.log('newUser', newUser.dataValues)
+
             const token =  await newUser.authenticate({ email, password });
+            console.log('TOKEN', token)
             res.status(201).send( token );
         }
     }

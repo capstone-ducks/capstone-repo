@@ -23,8 +23,8 @@ class SignUp extends Component {
     async handleSubmit(e) {
       e.preventDefault();
       try {
-        await authenticate(this.state);
-        await this.props.createUser(this.state);
+        console.log('STATE', this.state)
+        await this.props.createUser({...this.state});
       } catch (error) {
         console.log(error.response.data);
       }
@@ -38,34 +38,46 @@ class SignUp extends Component {
 
 
     render() {
+      console.log('THIS.STATE', this.state)
+      console.log('THIS.PROPS', this.props)
+
         return (
             <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
               <Grid.Column style={{ maxWidth: 450 }}>
                 <Header as='h2' color='teal' textAlign='center'>
                 </Header>
-                <Form size='large'>
+                <Form
+                  size='large'
+                  onSubmit={this.handleSubmit}>
                   <Segment stacked>
                     <Form.Input
+                      name='firstName'
                       fluid icon='user'
                       iconPosition='left'
                       placeholder='FirstName'
+                      onChange={this.handleChange}
                     />
                     <Form.Input
+                      name='lastName'
                       fluid icon='user'
                       iconPosition='left'
                       placeholder='LastName'
+                      onChange={this.handleChange}
                     />
                     <Form.Input
+                      name='email'
                       fluid icon='mail'
                       iconPosition='left'
                       placeholder='E-mail address'
+                      onChange={this.handleChange}
                     />
                     <Form.Input
-                      fluid
-                      icon='lock'
+                      name='password'
+                      fluid icon='lock'
                       iconPosition='left'
                       placeholder='Password'
                       type='password'
+                      onChange={this.handleChange}
                     />
 
                     <Button color='teal' fluid size='large'>
@@ -73,18 +85,25 @@ class SignUp extends Component {
                     </Button>
                   </Segment>
                 </Form>
-                {/* <Message>
-                  New to us? <a href='#'>Sign Up</a>
-                </Message> */}
+                <Message>
+                  Already have an account with us? <Link to='/sign-in'>Sign In</Link>
+                </Message>
               </Grid.Column>
             </Grid>
         )
     }
-}
+};
+
+const mapStateToProps = (state) => {
+  return {
+      user: state.auth.user,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createUser: (user) => dispatchEvent(register(user))
+    createUser: (user) => dispatch(register(user))
   }
-}
-export default connect(null, mapDispatchToProps)(SignUp);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

@@ -114,7 +114,7 @@ class SignInForm extends Component {
             </Grid>
         );
     }
-}
+};
 
 const mapStateToProps = (state) => {
     return {
@@ -127,4 +127,5 @@ const mapDispatchToProps = (dispatch) => {
         attemptLogIn: () => dispatch(signIn()),
     };
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(SignInForm);

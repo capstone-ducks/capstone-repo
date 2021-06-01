@@ -16,17 +16,21 @@ const signIn = () => {
         };
         const { data: user } = await axios.get("api/auth", headerToken);
         if (user) dispatch(signInUser(user));
-        else console.log("email password combo bad");
+        else console.log("Email and/or password incorrect");
     };
 };
 
 const register = (newUser) => {
     return async (dispatch) => {
-
         const { data: token } = await axios.post("api/auth/signup", newUser);
         window.localStorage.setItem("token", token);
-        dispatch(signIn);
-
+        const headerToken = {
+            headers: {
+                authorization: window.localStorage.getItem("token"),
+            },
+        };
+        const { data: user } = await axios.get("api/auth", headerToken);
+        dispatch(createUser(user));
     }
 };
 
