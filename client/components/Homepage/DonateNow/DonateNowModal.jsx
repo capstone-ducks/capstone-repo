@@ -5,6 +5,7 @@ import {
     DonateAccordion,
     DonateNowPaymentForm,
 } from "./DonateNowPieces";
+
 import questionMark from "../../../../public/images/question-mark.png";
 
 const DonateNowModal = ({ trigger }) => {
