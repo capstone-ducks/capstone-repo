@@ -12,7 +12,8 @@ import {
     Checkbox,
 } from "semantic-ui-react";
 import { connect } from "react-redux";
-import { addUser } from "../../store/thunk";
+import { addUser, signIn } from "../../store/thunk";
+import authenticate from "./authenticate";
 
 class SignUp extends Component {
     constructor(props) {
@@ -28,13 +29,24 @@ class SignUp extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleRadioChange = this.handleRadioChange.bind(this);
+        this.redirect = this.redirect.bind(this);
     }
 
     async handleSubmit(e) {
         e.preventDefault();
-        console.log(this.props, "submit handle");
-        console.log(this.state, "submit handle");
-        this.props.createUser(this.state);
+        // console.log(this.props, "submit handle");
+        // console.log(this.state, "submit handle");
+        await this.props.createUser(this.state);
+
+        const { email, password } = this.state;
+        await authenticate({ email, password });
+        await this.props.attemptLogIn();
+        this.redirect();
+    }
+
+    redirect() {
+        const { loggedInUser } = this.props;
+        this.props.history.push(`/user/${loggedInUser.id}`);
     }
 
     handleChange(e) {
@@ -137,14 +149,17 @@ class SignUp extends Component {
     }
 }
 
-// const mapStateToProps = ( state ) => ({
-//     loggedInUser: state.auth.user,
-// });
+const mapStateToProps = (state) => {
+    return {
+        loggedInUser: state.auth.user,
+    };
+};
 
 const mapDispatchToProps = (dispatch, { history }) => {
     return {
         createUser: (user) => dispatch(addUser(user, { history })),
+        attemptLogIn: () => dispatch(signIn()),
     };
 };
 
-export default connect(null, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

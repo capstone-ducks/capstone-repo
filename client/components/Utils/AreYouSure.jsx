@@ -11,8 +11,7 @@ const AreYouSure = ({ trigger, message, callback }) => {
 
     return (
         <Modal
-            closeIcon
-            onClose={() => closeModal()}
+            onClose={() => setOpen(false)}
             onOpen={() => setOpen(true)}
             open={open}
             trigger={trigger}
