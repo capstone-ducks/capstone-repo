@@ -1,11 +1,4 @@
-import {
-    EDIT_USER,
-    DELETE_USER,
-    LOAD_USER,
-    CREATE_USER,
-    SIGNIN,
-    LOGOUT,
-} from "../action-types/index";
+import { CREATE_USER, SIGNIN, LOGOUT } from "../action-types";
 
 const initialState = {
     user: null,
@@ -18,6 +11,7 @@ const userReducer = (state = initialState, action) => {
     } else if (action.type === LOGOUT) {
         state = { ...state, user: null };
     }
+
     return state;
 };
 export default userReducer;
