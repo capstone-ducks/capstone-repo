@@ -9,7 +9,7 @@ import {
     Segment,
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import authenticate from "./Authenticate";
+import authenticate from "./authenticate";
 import { signIn } from "../../store/thunk";
 import { connect } from "react-redux";
 // import sign in action creator
