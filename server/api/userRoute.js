@@ -50,17 +50,17 @@ router.put('/:id', async (req, res, next) => {
   });
 
 
-  module.exports = router;
-
   /* can use for admin */
-//   router.get('/', requireToken, async (req, res, next) => {
-//     try {
-//       const users = await User.findAll();
-//       res.status(200).send(users);
-//     } catch (error) {
-//       next(error);
-//     }
-// });
+  router.get('/', async (req, res, next) => {
+    try {
+      const users = await User.findAll();
+      res.status(200).send(users);
+    } catch (error) {
+      next(error);
+    }
+});
+
+module.exports = router;
 
 /* for admin to see a single user's info */
 // router.get('/:id', async (req, res, next) => {

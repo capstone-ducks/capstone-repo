@@ -29,8 +29,17 @@ const logOutUser = () => async (dispatch) => {
         console.error(err);
     }
 };
+const addUser = (newUser, {history}) => {
+    return async (dispatch) => {
+        const { data: user } = await axios.post(`/api/users/`, newUser, {
+          headers: { authorization: window.localStorage.getItem('token') },
+        });
+        dispatch(createUser(user));
+        history.push('/sign-in')
+    };
+};
 
 // upon clicking signin button
 // >> handle submit
 
-export { signIn, logOutUser };
+export { signIn, logOutUser, addUser};
