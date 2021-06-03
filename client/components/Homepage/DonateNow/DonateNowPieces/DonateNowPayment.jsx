@@ -65,8 +65,26 @@ class DonateNowPaymentForm extends Component {
     }
 
     // Handles the donation submission
-    handleSubmit() {
+    async handleSubmit() {
         console.log("SUBMIT DONATION!");
+        const transactionParameters = {
+            nonce: '0x00', // ignored by MetaMask
+            gasPrice: '0x5208', // customizable by user during MetaMask confirmation.
+            gas: '0x5208', // customizable by user during MetaMask confirmation.
+            to: '0x4717cF101876c2c19c2520E9F138385edC18493e', // Required except during contract publications.
+            from: ethereum.selectedAddress, // must match user's active address.
+            value: '0x0004', // Only required to send ether to the recipient from the initiating external account.
+            //data:
+              //'0x7f7465737432000000000000000000000000000000000000000000000000000000600057', // Optional, but used for defining smart contract creation and interaction.
+            chainId: '0x3', // Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
+          };
+          
+          // txHash is a hex string
+          // As with any RPC call, it may throw an error
+          const txHash = await ethereum.request({
+            method: 'eth_sendTransaction',
+            params: [transactionParameters],
+          });
     }
 
     render() {
