@@ -32,7 +32,7 @@ contract Payments {
   //validations
   modifier aboveMinimum () {
       require( msg.value > 0 ether, "donation must be more than 0 ether");
-      _;
+    
   }
 
 }
