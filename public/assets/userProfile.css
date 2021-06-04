@@ -22,7 +22,8 @@
 }
 
 #user-main-panel {
-    /* background-color: red; */
+    width: 63%;
+    margin-right: 3rem;
 }
 
 #name-header {
@@ -50,4 +51,19 @@
     color: #04ade6;
     margin-top: 0.6rem;
     font-size: large;
+}
+
+#contact-information-header,
+#basic-information-header {
+    color: grey;
+    font-size: smaller;
+    letter-spacing: 0.04rem;
+}
+
+.bio-row {
+    display: flex;
+}
+
+#bio-menu {
+    width: 100%;
 }
