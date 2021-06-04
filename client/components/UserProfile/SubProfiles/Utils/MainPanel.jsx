@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "../../../../../public/assets/userProfile.css";
+import DonorMenu from "./DonorMenu.jsx";
 
 import {
     Segment,
@@ -49,7 +50,9 @@ class MainPanel extends Component {
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
-                        <Grid.Column></Grid.Column>
+                        <Grid.Column>
+                            <DonorMenu />
+                        </Grid.Column>
                     </Grid.Row>
                 </Grid>
             </Segment>
