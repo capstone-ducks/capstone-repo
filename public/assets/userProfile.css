@@ -1,5 +1,6 @@
 #profile-screen {
     display: flex;
+    justify-content: center;
 }
 
 #user-side-panel {
@@ -23,6 +24,7 @@
 
 #user-main-panel {
     width: 63%;
+    max-width: 1000px;
     margin-right: 3rem;
 }
 
@@ -54,7 +56,9 @@
 }
 
 #contact-information-header,
-#basic-information-header {
+#basic-information-header,
+#donation-details-information-header,
+#donation-target-information-header {
     color: grey;
     font-size: smaller;
     letter-spacing: 0.04rem;
