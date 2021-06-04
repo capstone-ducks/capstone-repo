@@ -1,0 +1,53 @@
+#profile-screen {
+    display: flex;
+}
+
+#user-side-panel {
+    min-width: 300px;
+    max-width: 500px;
+    width: 33%;
+    height: calc(100vh - 94.5px);
+    margin-left: 3rem;
+    /* background-color: red; */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.greyed-text {
+    color: grey;
+    font-size: small;
+    font-weight: 400;
+}
+
+#user-main-panel {
+    /* background-color: red; */
+}
+
+#name-header {
+    padding: 0rem 2rem 0rem 0rem;
+    margin: 0;
+}
+
+.row-extension {
+    display: flex;
+    align-items: center;
+}
+
+#profile-location-text {
+    align-self: flex-end;
+    color: grey;
+    font-size: small;
+}
+
+#profile-location-icon {
+    margin-bottom: 4px;
+    align-self: flex-end;
+}
+
+#profile-type {
+    color: #04ade6;
+    margin-top: 0.6rem;
+    font-size: large;
+}

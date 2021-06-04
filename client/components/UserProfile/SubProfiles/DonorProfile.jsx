@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { SidePanel, MainPanel } from "./Utils";
+import "../../../../public/assets/userProfile.css";
 
 class DonorProfile extends Component {
     constructor(props) {
@@ -8,7 +10,12 @@ class DonorProfile extends Component {
 
     render() {
         const { user } = this.props;
-        return `Donor Profile for ${user.firstName} ${user.lastName}`;
+        return (
+            <div id="profile-screen">
+                <SidePanel />
+                <MainPanel user={user} />
+            </div>
+        );
     }
 }
 
