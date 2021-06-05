@@ -1,16 +1,6 @@
 import React, { Component } from "react";
-
-import axios from "axios";
 import { connect } from "react-redux";
-import {
-    Button,
-    Checkbox,
-    Form,
-    Icon,
-    TextArea,
-    Header,
-    Accordion,
-} from "semantic-ui-react";
+import { Form, Accordion } from "semantic-ui-react";
 
 import {
     DonorInformation,
@@ -49,10 +39,8 @@ class Donate extends Component {
 
     async componentDidMount() {
         try {
-            const price = await getExchangeRate();
-
             this.setState({
-                exchangeRate: parseFloat(price),
+                exchangeRate: parseFloat(await getExchangeRate()),
             });
         } catch (err) {
             console.log(err);
@@ -80,6 +68,7 @@ class Donate extends Component {
                 () => {
                     const { exchangeRate } = this.state;
                     const convertToEth = parseFloat(value) * exchangeRate || 0;
+
                     // Update the Ethereum conversion if we updated donation amount
                     if (name === "detailUSDTotal") {
                         this.setState({
