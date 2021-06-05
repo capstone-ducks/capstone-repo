@@ -76,14 +76,14 @@ User.authenticate = async ({ email, password }) => {
         where: { email },
     });
     if (user && (await bcrypt.compare(password, user.password))) {
-        return jwt.sign({ id: user.id }, process.env.JWT); // token w/ user ID
+        return jwt.sign({ id: user.id }, `${process.env.JWT}`); // token w/ user ID
     }
     throw error();
 };
 
 User.byToken = async (token) => {
     try {
-        const { id } = jwt.verify(token, process.env.JWT);
+        const { id } = jwt.verify(token, `${process.env.JWT}`);
         const user = await User.findByPk(id);
         if (user) return user;
         throw error();
