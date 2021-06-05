@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Form } from "semantic-ui-react";
-
 import * as Email from "email-validator";
 
 class DonateNowForm extends Component {
