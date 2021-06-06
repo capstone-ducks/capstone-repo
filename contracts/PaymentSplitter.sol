@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.5.1;
 
 import "./Address.sol";
 import "./Context.sol";
@@ -38,7 +38,7 @@ contract PaymentSplitter is Context {
      * All addresses in `payees` must be non-zero. Both arrays must have the same non-zero length, and there must be no
      * duplicates in `payees`.
      */
-    constructor (address[] memory payees, uint256[] memory shares_) payable {
+    constructor (address[] memory payees, uint256[] memory shares_) public payable {
         // solhint-disable-next-line max-line-length
         require(payees.length == shares_.length, "PaymentSplitter: payees and shares length mismatch");
         require(payees.length > 0, "PaymentSplitter: no payees");
@@ -59,7 +59,7 @@ contract PaymentSplitter is Context {
      */
 
 // ************* was missing function
-    function receive () external payable virtual {
+    function receive () external payable {
         emit PaymentReceived(_msgSender(), msg.value);
     }
 
@@ -102,7 +102,7 @@ contract PaymentSplitter is Context {
      * @dev Triggers a transfer to `account` of the amount of Ether they are owed, according to their percentage of the
      * total shares and their previous withdrawals.
      */
-    function release(address payable account) public virtual {
+    function release(address payable account) public  {
         require(_shares[account] > 0, "PaymentSplitter: account has no shares");
 
         uint256 totalReceived = address(this).balance + _totalReleased;
