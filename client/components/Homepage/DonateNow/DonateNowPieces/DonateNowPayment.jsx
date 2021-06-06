@@ -25,6 +25,9 @@ class DonateNowPaymentForm extends Component {
             const clientWalletAddress = await this.getClientWalletAddress();
             console.log(clientWalletAddress);
 
+            // Use MetaMask Provider for Web3
+            window.web3 = new Web3(window.ethereum);
+
             this.setState({
                 metaMaskInstalled,
                 clientWalletAddress,
@@ -38,19 +41,6 @@ class DonateNowPaymentForm extends Component {
             console.log("USER CONNECTED METAMASK");
         }
     }
-
-    // async loadWeb3() {
-    //     if (window.ethereum) {
-    //       window.web3 = new Web3(window.ethereum)
-    //       await window.ethereum.enable()
-    //     }
-    //     else if (window.web3) {
-    //       window.web3 = new Web3(window.web3.currentProvider)
-    //     }
-    //     else {
-    //       window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
-    //     }
-    //   }
 
     //Created check function to see if the MetaMask extension is installed
     isMetaMaskInstalled() {
