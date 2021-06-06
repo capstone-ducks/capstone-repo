@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Form, Image, Message, Icon } from "semantic-ui-react";
 import ethereumLogo from "../../../../../public/images/ethereum-logo.svg";
 import MetaMaskOnboarding from "@metamask/onboarding";
-// import Web3 from "web3";
+import Web3 from "web3";
 
 class DonateNowPaymentForm extends Component {
     constructor(props) {
