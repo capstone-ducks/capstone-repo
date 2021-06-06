@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import Web3 from "web3";
 import { connect } from "react-redux";
 import { signIn } from "../store/thunk/index";
 
@@ -25,6 +25,19 @@ class App extends Component {
             await this.props.attemptLogin();
         }
     }
+
+    // async componentWillMount() {
+    //     await this.loadWeb3()
+    // }
+
+    // async loadWeb3() {
+    //     // checking if anything is injecting an eth provider
+    //     if (window.ethereum) {
+    //         window.web3 = new Web3(window.ethereum)
+    //         await window.ethereum.enable()
+    //     }
+
+    // }
 
     render() {
         return (

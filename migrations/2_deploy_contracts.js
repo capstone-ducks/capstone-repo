@@ -1,5 +1,5 @@
-var Payments = artifacts.require('../contracts/Payments.sol');
+var PaymentSplitter = artifacts.require('../contracts/PaymentSplitter.sol');
 
 module.exports = function(deployer) {
-  deployer.deploy(Payments);
+  deployer.deploy(PaymentSplitter);
 };
