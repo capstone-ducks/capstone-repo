@@ -1,16 +1,13 @@
-pragma solidity ^0.6.0;
+pragma solidity ^0.8.0;
 
 // TODO
 // run truffle compile
 // run truffle migrate
 // test on the truffle terminal
 
+
 contract Escrow {
     enum State { AWAITING_PAYMENT, AWAITING_CONFIRMATION, COMPLETE }
-
-    // buyer => donor
-    // seller => recipient
-
     State public currState;
 
     address public donor;
@@ -37,7 +34,6 @@ contract Escrow {
         currState = State.COMPLETE;
     }
 }
-
 
 
 
