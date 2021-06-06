@@ -1,42 +1,14 @@
 import React, { Component } from "react";
-
-import axios from "axios";
 import { connect } from "react-redux";
-import {
-    Button,
-    Checkbox,
-    Form,
-    Input,
-    Icon,
-    Select,
-    TextArea,
-    Header,
-    Accordion,
-    Item,
-} from "semantic-ui-react";
+import { Form, Accordion } from "semantic-ui-react";
 
-const genderOptions = [
-    { key: "m", text: "Male", value: "male" },
-    { key: "f", text: "Female", value: "female" },
-    { key: "t", text: "Transgender", value: "transgender" },
-    { key: "n", text: "Non-Binary", value: "nonbinary" },
-    { key: "o", text: "Other", value: "other" },
-    { key: "x", text: "Prefer Not to Answer", value: "x" },
-];
-const raceOptions = [
-    { key: "w", text: "White", value: "white" },
-    { key: "b", text: "Black / African American", value: "black" },
-    { key: "h", text: "Hispanic or Latino", value: "hispanic" },
-    { key: "a", text: "Asian", value: "asian" },
-    { key: "i", text: "American Indian or Alaska Native", value: "indigenous" },
-    {
-        key: "p",
-        text: "Native Hawaiian or Other Pacific Islander",
-        value: "pacific",
-    },
-    { key: "m", text: "Multiracial", value: "multiracial" },
-    { key: "x", text: "Prefer Not to Answer", value: "x" },
-];
+import {
+    DonorInformation,
+    DonationDetails,
+    TargetPopulation,
+} from "./DonateFormItems";
+
+import getExchangeRate from "./getExchangeRate";
 
 class Donate extends Component {
     constructor(props) {
@@ -61,20 +33,14 @@ class Donate extends Component {
             agreeToTerms: false,
         };
         this.handleEdit = this.handleEdit.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     async componentDidMount() {
         try {
-            const {
-                ticker: { price },
-            } = (
-                await axios.get(
-                    "https://api.cryptonator.com/api/ticker/usd-eth",
-                )
-            ).data;
-
             this.setState({
-                exchangeRate: parseFloat(price),
+                exchangeRate: parseFloat(await getExchangeRate()),
             });
         } catch (err) {
             console.log(err);
@@ -100,12 +66,11 @@ class Donate extends Component {
                     [name]: value,
                 },
                 () => {
+                    const { exchangeRate } = this.state;
+                    const convertToEth = parseFloat(value) * exchangeRate || 0;
+
                     // Update the Ethereum conversion if we updated donation amount
                     if (name === "detailUSDTotal") {
-                        const { exchangeRate } = this.state;
-                        const convertToEth =
-                            parseFloat(value) * exchangeRate || 0;
-
                         this.setState({
                             detailEthTotal: convertToEth,
                         });
@@ -127,159 +92,57 @@ class Donate extends Component {
         this.setState({ activeIndices: newIndices });
     };
 
+    handleSubmit(e) {
+        e.preventDefault();
+        console.table(this.state);
+        console.log("SUBMITTED!");
+    }
+
     render() {
-        const { state } = this;
-        const { activeIndices } = state;
+        const {
+            activeIndices,
+            donorFirstName,
+            donorLastName,
+            donorGender,
+            donorEmail,
+            donorPhone,
+            donorRace,
+            detailUSDTotal,
+            detailEthTotal,
+            detailNumRecipients,
+            message,
+            agreeToTerms,
+        } = this.state;
 
         return (
-            <Form>
+            <Form onSubmit={this.handleSubmit}>
                 <Accordion>
-                    <Accordion.Title
+                    <DonorInformation
                         active={activeIndices.includes(0)}
-                        index={0}
-                        onClick={this.handleClick}
-                    >
-                        <Header as="h4" id="basic-information-header">
-                            <Icon name="dropdown" />
-                            DONOR INFORMATION
-                        </Header>
-                    </Accordion.Title>
-                    <Accordion.Content active={activeIndices.includes(0)}>
-                        <Form.Group widths="equal">
-                            <Form.Field
-                                value={state.donorFirstName}
-                                name="donorFirstName"
-                                control={Input}
-                                label="First name"
-                                placeholder="First name"
-                                onChange={this.handleEdit}
-                            />
-                            <Form.Field
-                                value={state.donorLastName}
-                                name="donorLastName"
-                                control={Input}
-                                label="Last name"
-                                placeholder="Last name"
-                                onChange={this.handleEdit}
-                            />
-                            <Form.Field
-                                value={state.donorGender}
-                                name="donorGender"
-                                control={Select}
-                                label="Gender"
-                                options={genderOptions}
-                                placeholder="Gender"
-                                onChange={this.handleEdit}
-                            />
-                        </Form.Group>
-                        <Form.Group widths="equal">
-                            <Form.Field
-                                value={state.donorEmail}
-                                name="donorEmail"
-                                control={Input}
-                                label="Email"
-                                placeholder="Email"
-                                onChange={this.handleEdit}
-                            />
-                            <Form.Field
-                                value={state.donorPhone}
-                                name="donorPhone"
-                                control={Input}
-                                label="Phone"
-                                placeholder="Phone"
-                                onChange={this.handleEdit}
-                            />
-                            <Form.Field
-                                value={state.donorRace}
-                                name="donorRace"
-                                control={Select}
-                                label="Race/Ethnicity"
-                                options={raceOptions}
-                                placeholder="Race/Ethnicity"
-                                onChange={this.handleEdit}
-                            />
-                        </Form.Group>
-                    </Accordion.Content>
-                    <Accordion.Title
+                        handleClick={this.handleClick}
+                        handleEdit={this.handleEdit}
+                        firstName={donorFirstName}
+                        lastName={donorLastName}
+                        gender={donorGender}
+                        email={donorEmail}
+                        phone={donorPhone}
+                        race={donorRace}
+                    />
+                    <DonationDetails
                         active={activeIndices.includes(1)}
-                        index={1}
-                        onClick={this.handleClick}
-                    >
-                        <Header
-                            as="h4"
-                            id="donation-details-information-header"
-                        >
-                            <Icon name="dropdown" />
-                            DONATION DETAILS
-                        </Header>
-                    </Accordion.Title>
-                    <Accordion.Content active={activeIndices.includes(1)}>
-                        <Form.Group widths="equal">
-                            <Form.Field
-                                value={parseFloat(
-                                    state.detailUSDTotal,
-                                ).toLocaleString("en-US")}
-                                name="detailUSDTotal"
-                                control={Input}
-                                label="$USD"
-                                placeholder=""
-                                onChange={this.handleEdit}
-                            />
-                            <Form.Field
-                                value={
-                                    state.detailEthTotal === 0
-                                        ? 0
-                                        : parseFloat(
-                                              parseFloat(
-                                                  state.detailEthTotal,
-                                              ).toFixed(4),
-                                          ).toLocaleString("en-US")
-                                }
-                                name="detailEthTotal"
-                                control={Input}
-                                label="ΞETH (estimate)"
-                                placeholder=""
-                                readOnly
-                            />
-                            <Form.Field
-                                value={state.detailNumRecipients}
-                                name="detailNumRecipients"
-                                control={Input}
-                                label="Number of Recipients"
-                                placeholder="Number of Recipients"
-                                onChange={this.handleEdit}
-                            />
-                        </Form.Group>
-                    </Accordion.Content>
-                    <Accordion.Title
+                        handleClick={this.handleClick}
+                        handleEdit={this.handleEdit}
+                        usd={detailUSDTotal}
+                        eth={detailEthTotal}
+                        numRecipients={detailNumRecipients}
+                    />
+                    <TargetPopulation
                         active={activeIndices.includes(2)}
-                        index={2}
-                        onClick={this.handleClick}
-                    >
-                        <Header as="h4" id="donation-target-information-header">
-                            <Icon name="dropdown" />
-                            TARGET POPULATION
-                        </Header>
-                    </Accordion.Title>
-
-                    <Accordion.Content active={activeIndices.includes(2)}>
-                        <Form.Field
-                            value={state.message}
-                            name="message"
-                            control={TextArea}
-                            label="Message for Recipients"
-                            placeholder="Tell us more about you..."
-                            onChange={this.handleEdit}
-                        />
-                        <Form.Field
-                            checked={state.agreeToTerms}
-                            control={Checkbox}
-                            name="agreeToTerms"
-                            label="I agree to the Terms and Conditions"
-                            onChange={this.handleEdit}
-                        />
-                        <Form.Field control={Button}>Submit</Form.Field>
-                    </Accordion.Content>
+                        handleClick={this.handleClick}
+                        handleEdit={this.handleEdit}
+                        message={message}
+                        agreeToTerms={agreeToTerms}
+                    />
                 </Accordion>
             </Form>
         );
