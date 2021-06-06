@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Form, Image, Message, Icon } from "semantic-ui-react";
 import ethereumLogo from "../../../../../public/images/ethereum-logo.svg";
 import MetaMaskOnboarding from "@metamask/onboarding";
-// import { ethers } from "ethers";
+import Web3 from "web3";
 
 class DonateNowPaymentForm extends Component {
     constructor(props) {
@@ -38,6 +38,19 @@ class DonateNowPaymentForm extends Component {
             console.log("USER CONNECTED METAMASK");
         }
     }
+
+    // async loadWeb3() {
+    //     if (window.ethereum) {
+    //       window.web3 = new Web3(window.ethereum)
+    //       await window.ethereum.enable()
+    //     }
+    //     else if (window.web3) {
+    //       window.web3 = new Web3(window.web3.currentProvider)
+    //     }
+    //     else {
+    //       window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
+    //     }
+    //   }
 
     //Created check function to see if the MetaMask extension is installed
     isMetaMaskInstalled() {
@@ -78,7 +91,7 @@ class DonateNowPaymentForm extends Component {
               //'0x7f7465737432000000000000000000000000000000000000000000000000000000600057', // Optional, but used for defining smart contract creation and interaction.
             chainId: '0x3', // Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
           };
-          
+
           // txHash is a hex string
           // As with any RPC call, it may throw an error
           const txHash = await ethereum.request({
