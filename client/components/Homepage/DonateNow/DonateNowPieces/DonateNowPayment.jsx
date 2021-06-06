@@ -20,10 +20,13 @@ class DonateNowPaymentForm extends Component {
 
     // On mount, see if MetaMask is installed. If it is, get wallet balance/information
     async componentDidMount() {
-        const metaMaskInstalled = this.isMetaMaskInstalled(); // Gets
+        const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
         if (metaMaskInstalled) {
             const clientWalletAddress = await this.getClientWalletAddress();
             console.log(clientWalletAddress);
+
+            // Gives Web3 Blockchain provider (MetaMask)
+            window.web3 = new Web3(window.ethereum);
 
             this.setState({
                 metaMaskInstalled,
@@ -38,19 +41,6 @@ class DonateNowPaymentForm extends Component {
             console.log("USER CONNECTED METAMASK");
         }
     }
-
-    // async loadWeb3() {
-    //     if (window.ethereum) {
-    //       window.web3 = new Web3(window.ethereum)
-    //       await window.ethereum.enable()
-    //     }
-    //     else if (window.web3) {
-    //       window.web3 = new Web3(window.web3.currentProvider)
-    //     }
-    //     else {
-    //       window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
-    //     }
-    //   }
 
     //Created check function to see if the MetaMask extension is installed
     isMetaMaskInstalled() {
