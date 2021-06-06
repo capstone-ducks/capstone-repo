@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require("webpack");
 
 const webpackConfig = {
     entry: {
@@ -31,11 +32,16 @@ const webpackConfig = {
             },
             {
                 test: /\.js$/,
-                enforce: 'pre',
-                use: ['source-map-loader'],
-              },
+                enforce: "pre",
+                use: ["source-map-loader"],
+            },
         ],
     },
+    plugins: [
+        new webpack.ProvidePlugin({
+            process: "process/browser",
+        }),
+    ],
 };
 
 module.exports = webpackConfig;
