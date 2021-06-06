@@ -20,10 +20,13 @@ class DonateNowPaymentForm extends Component {
 
     // On mount, see if MetaMask is installed. If it is, get wallet balance/information
     async componentDidMount() {
-        const metaMaskInstalled = this.isMetaMaskInstalled(); // Gets
+        const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
         if (metaMaskInstalled) {
             const clientWalletAddress = await this.getClientWalletAddress();
             console.log(clientWalletAddress);
+
+            // Gives Web3 Blockchain provider (MetaMask)
+            window.web3 = new Web3(window.ethereum);
 
             this.setState({
                 metaMaskInstalled,
@@ -38,19 +41,6 @@ class DonateNowPaymentForm extends Component {
             console.log("USER CONNECTED METAMASK");
         }
     }
-
-    // async loadWeb3() {
-    //     if (window.ethereum) {
-    //       window.web3 = new Web3(window.ethereum)
-    //       await window.ethereum.enable()
-    //     }
-    //     else if (window.web3) {
-    //       window.web3 = new Web3(window.web3.currentProvider)
-    //     }
-    //     else {
-    //       window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
-    //     }
-    //   }
 
     //Created check function to see if the MetaMask extension is installed
     isMetaMaskInstalled() {
@@ -81,23 +71,23 @@ class DonateNowPaymentForm extends Component {
     async handleSubmit() {
         console.log("SUBMIT DONATION!");
         const transactionParameters = {
-            nonce: '0x00', // ignored by MetaMask
-            gasPrice: '0x5208', // customizable by user during MetaMask confirmation.
-            gas: '0x5208', // customizable by user during MetaMask confirmation.
-            to: '0x4717cF101876c2c19c2520E9F138385edC18493e', // Required except during contract publications.
+            nonce: "0x00", // ignored by MetaMask
+            gasPrice: "0x5208", // customizable by user during MetaMask confirmation.
+            gas: "0x5208", // customizable by user during MetaMask confirmation.
+            to: "0x4717cF101876c2c19c2520E9F138385edC18493e", // Required except during contract publications.
             from: ethereum.selectedAddress, // must match user's active address.
-            value: '0x0004', // Only required to send ether to the recipient from the initiating external account.
+            value: "0x0004", // Only required to send ether to the recipient from the initiating external account.
             //data:
-              //'0x7f7465737432000000000000000000000000000000000000000000000000000000600057', // Optional, but used for defining smart contract creation and interaction.
-            chainId: '0x3', // Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
-          };
+            //'0x7f7465737432000000000000000000000000000000000000000000000000000000600057', // Optional, but used for defining smart contract creation and interaction.
+            chainId: "0x3", // Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
+        };
 
-          // txHash is a hex string
-          // As with any RPC call, it may throw an error
-          const txHash = await ethereum.request({
-            method: 'eth_sendTransaction',
+        // txHash is a hex string
+        // As with any RPC call, it may throw an error
+        const txHash = await ethereum.request({
+            method: "eth_sendTransaction",
             params: [transactionParameters],
-          });
+        });
     }
 
     render() {
