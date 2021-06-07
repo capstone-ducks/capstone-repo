@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { SetUpWalletModal } from "./Utils";
 import { NavLink } from "react-router-dom";
+import { SidePanel, MainPanel } from "./Utils";
 
 class RecipientProfile extends Component {
     constructor(props) {
@@ -9,14 +10,19 @@ class RecipientProfile extends Component {
     }
 
     render() {
+        const { user } = this.props;
         return (
-            <SetUpWalletModal
-                trigger={
-                    <NavLink to="#" id="donate-button">
-                        Setup Wallet
-                    </NavLink>
-                }
-            />
+            <div id="profile-screen">
+                <SidePanel />
+                <MainPanel user={user} />
+            </div>
+            // <SetUpWalletModal
+            //     trigger={
+            //         <NavLink to="#" id="donate-button">
+            //             Setup Wallet
+            //         </NavLink>
+            //     }
+            // />
         );
     }
 }

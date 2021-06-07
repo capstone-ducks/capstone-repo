@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 // import unnamedPic from "../../../../../public/images/utils/user.svg";
 import nanPic from "../../../../../public/images/profile-pictures/nan.png";
+import matthewPic from "../../../../../public/images/profile-pictures/matthew.png";
 import "../../../../../public/assets/userProfile.css";
 import { Segment, Grid, Divider, Card, Header, Image } from "semantic-ui-react";
 import { connect } from "react-redux";
@@ -19,7 +20,11 @@ class SidePanel extends Component {
                     <Grid.Row>
                         <Grid.Column>
                             <Card centered>
-                                <Image src={nanPic} wrapped ui={false} />
+                                <Image
+                                    src={isDonor ? nanPic : matthewPic}
+                                    wrapped
+                                    ui={false}
+                                />
                             </Card>
                         </Grid.Column>
                     </Grid.Row>

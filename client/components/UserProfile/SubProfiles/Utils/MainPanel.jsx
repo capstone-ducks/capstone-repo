@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "../../../../../public/assets/userProfile.css";
 import DonorMenu from "./DonorMenu.jsx";
+import RecipientMenu from "./RecipientMenu.jsx";
 
 import {
     Segment,
@@ -51,7 +52,7 @@ class MainPanel extends Component {
                     </Grid.Row>
                     <Grid.Row>
                         <Grid.Column>
-                            <DonorMenu />
+                            {isDonor ? <DonorMenu /> : <RecipientMenu />}
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
