@@ -5,6 +5,10 @@ import MetaMaskOnboarding from "@metamask/onboarding";
 import Web3 from "web3";
 import PaymentSplitter from '../../../../../build/contracts/PaymentSplitter.json';
 
+// TODO
+// donor should input ethereum amount into form, that amount is sent to
+// a recipient in the paymentsplitter contract: i.e. PaymentSplitter(["recipient ethereum address"], [1])
+
 class DonateNowPaymentForm extends Component {
     constructor(props) {
         super(props);
@@ -28,15 +32,21 @@ class DonateNowPaymentForm extends Component {
 
             // Gives Web3 Blockchain provider (MetaMask)
             window.web3 = new Web3(window.ethereum);
-            console.log(window.web3)
-            const { abi } = PaymentSplitter;
-            const { address } = PaymentSplitter.networks[5777];
-            // const payment = window.web3.eth.Contract(abi, address);
-            // console.log('PAYMENT', payment)
-            this.setState({
-                metaMaskInstalled,
-                clientWalletAddress,
-            });
+            const web3 = window.web3;
+            // making dynamic network
+            const networkId = await web3.eth.net.getId();
+            const networkData = PaymentSplitter.networks[networkId];
+            if (networkData) {
+                const paymentContract = new web3.eth.Contract(PaymentSplitter.abi, networkData.address);
+                console.log('PAYMENT CONTRACT', paymentContract)
+                this.setState({
+                    metaMaskInstalled,
+                    clientWalletAddress,
+                });
+            }
+            else {
+                window.alert('PaymentSplitter contract not deployed to detect network');
+            }
         }
     }
 
