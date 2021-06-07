@@ -1,5 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
+
 
 const webpackConfig = {
     entry: {
@@ -30,17 +32,23 @@ const webpackConfig = {
                     presets: ["@babel/preset-react"],
                 },
             },
-            {
-                test: /\.js$/,
-                enforce: "pre",
-                use: ["source-map-loader"],
-            },
+            // {
+            //     test: /\.js$/,
+            //     enforce: "pre",
+            //     use: ["source-map-loader"],
+            // },
         ],
     },
+    resolve: {
+        fallback: {
+          "http": require.resolve("stream-http")
+        }
+      },
     plugins: [
         new webpack.ProvidePlugin({
             process: "process/browser",
         }),
+        new NodePolyfillPlugin()
     ],
 };
 

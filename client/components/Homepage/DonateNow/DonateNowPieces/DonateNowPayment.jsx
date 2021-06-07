@@ -3,6 +3,7 @@ import { Form, Image, Message, Icon } from "semantic-ui-react";
 import ethereumLogo from "../../../../../public/images/ethereum-logo.svg";
 import MetaMaskOnboarding from "@metamask/onboarding";
 import Web3 from "web3";
+import PaymentSplitter from '../../../../../build/contracts/PaymentSplitter.json';
 
 class DonateNowPaymentForm extends Component {
     constructor(props) {
@@ -27,7 +28,11 @@ class DonateNowPaymentForm extends Component {
 
             // Gives Web3 Blockchain provider (MetaMask)
             window.web3 = new Web3(window.ethereum);
-
+            console.log(window.web3)
+            const { abi } = PaymentSplitter;
+            const { address } = PaymentSplitter.networks[5777];
+            // const payment = window.web3.eth.Contract(abi, address);
+            // console.log('PAYMENT', payment)
             this.setState({
                 metaMaskInstalled,
                 clientWalletAddress,
