@@ -113,15 +113,16 @@ class Donate extends Component {
     donate() {
         const amountEthToWei = web3.utils.toHex(web3.utils.toWei(this.state.detailEthTotal.toString(), 'ether'));
         // console.log(amountEthToWei)
-        console.log('DONATE FUNC', this.state.paymentContract.methods.release('0xf74C90a70f6657e77d9Ef950ebF3449A8b3136C4')
-        .send({
-            from: '0x94870794165E1267727c45Bb17358463d876DE6E',
-            value: amountEthToWei.toString(),
-            gas: 21999
-        }).then(function(receipt){
-            // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
-            console.log(receipt)
-        })
+        console.log('DONATE FUNC', this.state.paymentContract.methods
+        // .release('0xf74C90a70f6657e77d9Ef950ebF3449A8b3136C4')
+        // .send({
+        //     from: '0x94870794165E1267727c45Bb17358463d876DE6E',
+        //     value: amountEthToWei.toString(),
+        //     gas: 21999
+        // }).then(function(receipt){
+        //     // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
+        //     console.log(receipt)
+        // })
         )
     }
 
