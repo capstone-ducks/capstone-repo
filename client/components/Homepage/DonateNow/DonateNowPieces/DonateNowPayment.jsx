@@ -60,7 +60,7 @@ class DonateNowPaymentForm extends Component {
     // Used to detect if a user installs MetaMask now. Not working yet.
     async componentDidUpdate(prevProps, prevState) {
         if (prevState.metaMaskInstalled !== this.state.metaMaskInstalled) {
-            console.log("USER CONNECTED METAMASK");
+            console.log("USER CONNECTED TO METAMASK");
         }
     }
 
