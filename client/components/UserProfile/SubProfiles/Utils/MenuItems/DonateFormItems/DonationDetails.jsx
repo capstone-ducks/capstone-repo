@@ -1,11 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Form, Input, Icon, Header, Accordion } from "semantic-ui-react";
-import Web3 from "web3";
-import PaymentSplitter from "../../../../../../../build/contracts/PaymentSplitter.json";
 
 const DonationDetails = (props) => {
-    const [amount, setAmount] = useState(0);
-    const [numOfRecipients, setNumOfRecipients] = useState(0);
     const { active, handleClick, handleEdit, usd, eth, numRecipients } = props;
 console.log('PROPS', props)
     return (
