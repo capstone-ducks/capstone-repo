@@ -1,10 +1,9 @@
-import React, { Component } from "react";
-
+import React from "react";
 import { Form, Input, Icon, Header, Accordion } from "semantic-ui-react";
 
 const DonationDetails = (props) => {
     const { active, handleClick, handleEdit, usd, eth, numRecipients } = props;
-
+console.log('PROPS', props)
     return (
         <React.Fragment>
             <Accordion.Title active={active} index={1} onClick={handleClick}>
