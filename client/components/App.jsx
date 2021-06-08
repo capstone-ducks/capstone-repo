@@ -33,6 +33,7 @@ class App extends Component {
     // async loadWeb3() {
     //     // checking if anything is injecting an eth provider
     //     if (window.ethereum) {
+    //         console.log(window.ethereum , 'in App')
     //         window.web3 = new Web3(window.ethereum)
     //         await window.ethereum.enable()
     //     }

@@ -15,12 +15,14 @@ class DonateNowPaymentForm extends Component {
         this.state = {
             metaMaskInstalled: false,
             clientWalletAddress: "",
+            amount:''
         };
 
         this.isMetaMaskInstalled = this.isMetaMaskInstalled.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.installMetaMask = this.installMetaMask.bind(this);
         this.getClientWalletAddress = this.getClientWalletAddress.bind(this);
+        this.handleChange = this.handleChange.bind(this)
     }
 
     // On mount, see if MetaMask is installed. If it is, get wallet balance/information
@@ -33,15 +35,20 @@ class DonateNowPaymentForm extends Component {
             // Gives Web3 Blockchain provider (MetaMask)
             window.web3 = new Web3(window.ethereum);
             const web3 = window.web3;
+            console.log(web3.eth, 'WEB3')
             // making dynamic network
             const networkId = await web3.eth.net.getId();
             const networkData = PaymentSplitter.networks[networkId];
             if (networkData) {
                 const paymentContract = new web3.eth.Contract(PaymentSplitter.abi, networkData.address);
-                console.log('PAYMENT CONTRACT', paymentContract)
+                // console.log('PAYMENT CONTRACT', paymentContract)
+                const accounts= await web3.eth.getAccounts();
+                console.log(accounts, 'Acounts!!')
+                
                 this.setState({
                     metaMaskInstalled,
                     clientWalletAddress,
+                    web3
                 });
             }
             else {
@@ -78,35 +85,55 @@ class DonateNowPaymentForm extends Component {
         const { ethereum } = window;
         await ethereum.request({ method: "eth_requestAccounts" });
         const accounts = await ethereum.request({ method: "eth_accounts" });
-
         return accounts[0];
+    }
+
+    //handle the amount
+    handleChange (e){
+        console.log(this.state, ' handleChange')
+        // web3.eth.getBalance('0x6Af05d983CA88e36C4104ad1393370Ee5f747474').then(function(balance) {  
+        //     console.log(balance)
+        // })
+        //const value = e.target.value;
+        this.setState({
+            [e.target.name]: e.target.value,
+        });
+
     }
 
     // Handles the donation submission
     async handleSubmit() {
-        console.log("SUBMIT DONATION!");
-        const transactionParameters = {
-            nonce: "0x00", // ignored by MetaMask
-            gasPrice: "0x5208", // customizable by user during MetaMask confirmation.
-            gas: "0x5208", // customizable by user during MetaMask confirmation.
-            to: "0x4717cF101876c2c19c2520E9F138385edC18493e", // Required except during contract publications.
-            from: ethereum.selectedAddress, // must match user's active address.
-            value: "0x0004", // Only required to send ether to the recipient from the initiating external account.
-            //data:
-            //'0x7f7465737432000000000000000000000000000000000000000000000000000000600057', // Optional, but used for defining smart contract creation and interaction.
-            chainId: "0x3", // Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
-        };
+        console.log(this.state , "SUBMIT DONATION!");
+        // const transactionParameters = {
+        //     nonce: "0x00", // ignored by MetaMask
+        //     gasPrice: "0x5208", // customizable by user during MetaMask confirmation.
+        //     gas: "0x5208", // customizable by user during MetaMask confirmation.
+        //     to: "0x4717cF101876c2c19c2520E9F138385edC18493e", // Required except during contract publications.
+        //     from: ethereum.selectedAddress, // must match user's active address.
+        //     value: "0x0004", // Only required to send ether to the recipient from the initiating external account.
+        //     //data:
+        //     //'0x7f7465737432000000000000000000000000000000000000000000000000000000600057', // Optional, but used for defining smart contract creation and interaction.
+        //     chainId: "0x3", // Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
+        // };
 
-        // txHash is a hex string
-        // As with any RPC call, it may throw an error
-        const txHash = await ethereum.request({
-            method: "eth_sendTransaction",
-            params: [transactionParameters],
-        });
+        // // txHash is a hex string
+        // // As with any RPC call, it may throw an error
+        // const txHash = await ethereum.request({
+        //     method: "eth_sendTransaction",
+        //     params: [transactionParameters],
+        // });
+        const recipient = '0x6Af05d983CA88e36C4104ad1393370Ee5f747474';
+         const accounts = await web3.eth.getAccounts();
+        //Convert eth to wei since we are using web3 v 1.3.x
+        const amountEthToWei = web3.utils.toHex(web3.utils.toWei(this.state.amount, 'ether'));
+
+        this.state.web3.eth.sendTransaction ({to:recipient, from: accounts[0], value: amountEthToWei});
+
     }
 
     render() {
         const { metaMaskInstalled, selectedCurrency } = this.state;
+        console.log(this.state, ' in return ')
 
         // If meta mask is not installed, show this
         if (!metaMaskInstalled)
@@ -163,8 +190,10 @@ class DonateNowPaymentForm extends Component {
                     <Form.Input
                         label="Amount"
                         placeholder="0.000"
+                        name="amount"
                         size="huge"
                         style={{ width: 100 }}
+                        onChange = {this.handleChange}
                     />
                 </Form.Group>
                 <Form.Button
