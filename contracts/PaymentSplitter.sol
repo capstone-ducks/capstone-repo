@@ -33,8 +33,17 @@ contract PaymentSplitter is Context {
      * All addresses in `payees` must be non-zero. Both arrays must have the same non-zero length, and there must be no
      * duplicates in `payees`.
      */
+     // sets the owner of the contract (admin) -->  msg.sender is the person currently connecting the contract
+       //
+     // is there logic we won't want to be called by anyone else?
+        // abi is public, that gets exposed when you deploy
+     // user interface is not the only way to interact with the contract
+     // contract is its own api / totally separate application
+     // sending msg to the contract w/ some data is like sending a get request, msg.sender is like a request
+
+// if we can handle multiple donation kickoffs, then we only need one contract instance.
     constructor ()  {
-        //owner = msg.sender;
+        // owner = msg.sender;
         // solhint-disable-next-line max-line-length
         // require(payees.length == shares_.length, "PaymentSplitter: payees and shares length mismatch");
         // require(payees.length > 0, "PaymentSplitter: no payees");
@@ -54,9 +63,7 @@ contract PaymentSplitter is Context {
     receive () external payable virtual {
         emit PaymentReceived(_msgSender(), msg.value);
     }
-    /**
-     * @dev Getter for the total shares held by payees.
-     */
+
     function DonationKickOff (address[] memory payees, uint256[] memory shares_) public payable {
         // solhint-disable-next-line max-line-length
         require(payees.length == shares_.length, "PaymentSplitter: payees and shares length mismatch");
@@ -65,6 +72,9 @@ contract PaymentSplitter is Context {
             _addPayee(payees[i], shares_[i]);
         }
     }
+     /**
+     * @dev Getter for the total shares held by payees.
+     */
     function totalShares() public view returns (uint256) {
         return _totalShares;
     }
