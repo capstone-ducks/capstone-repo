@@ -105,23 +105,26 @@ class Donate extends Component {
         const { ethereum } = window;
         await ethereum.request({ method: "eth_requestAccounts" });
         const accounts = await ethereum.request({ method: "eth_accounts" });
-
         return accounts[0];
     }
-// detailEthTotal, detailNumRecipients
+
     donate() {
         const amountEthToWei = web3.utils.toHex(web3.utils.toWei(this.state.detailEthTotal.toString(), 'ether'));
-        // console.log(amountEthToWei)
         console.log('DONATE FUNC', this.state.paymentContract.methods.DonationKickOff(["0x71e810d1Fb275664a91840fcc3bADEe1F07De00B"],[Number(this.state.detailNumRecipients)])
-        // .release('0xf74C90a70f6657e77d9Ef950ebF3449A8b3136C4')
-        .send({
-            from: '0xd9dfa1c796354E3f26648408851AFb89059d6355',
-            value: amountEthToWei.toString(),
-            gas: 6721975 // should match given gas limit from ganache
-        }).then(function(receipt){
-            // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
-            console.log(receipt)
-        })
+            .send({
+                from: this.state.clientWalletAddress,
+                value: amountEthToWei.toString(),
+                gas: 6721975 // should match given gas limit from ganache
+            }).then(function(receipt){
+                // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
+                console.log(receipt)
+            }).then(() => {
+                const release = this.state.paymentContract.methods.release("0x71e810d1Fb275664a91840fcc3bADEe1F07De00B") // saying state is undefined
+                console.log('HEY', release)
+                console.log('RELEASED', this.state.paymentContract.methods.totalReleased())
+            }).then(() => {
+                console.log('RECEIVE', this.state.paymentContract.methods.receive())
+            })
         )
     }
 
@@ -173,8 +176,6 @@ class Donate extends Component {
     handleSubmit(e) {
         e.preventDefault();
         this.donate();
-        console.table(this.state);
-        console.log("SUBMITTED!");
     }
 
     render() {
