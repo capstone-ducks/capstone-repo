@@ -59,7 +59,6 @@ class Donate extends Component {
                 const networkData = PaymentSplitter.networks[networkId];
                 if (networkData) {
                     const paymentContract = new web3.eth.Contract(PaymentSplitter.abi, networkData.address);
-                    // console.log('PAYMENT CONTRACT', paymentContract)
                     this.setState({
                         metaMaskInstalled,
                         paymentContract,
@@ -113,11 +112,12 @@ class Donate extends Component {
     donate() {
         const amountEthToWei = web3.utils.toHex(web3.utils.toWei(this.state.detailEthTotal.toString(), 'ether'));
         // console.log(amountEthToWei)
-        console.log('DONATE FUNC', this.state.paymentContract.methods.release('0xf74C90a70f6657e77d9Ef950ebF3449A8b3136C4')
+        console.log('DONATE FUNC', this.state.paymentContract.methods.DonationKickOff(["0x71e810d1Fb275664a91840fcc3bADEe1F07De00B"],[Number(this.state.detailNumRecipients)])
+        // .release('0xf74C90a70f6657e77d9Ef950ebF3449A8b3136C4')
         .send({
-            from: '0x94870794165E1267727c45Bb17358463d876DE6E',
+            from: '0xd9dfa1c796354E3f26648408851AFb89059d6355',
             value: amountEthToWei.toString(),
-            gas: 21999
+            gas: 6721975 // should match given gas limit from ganache
         }).then(function(receipt){
             // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
             console.log(receipt)

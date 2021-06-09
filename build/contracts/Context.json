@@ -1,7 +1,7 @@
 {
   "contractName": "Context",
   "abi": [],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.0+commit.c7dfd78e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/Users/anthony/fs/senior-phase/capstone-repo/contracts/Context.sol\":\"Context\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/anthony/fs/senior-phase/capstone-repo/contracts/Context.sol\":{\"keccak256\":\"0xba6ddba08488c0fd0249ecbf73d94db554b664e5460e05335633d38988fb1947\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8d39e2090185cd7852447d004adb908b40e2c7adc8831ee1a7d6eb6dea664ddc\",\"dweb:/ipfs/QmQZPEkHcJ8hbEbRr8vvUrCWPs7XRBmwLXbUQc9Mmx39Lx\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.0+commit.c7dfd78e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/Users/emilyasaro/Senior-Phase/capstone-repo/contracts/Context.sol\":\"Context\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/emilyasaro/Senior-Phase/capstone-repo/contracts/Context.sol\":{\"keccak256\":\"0xba6ddba08488c0fd0249ecbf73d94db554b664e5460e05335633d38988fb1947\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8d39e2090185cd7852447d004adb908b40e2c7adc8831ee1a7d6eb6dea664ddc\",\"dweb:/ipfs/QmQZPEkHcJ8hbEbRr8vvUrCWPs7XRBmwLXbUQc9Mmx39Lx\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
@@ -10,9 +10,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "// SPDX-License-Identifier: MIT\n\npragma solidity ^0.8.0;\n\n/*\n * @dev Provides information about the current execution context, including the\n * sender of the transaction and its data. While these are generally available\n * via msg.sender and msg.data, they should not be accessed in such a direct\n * manner, since when dealing with meta-transactions the account sending and\n * paying for execution may not be the actual sender (as far as an application\n * is concerned).\n *\n * This contract is only required for intermediate, library-like contracts.\n */\nabstract contract Context {\n    function _msgSender() internal view virtual returns (address) {\n        return msg.sender;\n    }\n\n    function _msgData() internal view virtual returns (bytes calldata) {\n        this; // silence state mutability warning without generating bytecode - see https://github.com/ethereum/solidity/issues/2691\n        return msg.data;\n    }\n}",
-  "sourcePath": "/Users/anthony/fs/senior-phase/capstone-repo/contracts/Context.sol",
+  "sourcePath": "/Users/emilyasaro/Senior-Phase/capstone-repo/contracts/Context.sol",
   "ast": {
-    "absolutePath": "/Users/anthony/fs/senior-phase/capstone-repo/contracts/Context.sol",
+    "absolutePath": "/Users/emilyasaro/Senior-Phase/capstone-repo/contracts/Context.sol",
     "exportedSymbols": {
       "Context": [
         318
@@ -254,7 +254,7 @@
     "src": "33:889:1"
   },
   "legacyAST": {
-    "absolutePath": "/Users/anthony/fs/senior-phase/capstone-repo/contracts/Context.sol",
+    "absolutePath": "/Users/emilyasaro/Senior-Phase/capstone-repo/contracts/Context.sol",
     "exportedSymbols": {
       "Context": [
         318
@@ -501,7 +501,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.1",
-  "updatedAt": "2021-06-06T23:14:53.354Z",
+  "updatedAt": "2021-06-08T03:51:07.642Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},
