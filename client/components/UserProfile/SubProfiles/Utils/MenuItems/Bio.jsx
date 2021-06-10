@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Container, Header, Grid } from "semantic-ui-react";
+import { Button, Header, Grid } from "semantic-ui-react";
+import { EditBio } from "./Popups";
 
 class Bio extends Component {
     constructor(props) {
@@ -9,7 +10,8 @@ class Bio extends Component {
     }
 
     render() {
-        const { email, publicKey, cryptoAddress } = this.props.user;
+        const { email, publicKey, cryptoAddress, firstName, lastName } =
+            this.props.user;
 
         return (
             <React.Fragment>
@@ -62,13 +64,38 @@ class Bio extends Component {
                     <Grid columns="equal" padded>
                         <Grid.Row>
                             <Grid.Column width={3}>
+                                <p className="row-title">Name:</p>
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                                <p>
+                                    {firstName} {lastName}
+                                </p>
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row>
+                            <Grid.Column width={3}>
                                 <p className="row-title">Gender:</p>
                             </Grid.Column>
                             <Grid.Column width={8}>
                                 <p>No Information</p>
                             </Grid.Column>
                         </Grid.Row>
+                        <Grid.Row>
+                            <Grid.Column width={3}>
+                                <p className="row-title">Race:</p>
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                                <p>No Information</p>
+                            </Grid.Column>
+                        </Grid.Row>
                     </Grid>
+                    <EditBio
+                        trigger={
+                            <Button primary id="change-bio-info">
+                                Edit Information
+                            </Button>
+                        }
+                    />
                 </div>
             </React.Fragment>
         );
