@@ -1,16 +1,9 @@
 import React, { Component } from "react";
 import "../../../../../public/assets/userProfile.css";
 import DonorMenu from "./DonorMenu.jsx";
+import RecipientMenu from "./RecipientMenu.jsx";
 
-import {
-    Segment,
-    Grid,
-    Divider,
-    Card,
-    Header,
-    Image,
-    Icon,
-} from "semantic-ui-react";
+import { Segment, Grid, Header, Icon } from "semantic-ui-react";
 
 class MainPanel extends Component {
     constructor(props) {
@@ -51,7 +44,7 @@ class MainPanel extends Component {
                     </Grid.Row>
                     <Grid.Row>
                         <Grid.Column>
-                            <DonorMenu />
+                            {isDonor ? <DonorMenu /> : <RecipientMenu />}
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
