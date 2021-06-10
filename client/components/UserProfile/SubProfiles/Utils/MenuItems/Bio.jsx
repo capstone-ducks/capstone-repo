@@ -7,11 +7,30 @@ class Bio extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+        this.formatPhoneNumber = this.formatPhoneNumber.bind(this);
+    }
+
+    formatPhoneNumber(phoneNumberString) {
+        const cleaned = ("" + phoneNumberString).replace(/\D/g, "");
+        const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+
+        if (match) {
+            return "(" + match[1] + ") " + match[2] + "-" + match[3];
+        }
+        return null;
     }
 
     render() {
-        const { email, publicKey, cryptoAddress, firstName, lastName } =
-            this.props.user;
+        const {
+            email,
+            publicKey,
+            cryptoAddress,
+            firstName,
+            lastName,
+            phone,
+            gender,
+            race,
+        } = this.props.user;
 
         return (
             <React.Fragment>
@@ -38,7 +57,10 @@ class Bio extends Component {
                                 <p className="row-title">Phone:</p>
                             </Grid.Column>
                             <Grid.Column width={8}>
-                                <p>No Number Found</p>
+                                <p>
+                                    {this.formatPhoneNumber(phone) ||
+                                        "No Number Found"}
+                                </p>
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
@@ -54,7 +76,7 @@ class Bio extends Component {
                                 <p className="row-title">Email:</p>
                             </Grid.Column>
                             <Grid.Column width={8}>
-                                <p>{email}</p>
+                                <p>{email || "No Information Found"}</p>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
@@ -77,7 +99,7 @@ class Bio extends Component {
                                 <p className="row-title">Gender:</p>
                             </Grid.Column>
                             <Grid.Column width={8}>
-                                <p>No Information</p>
+                                <p>{gender || "No Information"}</p>
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
@@ -85,7 +107,7 @@ class Bio extends Component {
                                 <p className="row-title">Race:</p>
                             </Grid.Column>
                             <Grid.Column width={8}>
-                                <p>No Information</p>
+                                <p>{race || "No Information"}</p>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
