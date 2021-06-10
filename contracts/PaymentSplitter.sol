@@ -20,9 +20,11 @@ contract PaymentSplitter is Context {
     event PayeeAdded(address account, uint256 shares);
     event PaymentReleased(address to, uint256 amount);
     event PaymentReceived(address from, uint256 amount);
+
     //address public owner;
     uint256 private _totalShares;
     uint256 private _totalReleased;
+
     mapping(address => uint256) private _shares;
     mapping(address => uint256) private _released;
     address[] private _payees;
@@ -42,14 +44,14 @@ contract PaymentSplitter is Context {
      // sending msg to the contract w/ some data is like sending a get request, msg.sender is like a request
 
 // if we can handle multiple donation kickoffs, then we only need one contract instance.
-    constructor ()  {
+    constructor(address[] memory payees, uint256[] memory shares_) payable
         // owner = msg.sender;
-        // solhint-disable-next-line max-line-length
-        // require(payees.length == shares_.length, "PaymentSplitter: payees and shares length mismatch");
-        // require(payees.length > 0, "PaymentSplitter: no payees");
-        // for (uint256 i = 0; i < payees.length; i++) {
-        //     _addPayee(payees[i], shares_[i]);
-        // }
+        require(payees.length == shares_.length, "PaymentSplitter: payees and shares length mismatch");
+        require(payees.length > 0, "PaymentSplitter: no payees");
+        for (uint256 i = 0; i < payees.length; i++) {
+            _addPayee(payees[i], shares_[i]);
+        }
+
     }
     /**
      * @dev The Ether received will be logged with {PaymentReceived} events. Note that these events are not fully
@@ -64,14 +66,14 @@ contract PaymentSplitter is Context {
         emit PaymentReceived(_msgSender(), msg.value);
     }
 
-    function DonationKickOff (address[] memory payees, uint256[] memory shares_) public payable {
-        // solhint-disable-next-line max-line-length
-        require(payees.length == shares_.length, "PaymentSplitter: payees and shares length mismatch");
-        require(payees.length > 0, "PaymentSplitter: no payees");
-        for (uint256 i = 0; i < payees.length; i++) {
-            _addPayee(payees[i], shares_[i]);
-        }
-    }
+    // function DonationKickOff (address[] memory payees, uint256[] memory shares_) public payable {
+    //     // solhint-disable-next-line max-line-length
+    //     require(payees.length == shares_.length, "PaymentSplitter: payees and shares length mismatch");
+    //     require(payees.length > 0, "PaymentSplitter: no payees");
+    //     for (uint256 i = 0; i < payees.length; i++) {
+    //         _addPayee(payees[i], shares_[i]);
+    //     }
+    // }
      /**
      * @dev Getter for the total shares held by payees.
      */
