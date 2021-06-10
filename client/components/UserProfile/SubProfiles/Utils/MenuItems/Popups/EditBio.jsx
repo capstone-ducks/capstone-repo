@@ -55,11 +55,11 @@ class EditBio extends Component {
                 open={open}
                 trigger={this.props.trigger}
             >
-                <Modal.Header>Select a Photo</Modal.Header>
+                <Modal.Header>Edit Information</Modal.Header>
                 <Modal.Content image>
                     <Image size="medium" src={nanPic} wrapped />
                     <Modal.Description>
-                        <Header>Default Profile Image</Header>
+                        <Header>Personal Information</Header>
                         <Form>
                             <Form.Group widths="equal">
                                 <Form.Field
