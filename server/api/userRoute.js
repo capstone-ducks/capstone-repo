@@ -52,7 +52,7 @@ router.put("/:id", async (req, res, next) => {
         if (firstName) user.firstName = firstName;
         if (lastName) user.lastName = lastName;
         if (email) user.email = email;
-        if (phone && phone.length === 10) user.phone = phone.split(); // Database takes an array for phone
+        if (phone) user.phone = phone;
         if (race) user.race = race;
         if (gender) user.gender = gender;
 
@@ -64,7 +64,6 @@ router.put("/:id", async (req, res, next) => {
 
         res.status(200).send(updatedUser);
     } catch (error) {
-        console.error(error);
         next(error);
     }
 });
