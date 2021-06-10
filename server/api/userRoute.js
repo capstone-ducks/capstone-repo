@@ -23,13 +23,27 @@ router.post("/", async (req, res, next) => {
 
 router.put("/:id", async (req, res, next) => {
     try {
-        if (req.user.id === req.params.id) {
-            const updateData = req.body;
-            const { id } = req.params;
-            const userToBeUpdated = await User.findByPk(id);
-            const editedUser = await userToBeUpdated.update(updateData);
-            res.send(editedUser.dataValues).status(204);
-        }
+        const { id } = req.params;
+        const { firstName, lastName, email, phone, gender, race } = req.body;
+
+        // Finds user
+        let user = await User.findOne({ where: { id } });
+
+        // Make changes
+        if (firstName) user.firstName = firstName;
+        if (lastName) user.lastName = lastName;
+        if (email) user.email = email;
+        if (phone) user.phone = phone;
+        if (race) user.race = race;
+        if (gender) user.gender = gender;
+
+        // Save changes
+        await user.save();
+
+        // Get updated user
+        let updatedUser = await User.findOne({ where: { id } });
+
+        res.status(200).send(updatedUser);
     } catch (error) {
         next(error);
     }

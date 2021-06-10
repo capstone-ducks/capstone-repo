@@ -11,7 +11,18 @@ export const addUser = (newUser) => {
 
 export const updateExistingUser = ({ newUserData, id }) => {
     return async (dispatch) => {
-        const { data: user } = await axios.put(`/api/users/${id}`, newUserData);
+        const token = window.localStorage.getItem("token");
+
+        // Requires a token to edit!
+        const { data: user } = await axios.put(
+            `/api/users/${id}`,
+            newUserData,
+            {
+                headers: {
+                    authorization: token,
+                },
+            },
+        );
         dispatch(updateUser(user));
     };
 };
