@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const User = require("../db/model/User");
 
+// Errors
+const { notFound, badSyntax, conflict, unauthorized } = require("./errors");
+
 //post routes
 
 router.post("/", async (req, res, next) => {
@@ -23,13 +26,43 @@ router.post("/", async (req, res, next) => {
 
 router.put("/:id", async (req, res, next) => {
     try {
-        if (req.user.id === req.params.id) {
-            const updateData = req.body;
-            const { id } = req.params;
-            const userToBeUpdated = await User.findByPk(id);
-            const editedUser = await userToBeUpdated.update(updateData);
-            res.send(editedUser.dataValues).status(204);
+        const { id } = req.params;
+        const { firstName, lastName, email, phone, gender, race } = req.body;
+
+        // Need token to prove you have the authentication to edit yourself
+        const token = req.headers.authorization;
+        if (!token) throw unauthorized("Invalid credentials");
+
+        // Finds user who made request
+        const requestor = await User.byToken(token);
+        if (!requestor) throw unauthorized("Invalid credentials");
+
+        // Prevents anybody from accessing this route and editing people
+        if (requestor.id !== parseInt(id)) {
+            throw unauthorized("Invalid credentials");
         }
+
+        // Finds user
+        let user = await User.findOne({ where: { id } });
+
+        // If no user, 404
+        if (!user) throw notFound("User not found");
+
+        // Make changes
+        if (firstName) user.firstName = firstName;
+        if (lastName) user.lastName = lastName;
+        if (email) user.email = email;
+        if (phone) user.phone = phone;
+        if (race) user.race = race;
+        if (gender) user.gender = gender;
+
+        // Save changes
+        await user.save();
+
+        // Get updated user
+        let updatedUser = await User.findOne({ where: { id } });
+
+        res.status(200).send(updatedUser);
     } catch (error) {
         next(error);
     }

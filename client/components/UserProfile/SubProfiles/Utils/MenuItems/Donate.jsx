@@ -20,10 +20,10 @@ class Donate extends Component {
             activeIndices: [],
             donorFirstName: props.user.firstName,
             donorLastName: props.user.lastName,
-            donorGender: "",
-            donorEmail: props.user.email,
-            donorPhone: "",
-            donorRace: "",
+            donorGender: props.user.gender || "",
+            donorEmail: props.user.email || "",
+            donorPhone: props.user.phone || "",
+            donorRace: props.user.race || "",
             donorFirstNameError: false,
             donorLastNameError: false,
             donorEmailError: false,
@@ -36,7 +36,7 @@ class Donate extends Component {
             agreeToTerms: false,
             metaMaskInstalled: false,
             clientWalletAddress: "",
-            paymentContract: '',
+            paymentContract: "",
         };
         this.handleEdit = this.handleEdit.bind(this);
         this.handleClick = this.handleClick.bind(this);
@@ -58,19 +58,23 @@ class Donate extends Component {
                 const networkId = await web3.eth.net.getId();
                 const networkData = PaymentSplitter.networks[networkId];
                 if (networkData) {
-                    const paymentContract = new web3.eth.Contract(PaymentSplitter.abi, networkData.address);
+                    const paymentContract = new web3.eth.Contract(
+                        PaymentSplitter.abi,
+                        networkData.address,
+                    );
                     this.setState({
                         metaMaskInstalled,
                         paymentContract,
                         clientWalletAddress,
                         exchangeRate: parseFloat(await getExchangeRate()),
                     });
-                }
-                else {
+                } else {
                     this.setState({
                         exchangeRate: parseFloat(await getExchangeRate()),
-                    })
-                    window.alert('PaymentSplitter contract not deployed to detect network');
+                    });
+                    window.alert(
+                        "PaymentSplitter contract not deployed to detect network",
+                    );
                 }
             }
         } catch (err) {
@@ -108,21 +112,30 @@ class Donate extends Component {
 
         return accounts[0];
     }
-// detailEthTotal, detailNumRecipients
+    // detailEthTotal, detailNumRecipients
     donate() {
-        const amountEthToWei = web3.utils.toHex(web3.utils.toWei(this.state.detailEthTotal.toString(), 'ether'));
+        const amountEthToWei = web3.utils.toHex(
+            web3.utils.toWei(this.state.detailEthTotal.toString(), "ether"),
+        );
         // console.log(amountEthToWei)
-        console.log('DONATE FUNC', this.state.paymentContract.methods.DonationKickOff(["0x71e810d1Fb275664a91840fcc3bADEe1F07De00B"],[Number(this.state.detailNumRecipients)])
-        // .release('0xf74C90a70f6657e77d9Ef950ebF3449A8b3136C4')
-        .send({
-            from: '0xd9dfa1c796354E3f26648408851AFb89059d6355',
-            value: amountEthToWei.toString(),
-            gas: 6721975 // should match given gas limit from ganache
-        }).then(function(receipt){
-            // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
-            console.log(receipt)
-        })
-        )
+        console.log(
+            "DONATE FUNC",
+            this.state.paymentContract.methods
+                .DonationKickOff(
+                    ["0x71e810d1Fb275664a91840fcc3bADEe1F07De00B"],
+                    [Number(this.state.detailNumRecipients)],
+                )
+                // .release('0xf74C90a70f6657e77d9Ef950ebF3449A8b3136C4')
+                .send({
+                    from: "0xd9dfa1c796354E3f26648408851AFb89059d6355",
+                    value: amountEthToWei.toString(),
+                    gas: 6721975, // should match given gas limit from ganache
+                })
+                .then(function (receipt) {
+                    // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
+                    console.log(receipt);
+                }),
+        );
     }
 
     // Handles Form Field Edits

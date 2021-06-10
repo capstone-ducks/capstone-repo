@@ -25,6 +25,62 @@ User.init(
                 isEmail: true,
             },
         },
+        phone: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
+            allowNull: true,
+            unique: false,
+            validate: {
+                isValidPhoneNumber: function (value) {
+                    if (!value) return value;
+
+                    const regexp = /^[0-9]+$/;
+                    const values = Array.isArray(value) ? value : [value];
+
+                    values.forEach(function (val) {
+                        if (!regexp.test(val)) {
+                            throw new Error("Number only is allowed.");
+                        }
+                    });
+                    return value;
+                },
+            },
+        },
+        gender: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            unique: false,
+            validate: {
+                isIn: [
+                    [
+                        "Male",
+                        "Female",
+                        "Transgender",
+                        "Non-Binary",
+                        "Other",
+                        "Prefer Not to Answer",
+                    ],
+                ],
+            },
+        },
+        race: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            unique: false,
+            validate: {
+                isIn: [
+                    [
+                        "White",
+                        "Black / African American",
+                        "Hispanic or Latino",
+                        "Asian",
+                        "American Indian or Alaska Native",
+                        "Native Hawaiian or Other Pacific Islander",
+                        "Multiracial",
+                        "Prefer Not to Answer",
+                    ],
+                ],
+            },
+        },
         password: {
             type: DataTypes.STRING,
             allowNull: false,
