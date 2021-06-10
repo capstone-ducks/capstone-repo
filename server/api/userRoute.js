@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const User = require("../db/model/User");
 
+// Errors
+const { notFound, badSyntax, conflict, unauthorized } = require("./errors");
+
 //post routes
 
 router.post("/", async (req, res, next) => {
@@ -26,8 +29,24 @@ router.put("/:id", async (req, res, next) => {
         const { id } = req.params;
         const { firstName, lastName, email, phone, gender, race } = req.body;
 
+        // Need token to prove you have the authentication to edit yourself
+        const token = req.headers.authorization;
+        if (!token) throw unauthorized("Invalid credentials");
+
+        // Finds user who made request
+        const requestor = await User.findByToken(token);
+        if (!requestor) throw unauthorized("Invalid credentials");
+
+        // Prevents anybody from accessing this route and editing people
+        if (requestor.id !== parseInt(id)) {
+            throw unauthorized("Invalid credentials");
+        }
+
         // Finds user
         let user = await User.findOne({ where: { id } });
+
+        // If no user, 404
+        if (!user) throw notFound("User not found");
 
         // Make changes
         if (firstName) user.firstName = firstName;
