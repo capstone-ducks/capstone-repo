@@ -42,12 +42,7 @@ class DonateNowPaymentForm extends Component {
             // making dynamic network
             const networkId = await web3.eth.net.getId();
             const networkData = PaymentSplitter.networks[networkId];
-            if (networkData) {
-                // const paymentContract = new web3.eth.Contract(PaymentSplitter.abi, networkData.address);
-                // // console.log('PAYMENT CONTRACT', paymentContract)
-                // const accounts= await web3.eth.getAccounts();
-                // // console.log(accounts, 'Acounts!!')
-                
+            if (networkData) {     
                 this.setState({
                     metaMaskInstalled,
                     clientWalletAddress,
@@ -161,7 +156,7 @@ class DonateNowPaymentForm extends Component {
         // create contract instance
         const paymentContract = new web3.eth.Contract(PaymentSplitter.abi);
         // console.log(PaymentSplitter.bytecode)
-        
+
         //create constructor Tx
         const paymentTx = paymentContract.deploy({
             data: PaymentSplitter.bytecode,
