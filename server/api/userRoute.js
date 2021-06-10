@@ -28,7 +28,6 @@ router.put("/:id", async (req, res, next) => {
     try {
         const { id } = req.params;
         const { firstName, lastName, email, phone, gender, race } = req.body;
-        console.log(req.body);
 
         // Need token to prove you have the authentication to edit yourself
         const token = req.headers.authorization;
@@ -63,10 +62,8 @@ router.put("/:id", async (req, res, next) => {
         // Get updated user
         let updatedUser = await User.findOne({ where: { id } });
 
-        console.log(updatedUser);
         res.status(200).send(updatedUser);
     } catch (error) {
-        console.error(error);
         next(error);
     }
 });
