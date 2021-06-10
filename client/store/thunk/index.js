@@ -1,4 +1,4 @@
-import { addUser } from "./users";
+import { addUser, updateExistingUser } from "./users";
 import { signIn, logOutUser } from "./auth";
 
-export { signIn, logOutUser, addUser };
+export { signIn, logOutUser, addUser, updateExistingUser };

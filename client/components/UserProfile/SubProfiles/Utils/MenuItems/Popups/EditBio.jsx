@@ -11,6 +11,7 @@ import {
 import nanPic from "../../../../../../../public/images/profile-pictures/nan.png";
 import { connect } from "react-redux";
 import { genderOptions, raceOptions } from "../DonateFormItems";
+import { updateExistingUser } from "../../../../../../store/thunk";
 
 class EditBio extends Component {
     constructor(props) {
@@ -19,10 +20,10 @@ class EditBio extends Component {
             open: false,
             firstName: props.user.firstName,
             lastName: props.user.lastName,
-            gender: props.user.gender,
-            email: props.user.email,
-            phone: props.user.phone,
-            race: props.user.race,
+            gender: props.user.gender || "",
+            email: props.user.email || "",
+            phone: props.user.phone || "",
+            race: props.user.race || "",
         };
 
         this.setOpen = this.setOpen.bind(this);
@@ -38,15 +39,24 @@ class EditBio extends Component {
         this.setState({ [name]: value });
     }
 
-    handleSubmit() {
-        console.log("hi");
+    async handleSubmit() {
+        const { firstName, lastName, gender, email, phone, race } = this.state;
+        const { id } = this.props.user;
+
+        // Payload object to update user
+        const payload = {
+            data: { firstName, lastName, gender, email, phone, race },
+            id,
+        };
+
+        await this.props.updateUser(payload);
+
         this.setOpen(false);
     }
 
     render() {
         const { firstName, lastName, gender, email, phone, race, open } =
             this.state;
-        console.log(this.props.user, this.state);
 
         return (
             <Modal
@@ -143,4 +153,11 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(EditBio);
+function mapDispatchToProps(dispatch) {
+    return {
+        updateUser: ({ data, id }) =>
+            dispatch(updateExistingUser({ data, id })),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditBio);

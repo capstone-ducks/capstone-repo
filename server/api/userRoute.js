@@ -28,13 +28,14 @@ router.put("/:id", async (req, res, next) => {
     try {
         const { id } = req.params;
         const { firstName, lastName, email, phone, gender, race } = req.body;
+        console.log(req.body);
 
         // Need token to prove you have the authentication to edit yourself
         const token = req.headers.authorization;
         if (!token) throw unauthorized("Invalid credentials");
 
         // Finds user who made request
-        const requestor = await User.findByToken(token);
+        const requestor = await User.byToken(token);
         if (!requestor) throw unauthorized("Invalid credentials");
 
         // Prevents anybody from accessing this route and editing people
@@ -62,8 +63,10 @@ router.put("/:id", async (req, res, next) => {
         // Get updated user
         let updatedUser = await User.findOne({ where: { id } });
 
+        console.log(updatedUser);
         res.status(200).send(updatedUser);
     } catch (error) {
+        console.error(error);
         next(error);
     }
 });
