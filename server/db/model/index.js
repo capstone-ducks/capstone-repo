@@ -6,9 +6,11 @@ const DonationsRecipients = require("./DonationsRecipients");
 Donation.belongsTo(User, {
     as: "donor",
 });
-User.hasMany(Donation, {
-    as: "donation",
-});
+
+// Possibly redundant, come back to me please!
+// User.hasMany(Donation, {
+//     as: "donation",
+// });
 
 Donation.belongsToMany(User, {
     through: DonationsRecipients,
@@ -23,5 +25,5 @@ User.belongsToMany(Donation, {
 });
 
 module.exports = {
-    models: { User, Donation },
+    models: { User, Donation, DonationsRecipients },
 };
