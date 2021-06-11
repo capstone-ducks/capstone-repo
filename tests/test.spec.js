@@ -96,16 +96,16 @@ describe("Models", () => {
             // );
         });
     });
-    describe("Donation Model", () => {
-        it("Donation Model exists", async () => {
-            const donation = await Donation.build({
-                amount: 150.5,
-                donorId: 1,
-                recipientId: 2,
-            });
-            expect(donation.amount).to.equal(150.5);
-        });
-    });
+    // describe("Donation Model", () => {
+    //     it("Donation Model exists", async () => {
+    //         const donation = await Donation.build({
+    //             amount: 150.5,
+    //             donorId: 1,
+    //             recipientId: 2,
+    //         });
+    //         expect(donation.amount).to.equal(150.5);
+    //     });
+    // });
 });
 
 // describe("Routes", () => {

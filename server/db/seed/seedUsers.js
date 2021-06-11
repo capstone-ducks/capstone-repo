@@ -1,6 +1,6 @@
 const db = require("../db");
 const {
-    models: { User, Donation },
+    models: { User, Donation, DonationsRecipients },
 } = require("../model/index");
 
 const faker = require("faker");
@@ -42,16 +42,34 @@ const seedUsers = async () => {
             },
         });
 
-        // let transactionArr = [];
-        // for(let i = 0; i < 9; i++){
-        //     const transaction = new Transaction({
-        //         amount: (Math.floor(Math.random() * 300)),
-        //         donorId: testDonors[Math.floor(Math.random() * testDonors.length)].id,
-        //         recipientId: testRecipients[Math.floor(Math.random() * testRecipients.length)].id
+        let donationArr = [];
+        let donationRecipientArr = [];
+        // for (let i = 0; i < 9; i++) {
+        //     const amount = Math.floor(Math.random() * 300);
+        //     const donation = new Donation({
+        //         id: i,
+        //         amount,
+        //         transactionHash: "fadslfaksdjhflkadjshflkasdj",
+        //         contractAddress: "Gadfdsfadsfasdfadf",
+        //         donorId:
+        //             testDonors[
+        //                 Math.floor(Math.random() * testDonors.length - 1)
+        //             ].id,
         //     }).save();
-        //     transactionArr.push(transaction);
+
+        //     for (let j = 0; j < 3; j++) {
+        //         const donationRecipient = new DonationsRecipients({
+        //             amountOwed: amount / 3,
+        //             donationId: i,
+        //             recipientId:
+        //                 testDonors[
+        //                     Math.floor(Math.random() * testDonors.length)
+        //                 ].id,
+        //         }).save();
+        //         donationRecipientArr.push(donationRecipient);
+        //     }
+        //     donationArr.push(donation);
         // }
-        // await Promise.all(transactionArr);
 
         const donorTest = await User.create({
             firstName: "Ms.",
@@ -70,6 +88,76 @@ const seedUsers = async () => {
             isDonor: false,
         });
         recipTest.save();
+
+        const donationTest1 = new Donation({
+            id: 1,
+            amount: 500,
+            transactionHash: "IAMDONATION1",
+            contractAddress: "CONTRACTSHOULDBETHESAME",
+            donorId: 1,
+        }).save();
+
+        const donationTest2 = new Donation({
+            id: 2,
+            amount: 10000,
+            transactionHash: "IAM_DONATION_2",
+            contractAddress: "CONTRACTSHOULDBETHESAME",
+            donorId: 1,
+        }).save();
+
+        const donationTest3 = new Donation({
+            id: 3,
+            amount: 9000000,
+            transactionHash: "IAM_DONATION_3!!!!",
+            contractAddress: "CONTRACTSHOULDBETHESAME",
+            donorId: 2,
+        }).save();
+
+        const donationRecipient1 = new DonationsRecipients({
+            amountOwed: 500 / 2,
+            donationId: 1,
+            recipientId: 3,
+        }).save();
+
+        const donationRecipient2 = new DonationsRecipients({
+            amountOwed: 500 / 2,
+            donationId: 1,
+            recipientId: 4,
+        }).save();
+
+        const donationRecipient3 = new DonationsRecipients({
+            amountOwed: 10000 / 3,
+            donationId: 2,
+            recipientId: 3,
+        }).save();
+
+        const donationRecipient4 = new DonationsRecipients({
+            amountOwed: 10000 / 3,
+            donationId: 2,
+            recipientId: 5,
+        }).save();
+
+        const donationRecipient5 = new DonationsRecipients({
+            amountOwed: 10000 / 3,
+            donationId: 2,
+            recipientId: 6,
+        }).save();
+
+        const donationRecipient6 = new DonationsRecipients({
+            amountOwed: 9000000,
+            donationId: 3,
+            recipientId: 9,
+        }).save();
+
+        await Promise.all([donationTest1, donationTest2, donationTest3]);
+        await Promise.all([
+            donationRecipient1,
+            donationRecipient2,
+            donationRecipient3,
+            donationRecipient4,
+            donationRecipient5,
+            donationRecipient6,
+        ]);
     } catch (err) {
         console.error(err);
     }

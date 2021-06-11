@@ -1,9 +1,9 @@
 const router = require("express").Router();
 const {
-    models: { User, Donation },
+    models: { User, Donation, DonationsRecipients },
 } = require("../db/model/index");
 
-//get all donations
+// get all donations
 router.get("/", async (req, res, next) => {
     try {
         const donations = await Donation.findAll({
@@ -12,10 +12,7 @@ router.get("/", async (req, res, next) => {
                     model: User,
                     as: "donor",
                 },
-                {
-                    model: User,
-                    as: "recipient",
-                },
+                { model: DonationsRecipients },
             ],
         });
 
@@ -27,12 +24,13 @@ router.get("/", async (req, res, next) => {
     }
 });
 
-//get all of a users donations
+// get one donation by id
 router.get("/:id", async (req, res, next) => {
     try {
         const { id } = req.params;
         const user = await User.findByPk(id);
         let donations = {};
+
         if (user.isDonor === true) {
             donations = await Donation.findAll({
                 where: {
