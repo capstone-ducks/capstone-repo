@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Form, Accordion } from "semantic-ui-react";
 import MetaMaskOnboarding from "@metamask/onboarding";
 import Web3 from "web3";
-import PaymentSplitter from "../../../../../../build/contracts/PaymentSplitter.json";
+import DonationContract from "../../../../../../build/contracts/DonationContract.json";
 
 import {
     DonorInformation,
@@ -36,7 +36,7 @@ class Donate extends Component {
             agreeToTerms: false,
             metaMaskInstalled: false,
             clientWalletAddress: "",
-            paymentContract: "",
+            donationContract: "",
         };
         this.handleEdit = this.handleEdit.bind(this);
         this.handleClick = this.handleClick.bind(this);
@@ -56,15 +56,15 @@ class Donate extends Component {
                 const web3 = window.web3;
                 // making dynamic network
                 const networkId = await web3.eth.net.getId();
-                const networkData = PaymentSplitter.networks[networkId];
+                const networkData = DonationContract.networks[networkId];
                 if (networkData) {
-                    const paymentContract = new web3.eth.Contract(
-                        PaymentSplitter.abi,
+                    const donationContract = new web3.eth.Contract(
+                        DonationContract.abi,
                         networkData.address,
                     );
                     this.setState({
                         metaMaskInstalled,
-                        paymentContract,
+                        donationContract,
                         clientWalletAddress,
                         exchangeRate: parseFloat(await getExchangeRate()),
                     });
@@ -73,7 +73,7 @@ class Donate extends Component {
                         exchangeRate: parseFloat(await getExchangeRate()),
                     });
                     window.alert(
-                        "PaymentSplitter contract not deployed to detect network",
+                        "Donation Contract not deployed to detect network",
                     );
                 }
             }
@@ -93,7 +93,6 @@ class Donate extends Component {
         // Have to check the ethereum binding on the window object to see if it's installed
         const { ethereum } = window;
         const metaMaskInstalled = Boolean(ethereum && ethereum.isMetaMask);
-
         return metaMaskInstalled;
     }
 
@@ -113,28 +112,30 @@ class Donate extends Component {
         return accounts[0];
     }
     // detailEthTotal, detailNumRecipients
-    donate() {
-        const amountEthToWei = web3.utils.toHex(
+    async donate() {
+        const amountEthToWei = await web3.utils.toHex(
             web3.utils.toWei(this.state.detailEthTotal.toString(), "ether"),
         );
-        // console.log(amountEthToWei)
+        const donationId = await Math.floor(Math.random()*100);
         console.log(
             "DONATE FUNC",
-            this.state.paymentContract.methods
-                .DonationKickOff(
-                    ["0x71e810d1Fb275664a91840fcc3bADEe1F07De00B"],
-                    [Number(this.state.detailNumRecipients)],
+            await this.state.donationContract
+            .methods
+                .createDonation(
+                    // TODO: will need to dynamically generate donation id
+                    donationId,
+                    ["0xd9dfa1c796354E3f26648408851AFb89059d6355"],
+                    Number(this.state.detailNumRecipients),
                 )
-                // .release('0xf74C90a70f6657e77d9Ef950ebF3449A8b3136C4')
-                .send({
-                    from: "0xd9dfa1c796354E3f26648408851AFb89059d6355",
-                    value: amountEthToWei.toString(),
-                    gas: 6721975, // should match given gas limit from ganache
-                })
-                .then(function (receipt) {
-                    // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
-                    console.log(receipt);
-                }),
+                    .send({
+                        from: this.state.clientWalletAddress,
+                        value: amountEthToWei.toString(),
+                        gas: 6721975, // should match given gas limit from ganache
+                    })
+                        .then(function (receipt) {
+                            // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
+                            console.log(receipt);
+                        })
         );
     }
 
