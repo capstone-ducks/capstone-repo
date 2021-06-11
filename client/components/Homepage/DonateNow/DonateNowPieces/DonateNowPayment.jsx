@@ -3,7 +3,7 @@ import { Form, Image, Message, Icon } from "semantic-ui-react";
 import ethereumLogo from "../../../../../public/images/ethereum-logo.svg";
 import MetaMaskOnboarding from "@metamask/onboarding";
 import Web3 from "web3";
-import PaymentSplitter from '../../../../../build/contracts/PaymentSplitter.json';
+// import PaymentSplitter from '../../../../../build/contracts/PaymentSplitter.json';
 
 // TODO
 // donor should input ethereum amount into form, that amount is sent to

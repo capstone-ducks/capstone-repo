@@ -11,6 +11,7 @@ const webpackConfig = {
         path: path.join(__dirname, "./public/dist"),
         filename: "main.js",
     },
+    devtool: "eval-cheap-source-map",
     module: {
         rules: [
             {
