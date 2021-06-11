@@ -18,6 +18,10 @@ Donation.init(
             allowNull: false,
             defaultValue: 0.0,
         },
+        numRecipients: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
         transactionHash: {
             type: DataTypes.STRING,
             allowNull: false,
