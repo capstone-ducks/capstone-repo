@@ -78,7 +78,7 @@ const seedUsers = async () => {
             password: "123",
             isDonor: true,
         });
-        donor1.save();
+        // donor1.save();
 
         const donor2 = await User.create({
             firstName: "Mr.",
@@ -87,7 +87,7 @@ const seedUsers = async () => {
             password: "123",
             isDonor: true,
         });
-        donor2.save();
+        // donor2.save();
 
         const recipient1 = await User.create({
             firstName: "Tiny",
@@ -96,7 +96,7 @@ const seedUsers = async () => {
             password: "123",
             isDonor: false,
         });
-        recipient1.save();
+        // recipient1.save();
 
         const recipient2 = await User.create({
             firstName: "Billy",
@@ -105,7 +105,6 @@ const seedUsers = async () => {
             password: "123",
             isDonor: false,
         });
-        recipient2.save();
 
         const recipient3 = await User.create({
             firstName: "Joe",
@@ -114,7 +113,6 @@ const seedUsers = async () => {
             password: "123",
             isDonor: false,
         });
-        recipient3.save();
 
         const recipient4 = await User.create({
             firstName: "Jane",
@@ -123,7 +121,6 @@ const seedUsers = async () => {
             password: "123",
             isDonor: false,
         });
-        recipient4.save();
 
         const donation1 = await Donation.create({
             id: 1,
@@ -133,7 +130,6 @@ const seedUsers = async () => {
             contractAddress: "CONTRACTSHOULDBETHESAME",
             donorId: 1,
         });
-        donation1.save();
 
         const donation2 = await Donation.create({
             id: 2,
@@ -143,7 +139,6 @@ const seedUsers = async () => {
             contractAddress: "CONTRACTSHOULDBETHESAMEASTHIS",
             donorId: 2,
         });
-        donation2.save();
 
         const donationsRecipients1 = await DonationsRecipients.create({
             id: 1,
