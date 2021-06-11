@@ -1,6 +1,6 @@
 const db = require("../db");
 const {
-    models: { User, Transaction },
+    models: { User, Donation },
 } = require("../model/index");
 
 const faker = require("faker");
@@ -33,44 +33,43 @@ const seedUsers = async () => {
         //create transactions
         const testDonors = await User.findAll({
             where: {
-              isDonor: true,
+                isDonor: true,
             },
         });
         const testRecipients = await User.findAll({
             where: {
-              isDonor: false,
+                isDonor: false,
             },
         });
 
-        let transactionArr = [];
-        for(let i = 0; i < 9; i++){
-            const transaction = new Transaction({
-                amount: (Math.floor(Math.random() * 300)),
-                donorId: testDonors[Math.floor(Math.random() * testDonors.length)].id,
-                recipientId: testRecipients[Math.floor(Math.random() * testRecipients.length)].id
-            }).save();
-            transactionArr.push(transaction);
-        }
-        await Promise.all(transactionArr);
+        // let transactionArr = [];
+        // for(let i = 0; i < 9; i++){
+        //     const transaction = new Transaction({
+        //         amount: (Math.floor(Math.random() * 300)),
+        //         donorId: testDonors[Math.floor(Math.random() * testDonors.length)].id,
+        //         recipientId: testRecipients[Math.floor(Math.random() * testRecipients.length)].id
+        //     }).save();
+        //     transactionArr.push(transaction);
+        // }
+        // await Promise.all(transactionArr);
 
         const donorTest = await User.create({
-            firstName: 'Ms.',
-            lastName: 'Moneybags',
-            email: 'donortest@gmail.com',
-            password: '123',
-            isDonor: true
-        })
+            firstName: "Ms.",
+            lastName: "Moneybags",
+            email: "donortest@gmail.com",
+            password: "123",
+            isDonor: true,
+        });
         donorTest.save();
 
         const recipTest = await User.create({
-            firstName: 'Tiny',
-            lastName: 'Tim',
-            email: 'recipienttest@gmail.com',
-            password: '123',
-            isDonor: false
-        })
+            firstName: "Tiny",
+            lastName: "Tim",
+            email: "recipienttest@gmail.com",
+            password: "123",
+            isDonor: false,
+        });
         recipTest.save();
-
     } catch (err) {
         console.error(err);
     }

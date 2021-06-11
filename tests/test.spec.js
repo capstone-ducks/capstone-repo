@@ -1,15 +1,15 @@
 const { expect } = require("chai");
 //const { syncAndSeed } = require("../server/db");
-const {app} = require("../server");
+const { app } = require("../server");
 const _app = require("supertest");
 const axios = require("axios");
-const Sequelize = require('sequelize');
+const Sequelize = require("sequelize");
 const request = _app(app);
 
 const {
     db,
     syncAndSeed,
-    models: { User, Transaction},
+    models: { User, Donation },
 } = require("../server/db/index");
 
 describe("Models", () => {
@@ -96,21 +96,21 @@ describe("Models", () => {
             // );
         });
     });
-    describe("Transaction Model", () =>{
-        it('Transaction Model exists', async () => {
-            const transaction = await Transaction.build({
+    describe("Donation Model", () => {
+        it("Donation Model exists", async () => {
+            const donation = await Donation.build({
                 amount: 150.5,
                 donorId: 1,
-                recipientId: 2
-          });
-          expect(transaction.amount).to.equal(150.5);
+                recipientId: 2,
+            });
+            expect(donation.amount).to.equal(150.5);
         });
     });
 });
 
 // describe("Routes", () => {
-//     describe("Transaction API routes", () => { 
-//         it("GET /api/transactions length", async() => {
+//     describe("Donation API routes", () => {
+//         it("GET /api/donations length", async() => {
 //             const response = await request.get("/api/transactions/");
 //             //console.log(response.body.length, 'response');
 //             expect(response.body.length).to.equal(9);
