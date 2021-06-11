@@ -3,7 +3,7 @@ import { Form, Image, Message, Icon } from "semantic-ui-react";
 import ethereumLogo from "../../../../../public/images/ethereum-logo.svg";
 import MetaMaskOnboarding from "@metamask/onboarding";
 import Web3 from "web3";
-import PaymentSplitter from '../../../../../build/contracts/PaymentSplitter.json';
+// import PaymentSplitter from '../../../../../build/contracts/PaymentSplitter.json';
 
 // TODO
 // donor should input ethereum amount into form, that amount is sent to
@@ -35,18 +35,18 @@ class DonateNowPaymentForm extends Component {
             const web3 = window.web3;
             // making dynamic network
             const networkId = await web3.eth.net.getId();
-            const networkData = PaymentSplitter.networks[networkId];
-            if (networkData) {
-                const paymentContract = new web3.eth.Contract(PaymentSplitter.abi, networkData.address);
-                console.log('PAYMENT CONTRACT', paymentContract)
-                this.setState({
-                    metaMaskInstalled,
-                    clientWalletAddress,
-                });
-            }
-            else {
-                window.alert('PaymentSplitter contract not deployed to detect network');
-            }
+            // const networkData = PaymentSplitter.networks[networkId];
+            // if (networkData) {
+            //     const paymentContract = new web3.eth.Contract(PaymentSplitter.abi, networkData.address);
+            //     console.log('PAYMENT CONTRACT', paymentContract)
+            //     this.setState({
+            //         metaMaskInstalled,
+            //         clientWalletAddress,
+            //     });
+            // }
+            // else {
+            //     window.alert('PaymentSplitter contract not deployed to detect network');
+            // }
         }
     }
 
