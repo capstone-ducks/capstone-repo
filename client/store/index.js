@@ -1,10 +1,13 @@
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import thunkMiddleware from "redux-thunk";
 import { createLogger } from "redux-logger";
-import userReducer from './reducers/userReducer';
+import { donationReducer, userReducer } from "./reducers";
 
 // Combined Reducer
-const primaryReducer = combineReducers({auth: userReducer});
+const primaryReducer = combineReducers({
+    auth: userReducer,
+    donations: donationReducer,
+});
 
 // Redux Middleware
 const middleware = applyMiddleware(
