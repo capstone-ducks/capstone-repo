@@ -1,5 +1,7 @@
 const router = require("express").Router();
-const User = require("../db/model/User");
+const {
+    models: { User, Donation, DonationsRecipients },
+} = require("../db");
 
 // Errors
 const { notFound, badSyntax, conflict, unauthorized } = require("./errors");
@@ -88,6 +90,28 @@ router.get("/", async (req, res, next) => {
         const users = await User.findAll();
         res.status(200).send(users);
     } catch (error) {
+        next(error);
+    }
+});
+
+// Gets associated donations with specific user
+router.get("/:id/donations", async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findByPk(id);
+
+        if (user.isDonor) {
+            console.log("hiiiii");
+            const donations = await Donation.findAll({
+                where: { donorId: id },
+            });
+            res.status(200).send(donations);
+        } else {
+            const donations = await user.getDonations();
+            res.status(200).send(donations);
+        }
+    } catch (error) {
+        console.error(error);
         next(error);
     }
 });

@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 4500;
 const morgan = require("morgan");
 require("dotenv").config();
 
-let server = '';
+let server = "";
 
 // Database Import
 const { syncAndSeed } = require("./db");
@@ -28,7 +28,7 @@ app.use(morgan("dev"));
 //
 //
 app.use("/api/users", require("./api/userRoute"));
-app.use("/api/transactions", require("./api/transactionRoute"));
+app.use("/api/donations", require("./api/donationRoute"));
 app.use("/api/auth", require("./api/authRoute"));
 
 // Send the app
@@ -42,24 +42,22 @@ app.use((err, req, res, next) => {
     res.send(err.message || "Internal server error");
 });
 
-
 const init = async () => {
     try {
-      syncAndSeed();
-      if (!module.parent) {
-        server = app.listen(PORT, () =>
-        console.log(`
+        syncAndSeed();
+        if (!module.parent) {
+            server = app.listen(PORT, () =>
+                console.log(`
             Listening on Port ${PORT}
             http://localhost:${PORT}
         `),
-        );
-      }
+            );
+        }
     } catch (error) {
-      console.log(error);
+        console.log(error);
     }
-  }
-  init();
-
+};
+init();
 
 process.on("SIGINT", () => {
     console.log("Bye bye!");

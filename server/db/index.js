@@ -1,23 +1,16 @@
 const db = require("./db");
 const {
-    models: { User, Transaction },
+    models: { User, Donation, DonationsRecipients },
 } = require("./model");
-const syncAndSeed = require("./syncAndSeed");
 
-//associations will go here
-// Transaction.belongsTo(User, {
-//     as: 'donor'
-//   });
-  
-// Transaction.belongsTo(User, {
-//     as: 'recipient'
-// });
+const syncAndSeed = require("./syncAndSeed");
 
 module.exports = {
     syncAndSeed,
     db,
     models: {
         User,
-        Transaction
+        Donation,
+        DonationsRecipients,
     },
 };

@@ -1,6 +1,6 @@
 const db = require("../db");
 const {
-    models: { User, Transaction },
+    models: { User, Donation, DonationsRecipients },
 } = require("../model/index");
 
 const faker = require("faker");
@@ -11,65 +11,176 @@ const seedUsers = async () => {
         // Change this to modify number of users
         const NUM_FAKE_USERS = 10;
 
-        let fakeUsers = [];
-        for (let i = 0; i < NUM_FAKE_USERS; i++) {
-            const isDonor = i > Math.floor(NUM_FAKE_USERS / 2) ? true : false;
+        // let fakeUsers = [];
+        // for (let i = 0; i < NUM_FAKE_USERS; i++) {
+        //     const isDonor = i > Math.floor(NUM_FAKE_USERS / 2) ? true : false;
 
-            const user = new User({
-                firstName: faker.name.firstName(),
-                lastName: faker.name.lastName(),
-                email: faker.internet.email(),
-                password: faker.internet.password(),
-                publicKey: faker.random.alphaNumeric(130),
-                cryptoAddress: faker.random.alphaNumeric(40),
-                isDonor,
-            }).save();
+        //     const user = new User({
+        //         firstName: faker.name.firstName(),
+        //         lastName: faker.name.lastName(),
+        //         email: faker.internet.email(),
+        //         password: faker.internet.password(),
+        //         publicKey: faker.random.alphaNumeric(130),
+        //         cryptoAddress: faker.random.alphaNumeric(40),
+        //         isDonor,
+        //     }).save();
 
-            fakeUsers.push(user);
-        }
+        //     fakeUsers.push(user);
+        // }
 
-        await Promise.all(fakeUsers);
+        // await Promise.all(fakeUsers);
 
         //create transactions
-        const testDonors = await User.findAll({
-            where: {
-              isDonor: true,
-            },
+        // const testDonors = await User.findAll({
+        //     where: {
+        //         isDonor: true,
+        //     },
+        // });
+        // const testRecipients = await User.findAll({
+        //     where: {
+        //         isDonor: false,
+        //     },
+        // });
+
+        let donationArr = [];
+        let donationRecipientArr = [];
+        // for (let i = 0; i < 9; i++) {
+        //     const amount = Math.floor(Math.random() * 300);
+        //     const donation = new Donation({
+        //         id: i,
+        //         amount,
+        //         transactionHash: "fadslfaksdjhflkadjshflkasdj",
+        //         contractAddress: "Gadfdsfadsfasdfadf",
+        //         donorId:
+        //             testDonors[
+        //                 Math.floor(Math.random() * testDonors.length - 1)
+        //             ].id,
+        //     }).save();
+
+        //     for (let j = 0; j < 3; j++) {
+        //         const donationRecipient = new DonationsRecipients({
+        //             amountOwed: amount / 3,
+        //             donationId: i,
+        //             recipientId:
+        //                 testDonors[
+        //                     Math.floor(Math.random() * testDonors.length)
+        //                 ].id,
+        //         }).save();
+        //         donationRecipientArr.push(donationRecipient);
+        //     }
+        //     donationArr.push(donation);
+        // }
+
+        const donor1 = await User.create({
+            firstName: "Ms.",
+            lastName: "Moneybags",
+            email: "donortest1@gmail.com",
+            password: "123",
+            isDonor: true,
         });
-        const testRecipients = await User.findAll({
-            where: {
-              isDonor: false,
-            },
+        // donor1.save();
+
+        const donor2 = await User.create({
+            firstName: "Mr.",
+            lastName: "Moneybags",
+            email: "donortest2@gmail.com",
+            password: "123",
+            isDonor: true,
+        });
+        // donor2.save();
+
+        const recipient1 = await User.create({
+            firstName: "Tiny",
+            lastName: "Tim",
+            email: "recipient@gmail.com",
+            password: "123",
+            isDonor: false,
+        });
+        // recipient1.save();
+
+        const recipient2 = await User.create({
+            firstName: "Billy",
+            lastName: "Valentine",
+            email: "recipient2@gmail.com",
+            password: "123",
+            isDonor: false,
         });
 
-        let transactionArr = [];
-        for(let i = 0; i < 9; i++){
-            const transaction = new Transaction({
-                amount: (Math.floor(Math.random() * 300)),
-                donorId: testDonors[Math.floor(Math.random() * testDonors.length)].id,
-                recipientId: testRecipients[Math.floor(Math.random() * testRecipients.length)].id
-            }).save();
-            transactionArr.push(transaction);
-        }
-        await Promise.all(transactionArr);
+        const recipient3 = await User.create({
+            firstName: "Joe",
+            lastName: "Shmo",
+            email: "recipient3@gmail.com",
+            password: "123",
+            isDonor: false,
+        });
 
-        const donorTest = await User.create({
-            firstName: 'Ms.',
-            lastName: 'Moneybags',
-            email: 'donortest@gmail.com',
-            password: '123',
-            isDonor: true
-        })
-        donorTest.save();
+        const recipient4 = await User.create({
+            firstName: "Jane",
+            lastName: "Shmo",
+            email: "recipient4@gmail.com",
+            password: "123",
+            isDonor: false,
+        });
 
-        const recipTest = await User.create({
-            firstName: 'Tiny',
-            lastName: 'Tim',
-            email: 'recipienttest@gmail.com',
-            password: '123',
-            isDonor: false
-        })
-        recipTest.save();
+        const donation1 = await Donation.create({
+            id: 1,
+            amount: 500,
+            numRecipients: 2,
+            transactionHash: "IAMDONATION1",
+            contractAddress: "CONTRACTSHOULDBETHESAME",
+            donorId: 1,
+        });
+
+        const donation2 = await Donation.create({
+            id: 2,
+            amount: 1000,
+            numRecipients: 3,
+            transactionHash: "SDIFEMCIWE9",
+            contractAddress: "CONTRACTSHOULDBETHESAMEASTHIS",
+            donorId: 2,
+        });
+
+        const donationsRecipients1 = await DonationsRecipients.create({
+            id: 1,
+            donationId: donation1.id,
+            recipientId: recipient1.id,
+            amountOwed: donation1.amount / 2
+        });
+
+        const donationsRecipients2 = await DonationsRecipients.create({
+            id: 2,
+            donationId: donation1.id,
+            recipientId: recipient2.id,
+            amountOwed: donation1.amount / donation1.numRecipients
+        });
+
+        const donationsRecipients3 = await DonationsRecipients.create({
+            id: 3,
+            donationId: donation2.id,
+            recipientId: recipient2.id,
+            amountOwed: donation2.amount / donation2.numRecipients
+        });
+
+        const donationsRecipients4 = await DonationsRecipients.create({
+            id: 4,
+            donationId: donation2.id,
+            recipientId: recipient3.id,
+            amountOwed: donation2.amount / 3
+        });
+
+        const donationsRecipients5 = await DonationsRecipients.create({
+            id: 5,
+            donationId: donation2.id,
+            recipientId: recipient4.id,
+            amountOwed: donation2.amount / 3
+        });
+
+        // Saving to db
+        await donationsRecipients1.save();
+        await donationsRecipients2.save();
+        await donationsRecipients3.save();
+        await donationsRecipients4.save();
+        await donationsRecipients5.save();
 
     } catch (err) {
         console.error(err);
