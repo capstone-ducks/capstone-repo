@@ -2,7 +2,6 @@ const path = require("path");
 const webpack = require("webpack");
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
-
 const webpackConfig = {
     entry: {
         path: path.join(__dirname, "./client/index.jsx"),
@@ -11,6 +10,7 @@ const webpackConfig = {
         path: path.join(__dirname, "./public/dist"),
         filename: "main.js",
     },
+    devtool: "eval-cheap-source-map",
     module: {
         rules: [
             {
@@ -41,14 +41,14 @@ const webpackConfig = {
     },
     resolve: {
         fallback: {
-          "http": require.resolve("stream-http")
-        }
-      },
+            http: require.resolve("stream-http"),
+        },
+    },
     plugins: [
         new webpack.ProvidePlugin({
             process: "process/browser",
         }),
-        new NodePolyfillPlugin()
+        new NodePolyfillPlugin(),
     ],
 };
 
