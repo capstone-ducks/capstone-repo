@@ -21,7 +21,7 @@ export const fetchOneDonation = (id) => {
     };
 };
 
-export const createDonation = (donationData) => {
+export const createDonationThunk = (donationData) => {
     return async (dispatch) => {
         const token = window.localStorage.getItem("token");
 
