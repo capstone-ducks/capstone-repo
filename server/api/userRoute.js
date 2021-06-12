@@ -70,20 +70,6 @@ router.put("/:id", async (req, res, next) => {
     }
 });
 
-//delete routes
-router.delete("/:id", async (req, res, next) => {
-    try {
-        const { id } = req.params;
-
-        const userToBeDeleted = await User.findByPk(id);
-
-        await userToBeDeleted.destroy();
-        res.send(userToBeDeleted).status(204);
-    } catch (error) {
-        next(error);
-    }
-});
-
 
 // Gets associated donations with specific user
 router.get("/:id/donations", async (req, res, next) => {
@@ -113,6 +99,20 @@ router.get("/:id/donations", async (req, res, next) => {
 });
 
 module.exports = router;
+
+
+// router.delete("/:id", async (req, res, next) => {
+//     try {
+//         const { id } = req.params;
+
+//         const userToBeDeleted = await User.findByPk(id);
+
+//         await userToBeDeleted.destroy();
+//         res.send(userToBeDeleted).status(204);
+//     } catch (error) {
+//         next(error);
+//     }
+// });
 
 /* for admin to see a single user's info */
 // router.get('/:id', async (req, res, next) => {

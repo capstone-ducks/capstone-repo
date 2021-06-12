@@ -56,7 +56,14 @@ router.post("/:id/donations", async (req, res, next) => {
         if (!req.body) res.sendStatus(400);
 
         const { donorId } = req.params;
-        const { amount, numRecipients, transactionHash, contractAddress } = req.body;
+        const {
+            amount,
+            numRecipients,
+            transactionHash,
+            contractAddress,
+            // recipient location, etc. data that is selected by donor
+
+        } = req.body;
         const newDonation = await Donation.create({
             id, // can calculate id with a sequelize method that iteratively derives the integer
             amount,
