@@ -103,6 +103,7 @@ router.get("/", async (req, res, next) => {
                 { model: User },
             ],
         });
+        //does not work with a second alias for...reasons?
         //console.log(donations, 'success in get route Donations');
         res.status(200).send(donations);
     } catch (err) {
