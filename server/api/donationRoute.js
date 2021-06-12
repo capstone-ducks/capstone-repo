@@ -59,7 +59,7 @@ router.post("/", async (req, res, next) => {
             id,
             amount,
             numRecipients,
-            donorId
+            donorId,
             transactionHash,
             contractAddress,
             // recipient location, etc. data that is selected by donor
