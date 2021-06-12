@@ -46,6 +46,7 @@ class Donate extends Component {
 
     async componentDidMount() {
         try {
+<<<<<<< HEAD
             const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
             if (metaMaskInstalled) {
                 const clientWalletAddress = await this.getClientWalletAddress();
@@ -77,6 +78,44 @@ class Donate extends Component {
                     );
                 }
             }
+=======
+            this.setState(
+                {
+                    exchangeRate: parseFloat(await getExchangeRate()),
+                },
+                async () => {
+                    const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
+                    if (metaMaskInstalled) {
+                        const clientAddress = await this.getClientAddress();
+
+                        // Gives Web3 Blockchain provider (MetaMask)
+                        window.web3 = new Web3(window.ethereum);
+                        const web3 = window.web3;
+
+                        // making dynamic network
+                        const networkId = await web3.eth.net.getId();
+                        const networkData =
+                            DonationContract.networks[networkId];
+
+                        if (networkData) {
+                            const donationContract = new web3.eth.Contract(
+                                DonationContract.abi,
+                                networkData.address,
+                            );
+
+                            this.setState({
+                                metaMaskInstalled,
+                                donationContract,
+                                clientWalletAddress: clientAddress,
+                                exchangeRate: parseFloat(
+                                    await getExchangeRate(),
+                                ),
+                            });
+                        }
+                    }
+                },
+            );
+>>>>>>> main
         } catch (err) {
             console.log(err);
         }
@@ -105,7 +144,7 @@ class Donate extends Component {
         onboarding.startOnboarding();
     }
 
-    async getClientWalletAddress() {
+    async getClientAddress() {
         const { ethereum } = window;
         await ethereum.request({ method: "eth_requestAccounts" });
         const accounts = await ethereum.request({ method: "eth_accounts" });
@@ -117,6 +156,7 @@ class Donate extends Component {
         const amountEthToWei = web3.utils.toHex(
             web3.utils.toWei(this.state.detailEthTotal.toString(), "ether"),
         );
+<<<<<<< HEAD
         // console.log(amountEthToWei)
         console.log(
             "DONATE FUNC",
@@ -136,6 +176,25 @@ class Donate extends Component {
                     console.log(receipt);
                 }),
         );
+=======
+        const donationId = await Math.floor(Math.random() * 100);
+        await this.state.donationContract.methods
+            .createDonation(
+                // TODO: will need to dynamically generate donation id
+                donationId,
+                ["0xd9dfa1c796354E3f26648408851AFb89059d6355"],
+                Number(this.state.detailNumRecipients),
+            )
+            .send({
+                from: this.state.clientWalletAddress,
+                value: amountEthToWei.toString(),
+                gas: 6721975, // should match given gas limit from ganache
+            })
+            .then(function (receipt) {
+                // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
+                console.log(receipt);
+            });
+>>>>>>> main
     }
 
     // Handles Form Field Edits

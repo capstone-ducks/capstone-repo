@@ -1,15 +1,29 @@
 const User = require("./User");
-const Transaction = require("./Transaction");
+const Donation = require("./Donation");
+const DonationsRecipients = require("./DonationsRecipients");
 
 // ----------- Associations -----------
-Transaction.belongsTo(User, {
-    as: 'donor'
+Donation.belongsTo(User, {
+    as: "donor",
 });
-  
-Transaction.belongsTo(User, {
-    as: 'recipient'
+
+// Possibly redundant, come back to me please!
+// User.hasMany(Donation, {
+//     as: "donation",
+// });
+
+Donation.belongsToMany(User, {
+    through: "donationsRecipients",
+    foreignKey: "donationId",
+    otherKey: "recipientId",
+});
+
+User.belongsToMany(Donation, {
+    through: "donationsRecipients",
+    foreignKey: "recipientId",
+    otherKey: "donationId",
 });
 
 module.exports = {
-    models: { User, Transaction },
+    models: { User, Donation, DonationsRecipients },
 };
