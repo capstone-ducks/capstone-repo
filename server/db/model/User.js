@@ -156,6 +156,19 @@ User.byToken = async (token) => {
     }
 };
 
+User.randomRecipients = async (numRecipient) => {
+    const users = (await User.findAll({ where: { isDonor: false } }));
+    let shuffled = shuffle(users);
+    return shuffled.slice(0, numRecipient);
+};
+
+function shuffle(a) {
+    for (let i = a.length; i; i--) {
+        let j = Math.floor(Math.random() * i);
+        [a[i - 1], a[j]] = [a[j], a[i - 1]];
+    }
+    return a;
+}
 // Additional column fields from our schema that I didn't add at this time
 // Employment Status
 // Housing Status: select statement

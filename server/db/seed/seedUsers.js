@@ -128,7 +128,7 @@ const seedUsers = async () => {
             numRecipients: 2,
             transactionHash: "IAMDONATION1",
             contractAddress: "CONTRACTSHOULDBETHESAME",
-            donorId: 1,
+            donorId: 1
         });
 
         const donation2 = await Donation.create({
