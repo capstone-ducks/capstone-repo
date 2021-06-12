@@ -10,7 +10,7 @@ class Bio extends Component {
     }
 
     render() {
-        const { email, publicKey, cryptoAddress, firstName, lastName } =
+        const { email, publicKey, cryptoAddress, firstName, lastName, gender, race } =
             this.props.user;
 
         return (
@@ -77,7 +77,7 @@ class Bio extends Component {
                                 <p className="row-title">Gender:</p>
                             </Grid.Column>
                             <Grid.Column width={8}>
-                                <p>No Information</p>
+                                <p>{gender}</p>
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
@@ -85,7 +85,7 @@ class Bio extends Component {
                                 <p className="row-title">Race:</p>
                             </Grid.Column>
                             <Grid.Column width={8}>
-                                <p>No Information</p>
+                                <p>{race}</p>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>

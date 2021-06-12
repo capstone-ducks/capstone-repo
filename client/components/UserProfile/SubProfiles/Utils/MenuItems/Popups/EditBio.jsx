@@ -24,6 +24,8 @@ class EditBio extends Component {
             email: props.user.email || "",
             phone: props.user.phone || "",
             race: props.user.race || "",
+            city: props.user.city || "",
+            state: props.user.state || ""
         };
 
         this.setOpen = this.setOpen.bind(this);
@@ -40,12 +42,12 @@ class EditBio extends Component {
     }
 
     async handleSubmit() {
-        const { firstName, lastName, gender, email, phone, race } = this.state;
+        const { firstName, lastName, gender, email, phone, race , city, state} = this.state;
         const { id } = this.props.user;
 
         // Payload object to update user
         const payload = {
-            data: { firstName, lastName, gender, email, phone, race },
+            data: { firstName, lastName, gender, email, phone, race, city, state },
             id,
         };
 
@@ -55,7 +57,7 @@ class EditBio extends Component {
     }
 
     render() {
-        const { firstName, lastName, gender, email, phone, race, open } =
+        const { firstName, lastName, gender, email, phone, race, open, city, state } =
             this.state;
 
         return (
@@ -124,6 +126,24 @@ class EditBio extends Component {
                                     control={Input}
                                     label="Phone"
                                     placeholder="Phone"
+                                    onChange={this.handleEdit}
+                                />
+                            </Form.Group>
+                            <Form.Group widths="equal">
+                                <Form.Field
+                                    value={city}
+                                    name="city"
+                                    control={Input}
+                                    label="City"
+                                    placeholder="City"
+                                    onChange={this.handleEdit}
+                                />
+                                <Form.Field
+                                    value={state}
+                                    name="state"
+                                    control={Input}
+                                    label="State"
+                                    placeholder="State"
                                     onChange={this.handleEdit}
                                 />
                             </Form.Group>
