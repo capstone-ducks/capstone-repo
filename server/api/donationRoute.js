@@ -51,21 +51,22 @@ router.get("/:id", async (req, res, next) => {
 });
 
 // This will post from the blockchain to the db...
-router.post("/:id/donations", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
     try {
         if (!req.body) res.sendStatus(400);
 
-        const { donorId } = req.params;
         const {
+            id,
             amount,
             numRecipients,
+            donorId
             transactionHash,
             contractAddress,
             // recipient location, etc. data that is selected by donor
 
         } = req.body;
-        const newDonation = await Donation.create({
-            id, // can calculate id with a sequelize method that iteratively derives the integer
+        const donation = await Donation.create({
+            id,
             amount,
             numRecipients,
             donorId,
@@ -73,10 +74,15 @@ router.post("/:id/donations", async (req, res, next) => {
             contractAddress,
             // recipient location, etc. data that is selected by donor
         });
-// need to set recipients
-// sequelize method
-        newDonation.save();
-        res.status(201).send(newDonation);
+        const recipients = await User.randomRecipients(numRecipients); // fetch from findALL
+        recipients.map(async (recipient) => {
+            await DonationsRecipients.create({
+                donationId: donation.id,
+                recipientId: recipient.id,
+                amountOwed: donation.amount / donation.numRecipients
+            });
+        });
+        res.status(201).send(donation);
     } catch (err) {
         next(err);
     }
