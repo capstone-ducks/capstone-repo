@@ -45,14 +45,14 @@ router.post("/", async (req, res, next) => {
 
 router.post("/signup", async (req, res, next) => {
     try {
-        const { firstName, lastName, email, password, isDonor } = req.body;
+        const { firstName, lastName, email, password, isDonor, city, state } = req.body;
         const alreadyRegistered = await User.findAll({ where: email });
         if (alreadyRegistered) {
             res.status(401).send(`Email address ${email} already in use.`);
         }
         else {
             const newUser = await User.create({
-                firstName, lastName, email, password, isDonor
+                firstName, lastName, email, password, isDonor, city, state
             });
             const token =  await newUser.authenticate({ email, password });
             res.status(201).send( token );

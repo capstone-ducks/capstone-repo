@@ -10,12 +10,14 @@ const { notFound, badSyntax, conflict, unauthorized } = require("./errors");
 
 router.post("/", async (req, res, next) => {
     try {
-        const { firstName, lastName, email, password, checked } = req.body;
+        const { firstName, lastName, email, password, city, state, checked } = req.body;
         const newUser = await User.create({
             firstName,
             lastName,
             email,
             password,
+            city, 
+            state,
             isDonor: checked === "isDonor",
         });
         res.status(201).send(newUser);
@@ -29,7 +31,7 @@ router.post("/", async (req, res, next) => {
 router.put("/:id", async (req, res, next) => {
     try {
         const { id } = req.params;
-        const { firstName, lastName, email, phone, gender, race } = req.body;
+        const { firstName, lastName, email, phone, gender, race, city, state} = req.body;
 
         // Need token to prove you have the authentication to edit yourself
         const token = req.headers.authorization;
@@ -57,6 +59,8 @@ router.put("/:id", async (req, res, next) => {
         if (phone) user.phone = phone;
         if (race) user.race = race;
         if (gender) user.gender = gender;
+        if (city) user.city = city;
+        if (state) user.state = state;
 
         // Save changes
         await user.save();

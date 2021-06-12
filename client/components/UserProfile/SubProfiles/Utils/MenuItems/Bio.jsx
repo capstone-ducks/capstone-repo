@@ -10,7 +10,7 @@ class Bio extends Component {
     }
 
     render() {
-        const { email, publicKey, cryptoAddress, firstName, lastName, gender, race } =
+        const { email, publicKey, cryptoAddress, firstName, lastName, phone, gender, race, city, state } =
             this.props.user;
 
         return (
@@ -38,7 +38,14 @@ class Bio extends Component {
                                 <p className="row-title">Phone:</p>
                             </Grid.Column>
                             <Grid.Column width={8}>
-                                <p>No Number Found</p>
+                            {phone != null ? 
+                                (<p>
+                                    {phone}
+                                </p>) :
+                                (
+                                <p>
+                                    N/A
+                                </p>)}
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
@@ -46,7 +53,14 @@ class Bio extends Component {
                                 <p className="row-title">Address:</p>
                             </Grid.Column>
                             <Grid.Column width={8}>
-                                <p>No Address Found</p>
+                                {city != null ? 
+                                (<p>
+                                    {city}, {state}
+                                </p>) :
+                                (
+                                <p>
+                                    N/A
+                                </p>)}
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
@@ -77,7 +91,14 @@ class Bio extends Component {
                                 <p className="row-title">Gender:</p>
                             </Grid.Column>
                             <Grid.Column width={8}>
-                                <p>{gender}</p>
+                            {gender != null ? 
+                                (<p>
+                                    {gender}
+                                </p>) :
+                                (
+                                <p>
+                                    N/A
+                                </p>)}
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
@@ -85,7 +106,14 @@ class Bio extends Component {
                                 <p className="row-title">Race:</p>
                             </Grid.Column>
                             <Grid.Column width={8}>
-                                <p>{race}</p>
+                            {race != null ? 
+                                (<p>
+                                    {race}
+                                </p>) :
+                                (
+                                <p>
+                                    N/A
+                                </p>)}
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>

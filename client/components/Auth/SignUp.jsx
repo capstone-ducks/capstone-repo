@@ -23,6 +23,8 @@ class SignUp extends Component {
             lastName: "",
             email: "",
             password: "",
+            city: "",
+            state: "",
             confirmPassword: "",
             checked: "isDonor",
         };
@@ -98,6 +100,24 @@ class SignUp extends Component {
                                 name="email"
                                 onChange={this.handleChange}
                                 value={this.state.email}
+                            />
+                            <Form.Input
+                                fluid
+                                icon="map marker alternate"
+                                iconPosition="left"
+                                placeholder="City"
+                                name="city"
+                                onChange={this.handleChange}
+                                value={this.state.city}
+                            />
+                            <Form.Input
+                                fluid
+                                icon="map marker alternate"
+                                iconPosition="left"
+                                placeholder="State"
+                                name="state"
+                                onChange={this.handleChange}
+                                value={this.state.state}
                             />
                             <Form.Input
                                 fluid
