@@ -46,39 +46,6 @@ class Donate extends Component {
 
     async componentDidMount() {
         try {
-<<<<<<< HEAD
-            const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
-            if (metaMaskInstalled) {
-                const clientWalletAddress = await this.getClientWalletAddress();
-                // console.log(clientWalletAddress);
-
-                // Gives Web3 Blockchain provider (MetaMask)
-                window.web3 = new Web3(window.ethereum);
-                const web3 = window.web3;
-                // making dynamic network
-                const networkId = await web3.eth.net.getId();
-                const networkData = PaymentSplitter.networks[networkId];
-                if (networkData) {
-                    const paymentContract = new web3.eth.Contract(
-                        PaymentSplitter.abi,
-                        networkData.address,
-                    );
-                    this.setState({
-                        metaMaskInstalled,
-                        paymentContract,
-                        clientWalletAddress,
-                        exchangeRate: parseFloat(await getExchangeRate()),
-                    });
-                } else {
-                    this.setState({
-                        exchangeRate: parseFloat(await getExchangeRate()),
-                    });
-                    window.alert(
-                        "PaymentSplitter contract not deployed to detect network",
-                    );
-                }
-            }
-=======
             this.setState(
                 {
                     exchangeRate: parseFloat(await getExchangeRate()),
@@ -115,7 +82,6 @@ class Donate extends Component {
                     }
                 },
             );
->>>>>>> main
         } catch (err) {
             console.log(err);
         }
@@ -152,50 +118,29 @@ class Donate extends Component {
         return accounts[0];
     }
     // detailEthTotal, detailNumRecipients
-    donate() {
-        const amountEthToWei = web3.utils.toHex(
-            web3.utils.toWei(this.state.detailEthTotal.toString(), "ether"),
-        );
-<<<<<<< HEAD
-        // console.log(amountEthToWei)
-        console.log(
-            "DONATE FUNC",
-            this.state.paymentContract.methods
-                .DonationKickOff(
-                    ["0x71e810d1Fb275664a91840fcc3bADEe1F07De00B"],
-                    [Number(this.state.detailNumRecipients)],
-                )
-                // .release('0xf74C90a70f6657e77d9Ef950ebF3449A8b3136C4')
-                .send({
-                    from: "0xd9dfa1c796354E3f26648408851AFb89059d6355",
-                    value: amountEthToWei.toString(),
-                    gas: 6721975, // should match given gas limit from ganache
-                })
-                .then(function (receipt) {
-                    // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
-                    console.log(receipt);
-                }),
-        );
-=======
-        const donationId = await Math.floor(Math.random() * 100);
-        await this.state.donationContract.methods
-            .createDonation(
-                // TODO: will need to dynamically generate donation id
-                donationId,
-                ["0xd9dfa1c796354E3f26648408851AFb89059d6355"],
-                Number(this.state.detailNumRecipients),
-            )
-            .send({
-                from: this.state.clientWalletAddress,
-                value: amountEthToWei.toString(),
-                gas: 6721975, // should match given gas limit from ganache
-            })
-            .then(function (receipt) {
-                // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
-                console.log(receipt);
-            });
->>>>>>> main
-    }
+    donate(){}
+    // donate() {
+    //     const amountEthToWei = web3.utils.toHex(
+    //         web3.utils.toWei(this.state.detailEthTotal.toString(), "ether"),
+    //     );
+    //     const donationId = await Math.floor(Math.random() * 100);
+    //     await this.state.donationContract.methods
+    //         .createDonation(
+    //             // TODO: will need to dynamically generate donation id
+    //             donationId,
+    //             ["0xd9dfa1c796354E3f26648408851AFb89059d6355"],
+    //             Number(this.state.detailNumRecipients),
+    //         )
+    //         .send({
+    //             from: this.state.clientWalletAddress,
+    //             value: amountEthToWei.toString(),
+    //             gas: 6721975, // should match given gas limit from ganache
+    //         })
+    //         .then(function (receipt) {
+    //             // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
+    //             console.log(receipt);
+    //         });
+    // }
 
     // Handles Form Field Edits
     handleEdit(e, { name, value }) {
