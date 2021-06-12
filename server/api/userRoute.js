@@ -6,7 +6,7 @@ const {
 // Errors
 const { notFound, badSyntax, conflict, unauthorized } = require("./errors");
 
-//post routes
+
 
 router.post("/", async (req, res, next) => {
     try {
@@ -70,29 +70,6 @@ router.put("/:id", async (req, res, next) => {
     }
 });
 
-//delete routes
-router.delete("/:id", async (req, res, next) => {
-    try {
-        const { id } = req.params;
-
-        const userToBeDeleted = await User.findByPk(id);
-
-        await userToBeDeleted.destroy();
-        res.send(userToBeDeleted).status(204);
-    } catch (error) {
-        next(error);
-    }
-});
-
-/* can use for admin */
-router.get("/", async (req, res, next) => {
-    try {
-        const users = await User.findAll();
-        res.status(200).send(users);
-    } catch (error) {
-        next(error);
-    }
-});
 
 // Gets associated donations with specific user
 router.get("/:id/donations", async (req, res, next) => {
@@ -101,13 +78,18 @@ router.get("/:id/donations", async (req, res, next) => {
         const user = await User.findByPk(id);
 
         if (user.isDonor) {
-            console.log("hiiiii");
+            // Donor can see all past donations
             const donations = await Donation.findAll({
                 where: { donorId: id },
+                include: [{ all: true }]
             });
             res.status(200).send(donations);
         } else {
-            const donations = await user.getDonations();
+            // Recipient can review information from their past and active donations
+            const donations = await DonationsRecipients.findAll({
+                where: { recipientId: id },
+                include: [{ all: true }]
+            });
             res.status(200).send(donations);
         }
     } catch (error) {
@@ -118,6 +100,20 @@ router.get("/:id/donations", async (req, res, next) => {
 
 module.exports = router;
 
+
+// router.delete("/:id", async (req, res, next) => {
+//     try {
+//         const { id } = req.params;
+
+//         const userToBeDeleted = await User.findByPk(id);
+
+//         await userToBeDeleted.destroy();
+//         res.send(userToBeDeleted).status(204);
+//     } catch (error) {
+//         next(error);
+//     }
+// });
+
 /* for admin to see a single user's info */
 // router.get('/:id', async (req, res, next) => {
 //   try {
@@ -127,4 +123,15 @@ module.exports = router;
 //   } catch (error) {
 //     next(error);
 //   }
+// });
+
+
+/* can use for admin */
+// router.get("/", async (req, res, next) => {
+//     try {
+//         const users = await User.findAll();
+//         res.status(200).send(users);
+//     } catch (error) {
+//         next(error);
+//     }
 // });
