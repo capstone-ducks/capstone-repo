@@ -48,7 +48,7 @@ router.put("/:id", async (req, res, next) => {
 
         // Finds user
         let user = await User.findOne({ where: { id } });
-
+        
         // If no user, 404
         if (!user) throw notFound("User not found");
 
@@ -92,6 +92,7 @@ router.delete("/:id", async (req, res, next) => {
 router.get("/", async (req, res, next) => {
     try {
         const users = await User.findAll();
+        console.log(User.__proto__);
         res.status(200).send(users);
     } catch (error) {
         next(error);
