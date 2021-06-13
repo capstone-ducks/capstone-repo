@@ -14,6 +14,10 @@ DonationsRecipients.init(
         amountOwed: {
             type: DataTypes.DOUBLE,
         },
+        isClaimed: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
+        }
     },
     {
         sequelize: db,
