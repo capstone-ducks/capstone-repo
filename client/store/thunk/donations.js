@@ -12,6 +12,19 @@ export const fetchAllDonations = () => {
     };
 };
 
+export const fetchAllUsersDonations = (id) => {
+    return async (dispatch) => {
+        const token = window.localStorage.getItem("token");
+        const { data: donations } = await axios.get(`/api/users/${id}/donations`,
+            {
+                headers: {
+                    authorization: token,
+                },
+            });
+        dispatch(getAllDonations(donations));
+    };
+};
+
 export const fetchOneDonation = (id) => {
     return async (dispatch) => {
         const { data: donation } = await axios.get(`/api/donations/${id}`);
@@ -24,18 +37,16 @@ export const createDonationThunk = (donationData) => {
     return async (dispatch) => {
         try {
             const token = window.localStorage.getItem("token");
-        const { data: donation } = await axios.post(
-            `/api/donations/`,
-            donationData,
-            {
-                headers: {
-                    authorization: token,
+            const { data: donation } = await axios.post(
+                `/api/donations/`,
+                donationData,
+                {
+                    headers: {
+                        authorization: token,
+                    },
                 },
-            },
         );
-        console.log('CALLED POST')
         dispatch(createDonation(donation));
-        console.log('DISPATCHED')
         }
         catch(err) {
             console.log('Error in createDonationThunk ', err);

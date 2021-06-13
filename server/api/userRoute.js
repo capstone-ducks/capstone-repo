@@ -81,7 +81,6 @@ router.get("/:id/donations", async (req, res, next) => {
         const user = await User.findByPk(id);
 
         if (user.isDonor) {
-            // Donor can see all past donations
             const donations = await Donation.findAll({
                 where: { donorId: id },
                 include: [
@@ -92,13 +91,19 @@ router.get("/:id/donations", async (req, res, next) => {
             res.status(200).send(donations);
         } else {
             const donations = await Donation.findAll({
-                include: {
-                    model: User,
-                    where: {
-                        id,
+                include: [
+                    {
+                        model: User,
+                        where: {
+                            id,
+                        },
+                        through: { DonationsRecipients }
                     },
-                    through: { DonationsRecipients }
-                }
+                    {
+                        model: User,
+                        as: "donor"
+                    }
+                ]
             });
             res.status(200).send(donations);
         }

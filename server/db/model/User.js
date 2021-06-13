@@ -105,7 +105,7 @@ User.init(
         cryptoAddress: {
             type: DataTypes.STRING,
             validate: {
-                len: [40, 40],
+                len: [40, 50],
             },
         },
         isDonor: {
