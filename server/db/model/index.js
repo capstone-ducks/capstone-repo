@@ -13,13 +13,13 @@ Donation.belongsTo(User, {
 // });
 
 Donation.belongsToMany(User, {
-    through: "donationsRecipients",
+    through: DonationsRecipients,
     foreignKey: "donationId",
     otherKey: "recipientId",
 });
 
 User.belongsToMany(Donation, {
-    through: "donationsRecipients",
+    through: DonationsRecipients,
     foreignKey: "recipientId",
     otherKey: "donationId",
 });

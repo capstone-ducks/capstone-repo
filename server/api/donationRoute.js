@@ -3,6 +3,23 @@ const {
     models: { User, Donation, DonationsRecipients },
 } = require("../db/model/index");
 
+
+// All donations, for generate donation id
+router.get("/", async (req, res, next) => {
+    try {
+        const donations = await Donation.findAll({
+            include: [{ all: true }],
+        });
+
+        //console.log(donations, 'success in get route Donations');
+        res.status(200).send(donations);
+    } catch (err) {
+        //console.log(err, 'error in get route donations');
+        next(err);
+    }
+});
+
+
 // *** I haven't touched this one - I think it could be moved to the userRoute file
 // get one donation by id
 router.get("/:id", async (req, res, next) => {
@@ -84,30 +101,10 @@ router.post("/", async (req, res, next) => {
         });
         res.status(201).send(donation);
     } catch (err) {
+        console.log('Donation POST route error ', err)
         next(err);
     }
 });
 
 module.exports = router;
 
-
-// get all donations
-// router.get("/", async (req, res, next) => {
-//     try {
-//         const donations = await Donation.findAll({
-//             include: [
-//                 {
-//                     model: User,
-//                     as: "donor",
-//                 },
-//                 { model: DonationsRecipients },
-//             ],
-//         });
-
-//         //console.log(donations, 'success in get route Donations');
-//         res.status(200).send(donations);
-//     } catch (err) {
-//         //console.log(err, 'error in get route donations');
-//         next(err);
-//     }
-// });

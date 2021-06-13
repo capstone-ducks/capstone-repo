@@ -8,7 +8,6 @@ import {
 export const fetchAllDonations = () => {
     return async (dispatch) => {
         const { data: donations } = await axios.get(`/api/donations`);
-
         dispatch(getAllDonations(donations));
     };
 };
@@ -21,10 +20,10 @@ export const fetchOneDonation = (id) => {
     };
 };
 
-export const createDonation = (donationData) => {
+export const createDonationThunk = (donationData) => {
     return async (dispatch) => {
-        const token = window.localStorage.getItem("token");
-
+        try {
+            const token = window.localStorage.getItem("token");
         const { data: donation } = await axios.post(
             `/api/donations/`,
             donationData,
@@ -34,6 +33,12 @@ export const createDonation = (donationData) => {
                 },
             },
         );
+        console.log('CALLED POST')
         dispatch(createDonation(donation));
+        console.log('DISPATCHED')
+        }
+        catch(err) {
+            console.log('Error in createDonationThunk ', err);
+        }
     };
 };
