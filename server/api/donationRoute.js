@@ -19,8 +19,6 @@ router.get("/", async (req, res, next) => {
     }
 });
 
-
-// *** I haven't touched this one - I think it could be moved to the userRoute file
 // get one donation by id
 router.get("/:id", async (req, res, next) => {
     try {

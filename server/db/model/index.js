@@ -9,7 +9,7 @@ Donation.belongsTo(User, {
 
 // Possibly redundant, come back to me please!
 // User.hasMany(Donation, {
-//     as: "donation",
+//     as: "donor"
 // });
 
 Donation.belongsToMany(User, {

@@ -7,7 +7,6 @@ const {
 const { notFound, badSyntax, conflict, unauthorized } = require("./errors");
 
 
-
 router.post("/", async (req, res, next) => {
     try {
         const { firstName, lastName, email, password, checked } = req.body;
@@ -81,22 +80,32 @@ router.get("/:id/donations", async (req, res, next) => {
             // Donor can see all past donations
             const donations = await Donation.findAll({
                 where: { donorId: id },
-                include: [{ all: true }]
+                include: [
+                    { model: User, as: "donor" },
+                    { model: User, through: DonationsRecipients }
+                ]
             });
             res.status(200).send(donations);
         } else {
-            // Recipient can review information from their past and active donations
-            const donations = await DonationsRecipients.findAll({
-                where: { recipientId: id },
-                include: [{ all: true }]
+            const donations = await Donation.findAll({
+                include: {
+                    model: User,
+                    where: {
+                        id,
+                    },
+                    through: { DonationsRecipients }
+                }
             });
             res.status(200).send(donations);
         }
     } catch (error) {
-        console.error(error);
+        console.log('Error in GET /api/users/:id/donations route', error);
         next(error);
     }
 });
+
+
+
 
 module.exports = router;
 
@@ -114,16 +123,6 @@ module.exports = router;
 //     }
 // });
 
-/* for admin to see a single user's info */
-// router.get('/:id', async (req, res, next) => {
-//   try {
-//       const user = await User.findByPk(req.params.id);
-//       res.status(200).send(user);
-
-//   } catch (error) {
-//     next(error);
-//   }
-// });
 
 
 /* can use for admin */
