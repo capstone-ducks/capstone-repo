@@ -14,7 +14,7 @@ Donation.init(
             unique: true,
         },
         amount: {
-            type: DataTypes.DECIMAL(10, 2),
+            type: DataTypes.DECIMAL(10, 4),
             allowNull: false,
             defaultValue: 0.0,
         },

@@ -1,4 +1,8 @@
-const generateDonationId = (allDonations) => {
-  // get all donations, find max, add 1
+import axios from "axios";
 
-}
+const generateDonationId = async () => {
+  const { data: donations } = await axios.get("/api/donations");
+  return donations.length + 1;
+};
+
+export default generateDonationId;

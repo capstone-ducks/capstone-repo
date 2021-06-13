@@ -101,6 +101,7 @@ router.post("/", async (req, res, next) => {
         });
         res.status(201).send(donation);
     } catch (err) {
+        console.log('Donation POST route error ', err)
         next(err);
     }
 });
