@@ -5,16 +5,13 @@ import {
 } from "../action-types";
 
 const initialState = {
-    allDonations: [],
+    donations: [],
     selectedDonation: null,
 };
 
 const donationReducer = (state = initialState, action) => {
     if (action.type === GET_ALL_DONATIONS) {
-        state = {
-            ...state,
-            allDonations: action.donations,
-        };
+        state = action.donations;
     } else if (action.type === GET_ONE_DONATION) {
         state = {
             ...state,
