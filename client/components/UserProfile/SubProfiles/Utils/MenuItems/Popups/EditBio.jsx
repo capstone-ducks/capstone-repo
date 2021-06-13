@@ -6,9 +6,10 @@ import {
     Modal,
     Input,
     Select,
-    Form,
+    Form
 } from "semantic-ui-react";
 import nanPic from "../../../../../../../public/images/profile-pictures/nan.png";
+import matthewPic from "../../../../../../../public/images/profile-pictures/matthew.png";
 import { connect } from "react-redux";
 import { genderOptions, raceOptions } from "../DonateFormItems";
 import { updateExistingUser } from "../../../../../../store/thunk";
@@ -24,6 +25,9 @@ class EditBio extends Component {
             email: props.user.email || "",
             phone: props.user.phone || "",
             race: props.user.race || "",
+            city: props.user.city || "",
+            state: props.user.state || "",
+            isDonor: props.user.isDonor
         };
 
         this.setOpen = this.setOpen.bind(this);
@@ -40,12 +44,12 @@ class EditBio extends Component {
     }
 
     async handleSubmit() {
-        const { firstName, lastName, gender, email, phone, race } = this.state;
+        const { firstName, lastName, gender, email, phone, race , city, state} = this.state;
         const { id } = this.props.user;
 
         // Payload object to update user
         const payload = {
-            data: { firstName, lastName, gender, email, phone, race },
+            data: { firstName, lastName, gender, email, phone, race, city, state },
             id,
         };
 
@@ -55,9 +59,10 @@ class EditBio extends Component {
     }
 
     render() {
-        const { firstName, lastName, gender, email, phone, race, open } =
+        const { firstName, lastName, gender, email, phone, race, open, city, state, isDonor} =
             this.state;
-
+        
+        const phoneError = phone.length <= 9;
         return (
             <Modal
                 onClose={() => this.setOpen(false)}
@@ -67,7 +72,7 @@ class EditBio extends Component {
             >
                 <Modal.Header>Edit Information</Modal.Header>
                 <Modal.Content image>
-                    <Image size="medium" src={nanPic} wrapped />
+                    <Image size="medium" src={isDonor ? nanPic : matthewPic} wrapped />
                     <Modal.Description>
                         <Header>Personal Information</Header>
                         <Form>
@@ -120,10 +125,29 @@ class EditBio extends Component {
                                 />
                                 <Form.Field
                                     value={phone}
+                                    error={phoneError ? {content :'Enter a valid phone number'} : null}
                                     name="phone"
                                     control={Input}
                                     label="Phone"
                                     placeholder="Phone"
+                                    onChange={this.handleEdit}
+                                />
+                            </Form.Group>
+                            <Form.Group widths="equal">
+                                <Form.Field
+                                    value={city}
+                                    name="city"
+                                    control={Input}
+                                    label="City"
+                                    placeholder="City"
+                                    onChange={this.handleEdit}
+                                />
+                                <Form.Field
+                                    value={state}
+                                    name="state"
+                                    control={Input}
+                                    label="State"
+                                    placeholder="State"
                                     onChange={this.handleEdit}
                                 />
                             </Form.Group>

@@ -33,6 +33,8 @@ class SignUp extends Component {
             email: "",
             emailError: false,
             password: "",
+            city: "",
+            state: "",
             passwordError:false,
             confirmPassword: "",
             confirmPasswordError:false,
@@ -179,6 +181,24 @@ class SignUp extends Component {
                                 onChange={this.handleChange}
                                 value={this.state.email}
                                 error={this.state.emailError}
+                            />
+                            <Form.Input
+                                fluid
+                                icon="map marker alternate"
+                                iconPosition="left"
+                                placeholder="City"
+                                name="city"
+                                onChange={this.handleChange}
+                                value={this.state.city}
+                            />
+                            <Form.Input
+                                fluid
+                                icon="map marker alternate"
+                                iconPosition="left"
+                                placeholder="State"
+                                name="state"
+                                onChange={this.handleChange}
+                                value={this.state.state}
                             />
                             <Form.Input
                                 fluid

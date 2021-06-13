@@ -5,12 +5,34 @@ const {
 
 
 // All donations, for generate donation id
+// router.get("/", async (req, res, next) => {
+//     try {
+//         const donations = await Donation.findAll({
+//             include: [{ all: true }],
+//         });
+
+//         //console.log(donations, 'success in get route Donations');
+//         res.status(200).send(donations);
+//     } catch (err) {
+//         //console.log(err, 'error in get route donations');
+//         next(err);
+//     }
+// });
+
+
+// get all donations
 router.get("/", async (req, res, next) => {
     try {
         const donations = await Donation.findAll({
-            include: [{ all: true }],
+            include: [
+                {
+                    model: User,
+                    as: "donor",
+                },
+                { model: User },
+            ],
         });
-
+        //does not work with a second alias for...reasons?
         //console.log(donations, 'success in get route Donations');
         res.status(200).send(donations);
     } catch (err) {
@@ -105,4 +127,5 @@ router.post("/", async (req, res, next) => {
 });
 
 module.exports = router;
+
 
