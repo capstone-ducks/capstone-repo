@@ -3,7 +3,44 @@ const {
     models: { User, Donation, DonationsRecipients },
 } = require("../db/model/index");
 
-// *** I haven't touched this one - I think it could be moved to the userRoute file
+
+// All donations, for generate donation id
+// router.get("/", async (req, res, next) => {
+//     try {
+//         const donations = await Donation.findAll({
+//             include: [{ all: true }],
+//         });
+
+//         //console.log(donations, 'success in get route Donations');
+//         res.status(200).send(donations);
+//     } catch (err) {
+//         //console.log(err, 'error in get route donations');
+//         next(err);
+//     }
+// });
+
+
+// get all donations
+router.get("/", async (req, res, next) => {
+    try {
+        const donations = await Donation.findAll({
+            include: [
+                {
+                    model: User,
+                    as: "donor",
+                },
+                { model: User },
+            ],
+        });
+        //does not work with a second alias for...reasons?
+        //console.log(donations, 'success in get route Donations');
+        res.status(200).send(donations);
+    } catch (err) {
+        //console.log(err, 'error in get route donations');
+        next(err);
+    }
+});
+
 // get one donation by id
 router.get("/:id", async (req, res, next) => {
     try {
@@ -84,6 +121,7 @@ router.post("/", async (req, res, next) => {
         });
         res.status(201).send(donation);
     } catch (err) {
+        console.log('Donation POST route error ', err)
         next(err);
     }
 });
@@ -91,23 +129,3 @@ router.post("/", async (req, res, next) => {
 module.exports = router;
 
 
-// get all donations
-router.get("/", async (req, res, next) => {
-    try {
-        const donations = await Donation.findAll({
-            include: [
-                {
-                    model: User,
-                    as: "donor",
-                },
-                { model: User },
-            ],
-        });
-        //does not work with a second alias for...reasons?
-        //console.log(donations, 'success in get route Donations');
-        res.status(200).send(donations);
-    } catch (err) {
-        //console.log(err, 'error in get route donations');
-        next(err);
-    }
-});

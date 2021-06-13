@@ -9,17 +9,17 @@ Donation.belongsTo(User, {
 
 // Possibly redundant, come back to me please!
 // User.hasMany(Donation, {
-//     as: "donation",
+//     as: "donor"
 // });
 
 Donation.belongsToMany(User, {
-    through: "donationsRecipients",
+    through: DonationsRecipients,
     foreignKey: "donationId",
     otherKey: "recipientId",
 });
 
 User.belongsToMany(Donation, {
-    through: "donationsRecipients",
+    through: DonationsRecipients,
     foreignKey: "recipientId",
     otherKey: "donationId",
 });

@@ -4,6 +4,8 @@ import { Form, Accordion } from "semantic-ui-react";
 import MetaMaskOnboarding from "@metamask/onboarding";
 import Web3 from "web3";
 import DonationContract from "../../../../../../build/contracts/DonationContract.json";
+import generateDonationId from "../../../../../utils/generateDonationId";
+import { createDonationThunk } from "../../../../../store/thunk/donations";
 
 import {
     DonorInformation,
@@ -121,10 +123,9 @@ class Donate extends Component {
         const amountEthToWei = await web3.utils.toHex(
             web3.utils.toWei(this.state.detailEthTotal.toString(), "ether"),
         );
-        const donationId = await Math.floor(Math.random() * 100);
+        const donationId = await generateDonationId();
         await this.state.donationContract.methods
             .createDonation(
-                // TODO: will need to dynamically generate donation id
                 donationId,
                 ["0xd9dfa1c796354E3f26648408851AFb89059d6355"],
                 Number(this.state.detailNumRecipients),
@@ -134,9 +135,20 @@ class Donate extends Component {
                 value: amountEthToWei.toString(),
                 gas: 6721975, // should match given gas limit from ganache
             })
-            .then(function (receipt) {
-                // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
-                console.log(receipt);
+            .then( async (receipt) => {
+                // console.log(receipt);
+                const donation = {
+                    id: donationId,
+                    donorId: this.props.user.id,
+                    amount: this.state.detailEthTotal, // NOTE this is not in Wei like when its sent to the contract
+                    numRecipients: Number(this.state.detailNumRecipients),
+                    transactionHash: receipt.transactionHash,
+                    contractAddress: receipt.to
+                };
+                await this.props.createDonationThunk(donation);
+            })
+            .catch((err) => {
+                console.log('Donate function error ', err);
             });
     }
 
@@ -247,6 +259,12 @@ function mapStateToProps(state) {
     return {
         user: state.auth.user,
     };
+};
+
+function mapDispatchToProps(dispatch) {
+    return {
+        createDonationThunk: (donation) => dispatch(createDonationThunk(donation))
+    }
 }
 
-export default connect(mapStateToProps)(Donate);
+export default connect(mapStateToProps, mapDispatchToProps)(Donate);

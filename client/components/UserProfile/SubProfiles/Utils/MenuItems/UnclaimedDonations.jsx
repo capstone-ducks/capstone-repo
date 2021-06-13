@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import UnclaimedCard from "./Cards/UnclaimedCard.jsx";
+import { Card } from 'semantic-ui-react'
+
 
 class UnclaimedDonations extends Component {
     constructor(props) {
@@ -6,8 +9,12 @@ class UnclaimedDonations extends Component {
         this.state = {};
     }
     render() {
-        return "Unclaimed Donations";
+        return (
+            <Card.Group>
+                <UnclaimedCard/>
+            </Card.Group>
+        )
     }
-}
+};
 
 export default UnclaimedDonations;

@@ -168,7 +168,7 @@ function shuffle(a) {
         [a[i - 1], a[j]] = [a[j], a[i - 1]];
     }
     return a;
-}
+};
 // Additional column fields from our schema that I didn't add at this time
 // Employment Status
 // Housing Status: select statement
