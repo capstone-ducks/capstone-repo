@@ -26,19 +26,6 @@ class App extends Component {
         }
     }
 
-    // async componentWillMount() {
-    //     await this.loadWeb3()
-    // }
-
-    // async loadWeb3() {
-    //     // checking if anything is injecting an eth provider
-    //     if (window.ethereum) {
-    //         window.web3 = new Web3(window.ethereum)
-    //         await window.ethereum.enable()
-    //     }
-
-    // }
-
     render() {
         return (
             <React.Fragment>
@@ -48,6 +35,11 @@ class App extends Component {
                         <Route exact path="/" component={Homepage} />
                         <Route exact path="/sign-in" component={SignInForm} />
                         <Route exact path="/sign-up" component={SignUp} />
+                        <Route
+                            exact
+                            path="/sign-up/recipient"
+                            component={SignUpRecipient}
+                        />
                         <Route path="/user/:id" component={UserProfile} />
                     </Switch>
                 </main>
