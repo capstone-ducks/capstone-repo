@@ -103,7 +103,7 @@ const seedUsers = async () => {
             lastName: "Valentine",
             email: "recipient2@gmail.com",
             password: "123",
-            cryptoAddress: "0x1F5A58D5903DEa41C88164727E1b9d988013adb9",
+            cryptoAddress: "0x97792b88d487fc55971ADf9555bA31286d4606bD",
             isDonor: false,
         });
 
