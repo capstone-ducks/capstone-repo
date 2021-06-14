@@ -123,6 +123,30 @@ class SignUp extends Component {
         });
     }
 
+    async getClientAddress() {
+        const { ethereum } = window;
+        await ethereum.request({ method: "eth_requestAccounts" });
+        const accounts = await ethereum.request({ method: "eth_accounts" });
+
+        return accounts[0];
+    }
+
+    //Created check function to see if the MetaMask extension is installed
+    isMetaMaskInstalled() {
+        // Have to check the ethereum binding on the window object to see if it's installed
+        const { ethereum } = window;
+        const metaMaskInstalled = Boolean(ethereum && ethereum.isMetaMask);
+
+        return metaMaskInstalled;
+    }
+
+    installMetaMask() {
+        // We create a new MetaMask onboarding object to use in our app
+        const forwarderOrigin = "http://localhost:4500";
+        const onboarding = new MetaMaskOnboarding({ forwarderOrigin });
+        onboarding.startOnboarding();
+    }
+
     render() {
         return (
             <Grid
@@ -235,7 +259,41 @@ class SignUp extends Component {
                                     content="passwords do not match"
                                 />
                             ) : null}
-
+                            <Divider horizontal>Connect Wallet</Divider>
+                            <Segment placeholder>
+                                <Grid columns={2} stackable>
+                                    <Grid.Column>
+                                        <Form.Input
+                                            icon="user"
+                                            iconPosition="left"
+                                            label="Username"
+                                            placeholder="Username"
+                                        />
+                                    </Grid.Column>
+                                    <Grid.Column verticalAlign="middle">
+                                        <Form.Button
+                                            style={{
+                                                backgroundColor: "#d76f63",
+                                                color: "white",
+                                                fontFamily: "lato",
+                                                fontWeight: 400,
+                                                fontSize: 14,
+                                                width: 125,
+                                                height: 60,
+                                                position: "relative",
+                                                right: -3,
+                                                textAlign: "center",
+                                            }}
+                                            size="medium"
+                                            onClick={this.installMetaMask}
+                                        >
+                                            Connect MetaMask
+                                        </Form.Button>
+                                    </Grid.Column>
+                                </Grid>
+                                <Divider vertical>Or</Divider>
+                            </Segment>
+                            <Divider />
                             <Form.Group inline>
                                 <label>Type of User</label>
                                 <Form.Radio
