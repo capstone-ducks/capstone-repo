@@ -91,6 +91,7 @@ class SignUp extends Component {
                                 value={this.state.lastName}
                             />
                             <Form.Input
+                                required
                                 fluid
                                 icon="mail"
                                 iconPosition="left"
@@ -100,6 +101,7 @@ class SignUp extends Component {
                                 value={this.state.email}
                             />
                             <Form.Input
+                                required
                                 fluid
                                 icon="lock"
                                 iconPosition="left"
@@ -110,6 +112,7 @@ class SignUp extends Component {
                                 value={this.state.password}
                             />
                             <Form.Input
+                                required
                                 fluid
                                 icon="lock"
                                 iconPosition="left"

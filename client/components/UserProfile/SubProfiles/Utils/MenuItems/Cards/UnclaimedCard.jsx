@@ -19,7 +19,7 @@ const UnclaimedCard = (props) => {
                     <Card.Header>You have an unclaimed donation of {donation.users[0].donationsRecipients.amountOwed} ETH</Card.Header>
                     <Card.Meta>{donation.createdAt}</Card.Meta> {/*  reformat createdAt data */}
                     <Card.Description>
-                      User {donation.donor.firstName} {donation.donor.lastName[0]}. from {donation.donor.city ? donation.donor.city : 'UNKOWN'} has sent you a donation. Click approve to <strong>claim your donation funds</strong>.
+                      User {donation.donor.firstName} {donation.donor.lastName[0]}. {donation.donor.city ? `from ${donation.donor.city}` : 'UNKOWN'} has sent you a donation. Click approve to <strong>claim your donation funds</strong>.
                     </Card.Description>
                   </Card.Content>
                   <Card.Content extra>
