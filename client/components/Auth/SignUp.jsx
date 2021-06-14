@@ -1,15 +1,11 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import {
     Button,
     Form,
     Grid,
     Header,
-    Image,
-    Message,
     Segment,
-    Select,
-    Checkbox,
 } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { addUser, signIn } from "../../store/thunk";
@@ -59,8 +55,6 @@ class SignUp extends Component {
 
     async handleSubmit(e) {
         e.preventDefault();
-        // console.log(this.props, "submit handle");
-        // console.log(this.state, "submit handle");
         let error = false;
         if(this.state.firstName === ''){
             this.setState({firstNameError: true});
@@ -107,9 +101,7 @@ class SignUp extends Component {
             return
         }
         this.setState({formError : false});
-
         await this.props.createUser(this.state);
-
         const { email, password } = this.state;
         await authenticate({ email, password });
         await this.props.attemptLogIn();
@@ -173,6 +165,7 @@ class SignUp extends Component {
                                 value={this.state.gender}
                             />
                             <Form.Input
+                                required
                                 fluid
                                 icon="mail"
                                 iconPosition="left"
@@ -201,6 +194,7 @@ class SignUp extends Component {
                                 value={this.state.state}
                             />
                             <Form.Input
+                                required
                                 fluid
                                 icon="lock"
                                 iconPosition="left"
@@ -212,6 +206,7 @@ class SignUp extends Component {
                                 error={this.state.passwordError || this.state.passwordMatchError}
                             />
                             <Form.Input
+                                required
                                 fluid
                                 icon="lock"
                                 iconPosition="left"
