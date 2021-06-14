@@ -50,7 +50,7 @@ User.init(
             allowNull: true,
             unique: false,
             validate: {
-                len: [10,20],
+                len: [10, 20],
             },
         },
         gender: {
@@ -91,19 +91,19 @@ User.init(
         },
         password: {
             type: DataTypes.STRING,
-            defaultValue: '123'
+            defaultValue: "123",
         },
         publicKey: {
             type: DataTypes.STRING,
-            validate: {
-                len: [130, 130],
-            },
+            // validate: {
+            //     len: [130, 130],
+            // },
         },
         cryptoAddress: {
             type: DataTypes.STRING,
-            validate: {
-                len: [40, 50],
-            },
+            // validate: {
+            //     len: [40, 50],
+            // },
         },
         isDonor: {
             type: DataTypes.BOOLEAN,
@@ -122,8 +122,8 @@ User.init(
 
 User.addHook("beforeCreate", async (user) => {
     user.password = await bcrypt.hash(user.password, 5);
-    user.publicKey = faker.random.alphaNumeric(130);
-    user.cryptoAddress = faker.random.alphaNumeric(40);
+    // user.publicKey = faker.random.alphaNumeric(130);
+    // user.cryptoAddress = faker.random.alphaNumeric(40);
 });
 
 const error = function () {
@@ -154,7 +154,7 @@ User.byToken = async (token) => {
 };
 
 User.randomRecipients = async (numRecipient) => {
-    const users = (await User.findAll({ where: { isDonor: false } }));
+    const users = await User.findAll({ where: { isDonor: false } });
     let shuffled = shuffle(users);
     return shuffled.slice(0, numRecipient);
 };
@@ -165,7 +165,7 @@ function shuffle(a) {
         [a[i - 1], a[j]] = [a[j], a[i - 1]];
     }
     return a;
-};
+}
 // Additional column fields from our schema that I didn't add at this time
 // Employment Status
 // Housing Status: select statement
