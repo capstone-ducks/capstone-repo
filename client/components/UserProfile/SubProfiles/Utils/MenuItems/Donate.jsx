@@ -118,6 +118,7 @@ class Donate extends Component {
 
         return accounts[0];
     }
+
     // detailEthTotal, detailNumRecipients
     async donate() {
         const amountEthToWei = await web3.utils.toHex(
@@ -127,7 +128,7 @@ class Donate extends Component {
         await this.state.donationContract.methods
             .createDonation(
                 donationId,
-                ["0xd9dfa1c796354E3f26648408851AFb89059d6355"],
+                ["0x110f20472e66458feb40E86BD57daa1d601Ff383"],
                 Number(this.state.detailNumRecipients),
             )
             .send({
@@ -135,7 +136,7 @@ class Donate extends Component {
                 value: amountEthToWei.toString(),
                 gas: 6721975, // should match given gas limit from ganache
             })
-            .then( async (receipt) => {
+            .then(async (receipt) => {
                 // console.log(receipt);
                 const donation = {
                     id: donationId,
@@ -143,12 +144,12 @@ class Donate extends Component {
                     amount: this.state.detailEthTotal, // NOTE this is not in Wei like when its sent to the contract
                     numRecipients: Number(this.state.detailNumRecipients),
                     transactionHash: receipt.transactionHash,
-                    contractAddress: receipt.to
+                    contractAddress: receipt.to,
                 };
                 await this.props.createDonationThunk(donation);
             })
             .catch((err) => {
-                console.log('Donate function error ', err);
+                console.log("Donate function error ", err);
             });
     }
 
@@ -259,12 +260,13 @@ function mapStateToProps(state) {
     return {
         user: state.auth.user,
     };
-};
+}
 
 function mapDispatchToProps(dispatch) {
     return {
-        createDonationThunk: (donation) => dispatch(createDonationThunk(donation))
-    }
+        createDonationThunk: (donation) =>
+            dispatch(createDonationThunk(donation)),
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Donate);

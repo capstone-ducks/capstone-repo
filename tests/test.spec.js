@@ -41,60 +41,60 @@ describe("Models", () => {
         //     }
         // });
 
-        it("maintains correct length for publicKey", async () => {
-            const user = User.build({
-                password: "12345678",
-                publicKey: "12345678901234567890abcnshdgetiuhdjflakjdsf",
-            });
-            const correctUser = User.build({
-                password: "12345678",
-                publicKey:
-                    "046e145ccef1033dea239875dd00dfb4fee6e3348b84985c92f103444683bae07b83b5c38e5e2b0c8529d7fa3f64d46daa1ece2d9ac14cab9477d042c84c32ccd0",
-            });
+        // it("maintains correct length for publicKey", async () => {
+        //     const user = User.build({
+        //         password: "12345678",
+        //         publicKey: "12345678901234567890abcnshdgetiuhdjflakjdsf",
+        //     });
+        //     const correctUser = User.build({
+        //         password: "12345678",
+        //         publicKey:
+        //             "046e145ccef1033dea239875dd00dfb4fee6e3348b84985c92f103444683bae07b83b5c38e5e2b0c8529d7fa3f64d46daa1ece2d9ac14cab9477d042c84c32ccd0",
+        //     });
 
-            try {
-                await user.validate();
-                throw Error(
-                    "validation was successful but should have failed with incorrect `publicKey length`",
-                );
-            } catch (err) {
-                expect(err.message).to.contain(
-                    "Validation len on publicKey failed",
-                );
-            }
+        //     try {
+        //         await user.validate();
+        //         throw Error(
+        //             "validation was successful but should have failed with incorrect `publicKey length`",
+        //         );
+        //     } catch (err) {
+        //         expect(err.message).to.contain(
+        //             "Validation len on publicKey failed",
+        //         );
+        //     }
 
-            await correctUser.validate();
-            expect(correctUser.publicKey).to.equal(
-                "046e145ccef1033dea239875dd00dfb4fee6e3348b84985c92f103444683bae07b83b5c38e5e2b0c8529d7fa3f64d46daa1ece2d9ac14cab9477d042c84c32ccd0",
-            );
-        });
+        //     await correctUser.validate();
+        //     expect(correctUser.publicKey).to.equal(
+        //         "046e145ccef1033dea239875dd00dfb4fee6e3348b84985c92f103444683bae07b83b5c38e5e2b0c8529d7fa3f64d46daa1ece2d9ac14cab9477d042c84c32ccd0",
+        //     );
+        // });
 
-        it("maintains correct length for cryptoAddress", async () => {
-            const user = User.build({
-                password: "12345678",
-                cryptoAddress: "73E291D1AB06C",
-            });
-            const correctUser = User.build({
-                password: "12345678",
-                cryptoAddress: "0x00B54E93EE2EBA3086A55F4249873E291D1AB06C",
-            });
+        // it("maintains correct length for cryptoAddress", async () => {
+        //     const user = User.build({
+        //         password: "12345678",
+        //         cryptoAddress: "73E291D1AB06C",
+        //     });
+        //     const correctUser = User.build({
+        //         password: "12345678",
+        //         cryptoAddress: "0x00B54E93EE2EBA3086A55F4249873E291D1AB06C",
+        //     });
 
-            try {
-                await user.validate();
-                throw Error(
-                    "validation was successful but should have failed with incorrect `cryptoAddress length`",
-                );
-            } catch (err) {
-                expect(err.message).to.contain(
-                    "Validation len on cryptoAddress failed",
-                );
-            }
+        //     try {
+        //         await user.validate();
+        //         throw Error(
+        //             "validation was successful but should have failed with incorrect `cryptoAddress length`",
+        //         );
+        //     } catch (err) {
+        //         expect(err.message).to.contain(
+        //             "Validation len on cryptoAddress failed",
+        //         );
+        //     }
 
-            // await correctUser.validate();
-            // expect(correctUser.cryptoAddress).to.equal(
-            //     "0x00B54E93EE2EBA3086A55F4249873E291D1AB06C",
-            // );
-        });
+        //     // await correctUser.validate();
+        //     // expect(correctUser.cryptoAddress).to.equal(
+        //     //     "0x00B54E93EE2EBA3086A55F4249873E291D1AB06C",
+        //     // );
+        // });
     });
     // describe("Donation Model", () => {
     //     it("Donation Model exists", async () => {

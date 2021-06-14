@@ -103,7 +103,7 @@ const seedUsers = async () => {
             lastName: "Valentine",
             email: "recipient2@gmail.com",
             password: "123",
-            cryptoAddress: "0xd9dfa1c796354E3f26648408851AFb89059d6355",
+            cryptoAddress: "0x97792b88d487fc55971ADf9555bA31286d4606bD",
             isDonor: false,
         });
 
@@ -129,7 +129,7 @@ const seedUsers = async () => {
             numRecipients: 2,
             transactionHash: "IAMDONATION1",
             contractAddress: "CONTRACTSHOULDBETHESAME",
-            donorId: 1
+            donorId: 1,
         });
 
         const donation2 = await Donation.create({
@@ -145,35 +145,35 @@ const seedUsers = async () => {
             id: 1,
             donationId: donation1.id,
             recipientId: recipient1.id,
-            amountOwed: donation1.amount / 2
+            amountOwed: donation1.amount / 2,
         });
 
         const donationsRecipients2 = await DonationsRecipients.create({
             id: 2,
             donationId: donation1.id,
             recipientId: recipient2.id,
-            amountOwed: donation1.amount / donation1.numRecipients
+            amountOwed: donation1.amount / donation1.numRecipients,
         });
 
         const donationsRecipients3 = await DonationsRecipients.create({
             id: 3,
             donationId: donation2.id,
             recipientId: recipient2.id,
-            amountOwed: donation2.amount / donation2.numRecipients
+            amountOwed: donation2.amount / donation2.numRecipients,
         });
 
         const donationsRecipients4 = await DonationsRecipients.create({
             id: 4,
             donationId: donation2.id,
             recipientId: recipient3.id,
-            amountOwed: donation2.amount / 3
+            amountOwed: donation2.amount / 3,
         });
 
         const donationsRecipients5 = await DonationsRecipients.create({
             id: 5,
             donationId: donation2.id,
             recipientId: recipient4.id,
-            amountOwed: donation2.amount / 3
+            amountOwed: donation2.amount / 3,
         });
 
         // Saving to db
@@ -182,7 +182,6 @@ const seedUsers = async () => {
         await donationsRecipients3.save();
         await donationsRecipients4.save();
         await donationsRecipients5.save();
-
     } catch (err) {
         console.error(err);
     }

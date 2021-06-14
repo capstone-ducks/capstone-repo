@@ -6,21 +6,14 @@ import {
 
 const initialState = {
     donations: [],
-    selectedDonation: null,
 };
 
 const donationReducer = (state = initialState, action) => {
     if (action.type === GET_ALL_DONATIONS) {
         state = action.donations;
-    } else if (action.type === GET_ONE_DONATION) {
-        state = {
-            ...state,
-            selectedDonation: action.donation,
-        };
     } else if (action.type === CREATE_DONATION) {
         state = {
-            allDonations: [...state.allDonations, action.donation],
-            selectedDonation: action.donation,
+            donations: [...state.donations, action.donation],
         };
     }
 
