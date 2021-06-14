@@ -94,6 +94,7 @@ const seedUsers = async () => {
             lastName: "Tim",
             email: "recipient@gmail.com",
             password: "123",
+            gender: 'Male',
             isDonor: false,
         });
         // recipient1.save();
@@ -103,8 +104,9 @@ const seedUsers = async () => {
             lastName: "Valentine",
             email: "recipient2@gmail.com",
             password: "123",
-            cryptoAddress: "0x97792b88d487fc55971ADf9555bA31286d4606bD",
+            cryptoAddress: "0xd9dfa1c796354E3f26648408851AFb89059d6355",
             isDonor: false,
+            gender: 'Female',
         });
 
         const recipient3 = await User.create({
@@ -113,6 +115,8 @@ const seedUsers = async () => {
             email: "recipient3@gmail.com",
             password: "123",
             isDonor: false,
+            gender: 'Female',
+            cryptoAddress: "0x71e810d1Fb275664a91840fcc3bADEe1F07De00B"
         });
 
         const recipient4 = await User.create({
@@ -121,6 +125,7 @@ const seedUsers = async () => {
             email: "recipient4@gmail.com",
             password: "123",
             isDonor: false,
+            gender: 'Male',
         });
 
         const donation1 = await Donation.create({

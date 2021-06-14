@@ -15,7 +15,7 @@ router.post("/", async (req, res, next) => {
             lastName,
             email,
             password,
-            city, 
+            city,
             state,
             isDonor: checked === "isDonor",
         });
@@ -47,7 +47,7 @@ router.put("/:id", async (req, res, next) => {
 
         // Finds user
         let user = await User.findOne({ where: { id } });
-        
+
         // If no user, 404
         if (!user) throw notFound("User not found");
 
@@ -113,10 +113,29 @@ router.get("/:id/donations", async (req, res, next) => {
     }
 });
 
-
-
+// Create an object that we send back
+router.post("/recipients", async (req, res, next) => {
+    try {
+        const { gender, numRecipients } = req.body;
+        const users = await User.findAll({ where: { gender } });
+        const recipients = await User.randomRecipients(numRecipients, users);
+        const recipientIds = recipients.map(({id}) => id);
+        const cryptoAddresses = recipients.map(({cryptoAddress}) => cryptoAddress);
+        res.status(201).send({recipientIds, cryptoAddresses});
+    }
+    catch (error) {
+        console.log('Error in POST /users/recipients route', error);
+        next(error);
+    }
+});
 
 module.exports = router;
+
+// donor makes a donation - male/female/nonbinary/don't care
+// send a post request to users
+// we send back an array of recipients that is the same number that they specify in numRecipients
+// then these addresses are used to create the donation
+// post request to our donations route including the origin recipient array.
 
 
 // router.delete("/:id", async (req, res, next) => {
