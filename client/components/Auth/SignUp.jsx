@@ -7,6 +7,7 @@ import {
     Header,
     Segment,
     Divider,
+    Message,
 } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { addUser, signIn } from "../../store/thunk";

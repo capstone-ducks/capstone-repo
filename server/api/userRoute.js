@@ -16,6 +16,7 @@ router.post("/", async (req, res, next) => {
             city,
             state,
             checked,
+            gender,
             clientWalletAddress,
         } = req.body;
 
@@ -27,6 +28,7 @@ router.post("/", async (req, res, next) => {
             city,
             state,
             isDonor: checked === "isDonor",
+            gender,
             cryptoAddress: clientWalletAddress,
         });
         res.status(201).send(newUser);
