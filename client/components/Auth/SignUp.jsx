@@ -16,6 +16,7 @@ import {
     raceOptions,
 } from "../UserProfile/SubProfiles/Utils/MenuItems/DonateFormItems";
 import MetaMaskOnboarding from "@metamask/onboarding";
+import "../../../public/assets/signup.css";
 
 class SignUp extends Component {
     constructor(props) {
@@ -189,52 +190,55 @@ class SignUp extends Component {
                     >
                         <Segment>
                             <Divider horizontal>Personal Information</Divider>
-                            <Form.Input
-                                fluid
-                                icon="user"
-                                iconPosition="left"
-                                placeholder="FirstName"
-                                name="firstName"
-                                onChange={this.handleChange}
-                                value={this.state.firstName}
-                                error={this.state.firstNameError}
-                            />
-                            <Form.Input
-                                fluid
-                                icon="user"
-                                iconPosition="left"
-                                placeholder="LastName"
-                                name="lastName"
-                                onChange={this.handleChange}
-                                value={this.state.lastName}
-                                error={this.state.lastNameError}
-                            />
-                            <Form.Select
-                                fluid
-                                options={genderOptions}
-                                placeholder="Gender"
-                                name="gender"
-                                onChange={this.handleSelect}
-                                value={this.state.gender}
-                            />
-                            <Form.Input
-                                fluid
-                                icon="map marker alternate"
-                                iconPosition="left"
-                                placeholder="City"
-                                name="city"
-                                onChange={this.handleChange}
-                                value={this.state.city}
-                            />
-                            <Form.Input
-                                fluid
-                                icon="map marker alternate"
-                                iconPosition="left"
-                                placeholder="State"
-                                name="state"
-                                onChange={this.handleChange}
-                                value={this.state.state}
-                            />
+                            <Form.Group widths="equal">
+                                <Form.Input
+                                    icon="user"
+                                    iconPosition="left"
+                                    placeholder="FirstName"
+                                    name="firstName"
+                                    onChange={this.handleChange}
+                                    value={this.state.firstName}
+                                    error={this.state.firstNameError}
+                                />
+                                <Form.Input
+                                    icon="user"
+                                    iconPosition="left"
+                                    placeholder="LastName"
+                                    name="lastName"
+                                    onChange={this.handleChange}
+                                    value={this.state.lastName}
+                                    error={this.state.lastNameError}
+                                />
+                            </Form.Group>
+                            <Form.Group widths="equal">
+                                <Form.Input
+                                    fluid
+                                    icon="map marker alternate"
+                                    iconPosition="left"
+                                    placeholder="City"
+                                    name="city"
+                                    onChange={this.handleChange}
+                                    value={this.state.city}
+                                />
+                                <Form.Input
+                                    fluid
+                                    icon="map marker alternate"
+                                    iconPosition="left"
+                                    placeholder="State"
+                                    name="state"
+                                    onChange={this.handleChange}
+                                    value={this.state.state}
+                                />
+                                <Form.Select
+                                    fluid
+                                    options={genderOptions}
+                                    placeholder="Gender"
+                                    name="gender"
+                                    onChange={this.handleSelect}
+                                    value={this.state.gender}
+                                />
+                            </Form.Group>
+                            <Divider horizontal></Divider>
                             <Divider horizontal>Sign In Information</Divider>
                             <Form.Input
                                 required
@@ -247,42 +251,46 @@ class SignUp extends Component {
                                 value={this.state.email}
                                 error={this.state.emailError}
                             />
-                            <Form.Input
-                                required
-                                fluid
-                                icon="lock"
-                                iconPosition="left"
-                                placeholder="Password"
-                                type="password"
-                                name="password"
-                                onChange={this.handleChange}
-                                value={this.state.password}
-                                error={
-                                    this.state.passwordError ||
-                                    this.state.passwordMatchError
-                                }
-                            />
-                            <Form.Input
-                                required
-                                fluid
-                                icon="lock"
-                                iconPosition="left"
-                                placeholder="Confirm Password"
-                                type="password"
-                                name="confirmPassword"
-                                onChange={this.handleChange}
-                                value={this.state.confirmPassword}
-                                error={
-                                    this.state.confirmPasswordError ||
-                                    this.state.passwordMatchError
-                                }
-                            />
+                            <Form.Group widths="equal">
+                                <Form.Input
+                                    required
+                                    fluid
+                                    icon="lock"
+                                    iconPosition="left"
+                                    placeholder="Password"
+                                    type="password"
+                                    name="password"
+                                    onChange={this.handleChange}
+                                    value={this.state.password}
+                                    error={
+                                        this.state.passwordError ||
+                                        this.state.passwordMatchError
+                                    }
+                                />
+                                <Form.Input
+                                    required
+                                    fluid
+                                    icon="lock"
+                                    iconPosition="left"
+                                    placeholder="Confirm Password"
+                                    type="password"
+                                    name="confirmPassword"
+                                    onChange={this.handleChange}
+                                    value={this.state.confirmPassword}
+                                    error={
+                                        this.state.confirmPasswordError ||
+                                        this.state.passwordMatchError
+                                    }
+                                />
+                            </Form.Group>
+
                             {this.state.passwordMatchError ? (
                                 <Message
                                     error
                                     content="passwords do not match"
                                 />
                             ) : null}
+                            <Divider horizontal></Divider>
                             <Divider horizontal>Connect Wallet</Divider>
                             {metaMaskInstalled ? (
                                 <Form.Button
@@ -298,17 +306,15 @@ class SignUp extends Component {
                                         right: -3,
                                         textAlign: "center",
                                     }}
+                                    disabled
                                     onClick={(e) => {
                                         e.preventDefault();
                                     }}
                                 >
-                                    MetaMask Connected!
+                                    MetaMask Connected
                                 </Form.Button>
                             ) : (
-                                <Segment
-                                    placeholder
-                                    style={{ height: "200px" }}
-                                >
+                                <Segment placeholder id="sign-up-segment">
                                     <Grid columns={2} stackable>
                                         <Grid.Column>
                                             <Form.Input
