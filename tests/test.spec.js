@@ -28,18 +28,18 @@ describe("Models", () => {
             expect(user.lastName).to.equal("User");
         });
 
-        it("requires `password`", async () => {
-            const user = User.build();
-            try {
-                await user.validate();
+        // it("requires `password`", async () => {
+        //     const user = User.build();
+        //     try {
+        //         await user.validate();
 
-                throw Error(
-                    "validation was successful but should have failed without `password`",
-                );
-            } catch (err) {
-                expect(err.message).to.contain("password cannot be null");
-            }
-        });
+        //         throw Error(
+        //             "validation was successful but should have failed without `password`",
+        //         );
+        //     } catch (err) {
+        //         expect(err.message).to.contain("password cannot be null");
+        //     }
+        // });
 
         it("maintains correct length for publicKey", async () => {
             const user = User.build({

@@ -91,10 +91,7 @@ User.init(
         },
         password: {
             type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notEmpty: true,
-            },
+            defaultValue: '123'
         },
         publicKey: {
             type: DataTypes.STRING,
