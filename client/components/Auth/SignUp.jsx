@@ -1,15 +1,11 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import {
     Button,
     Form,
     Grid,
     Header,
-    Image,
-    Message,
     Segment,
-    Select,
-    Checkbox,
 } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { addUser, signIn } from "../../store/thunk";
@@ -34,10 +30,7 @@ class SignUp extends Component {
 
     async handleSubmit(e) {
         e.preventDefault();
-        // console.log(this.props, "submit handle");
-        // console.log(this.state, "submit handle");
         await this.props.createUser(this.state);
-
         const { email, password } = this.state;
         await authenticate({ email, password });
         await this.props.attemptLogIn();
