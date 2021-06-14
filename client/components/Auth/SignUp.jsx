@@ -118,10 +118,15 @@ class SignUp extends Component {
             this.setState({ passwordMatchError: false });
         }
 
+        if (!this.state.clientWalletAddress) {
+            error = true;
+        }
+
         if (error) {
             this.setState({ formError: true });
             return;
         }
+
         this.setState({ formError: false });
         await this.props.createUser(this.state);
         const { email, password } = this.state;
@@ -324,6 +329,8 @@ class SignUp extends Component {
                                                 iconPosition="left"
                                                 label="Enter Manually"
                                                 placeholder="Wallet Address"
+                                                name="clientWalletAddress"
+                                                onChange={this.handleChange}
                                             />
                                         </Grid.Column>
                                         <Grid.Column verticalAlign="middle">
