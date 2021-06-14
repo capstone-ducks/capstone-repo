@@ -11,25 +11,96 @@ import { connect } from "react-redux";
 import { addUser, signIn } from "../../store/thunk";
 import authenticate from "./authenticate";
 
+const options = [
+    { key: 'm', text: 'Male', value: 'male' },
+    { key: 'f', text: 'Female', value: 'female' },
+    { key: 'o', text: 'Other', value: 'other' },
+  ]
+
 class SignUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
             firstName: "",
+            firstNameError:false,
             lastName: "",
+            lastNameError: false,
+            gender:"",
             email: "",
+            emailError: false,
             password: "",
+            city: "",
+            state: "",
+            passwordError:false,
             confirmPassword: "",
+            confirmPasswordError:false,
+            passwordMatchError:false,
+            formError:false,
             checked: "isDonor",
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleSelect = this.handleSelect.bind(this)
         this.handleRadioChange = this.handleRadioChange.bind(this);
         this.redirect = this.redirect.bind(this);
     }
 
+    handleSelect (e, {value}){
+        // console.log(value);
+         this.setState({
+             gender: value,
+         });
+     }
+ 
+
     async handleSubmit(e) {
         e.preventDefault();
+        let error = false;
+        if(this.state.firstName === ''){
+            this.setState({firstNameError: true});
+            error = true;
+        } else{
+            this.setState({firstNameError: false})
+        }
+
+        if(this.state.lastName === ''){
+            this.setState({lastNameError: true});
+            error = true;
+        } else{
+            this.setState({lastNameError: false})
+        }
+
+        if(this.state.email === ''){
+            this.setState({emailError: true});
+            error = true;
+        } else{
+            this.setState({emailError: false})
+        }
+        if(this.state.password=== ''){
+            this.setState({passwordError: true});
+            error = true;
+        } else{
+            this.setState({passwordError: false})
+        }
+
+        if(this.state.confirmPassword=== ''){
+            this.setState({confirmPasswordError: true});
+            error = true;
+        } else{
+            this.setState({confirmPasswordError: false})
+        }
+        if(this.state.password !== this.state.confirmPassword ){
+            this.setState({passwordMatchError: true});
+            error = true;
+        } else{
+            this.setState({passwordMatchError: false})
+        }
+
+        if(error){
+            this.setState({formError:true})
+            return
+        }
+        this.setState({formError : false});
         await this.props.createUser(this.state);
         const { email, password } = this.state;
         await authenticate({ email, password });
@@ -63,7 +134,7 @@ class SignUp extends Component {
             >
                 <Grid.Column style={{ maxWidth: 450 }}>
                     <Header as="h2" color="teal" textAlign="center"></Header>
-                    <Form size="large" onSubmit={this.handleSubmit}>
+                    <Form size="large" onSubmit={this.handleSubmit} error={this.state.formError}>
                         <Segment stacked>
                             <Form.Input
                                 fluid
@@ -73,6 +144,7 @@ class SignUp extends Component {
                                 name="firstName"
                                 onChange={this.handleChange}
                                 value={this.state.firstName}
+                                error={this.state.firstNameError}
                             />
                             <Form.Input
                                 fluid
@@ -82,6 +154,15 @@ class SignUp extends Component {
                                 name="lastName"
                                 onChange={this.handleChange}
                                 value={this.state.lastName}
+                                error={this.state.lastNameError}
+                            />
+                             <Form.Select
+                                fluid
+                                options={options}
+                                placeholder='Gender'
+                                name="gender"
+                                onChange={this.handleSelect}
+                                value={this.state.gender}
                             />
                             <Form.Input
                                 required
@@ -92,6 +173,25 @@ class SignUp extends Component {
                                 name="email"
                                 onChange={this.handleChange}
                                 value={this.state.email}
+                                error={this.state.emailError}
+                            />
+                            <Form.Input
+                                fluid
+                                icon="map marker alternate"
+                                iconPosition="left"
+                                placeholder="City"
+                                name="city"
+                                onChange={this.handleChange}
+                                value={this.state.city}
+                            />
+                            <Form.Input
+                                fluid
+                                icon="map marker alternate"
+                                iconPosition="left"
+                                placeholder="State"
+                                name="state"
+                                onChange={this.handleChange}
+                                value={this.state.state}
                             />
                             <Form.Input
                                 required
@@ -103,6 +203,7 @@ class SignUp extends Component {
                                 name="password"
                                 onChange={this.handleChange}
                                 value={this.state.password}
+                                error={this.state.passwordError || this.state.passwordMatchError}
                             />
                             <Form.Input
                                 required
@@ -114,7 +215,17 @@ class SignUp extends Component {
                                 name="confirmPassword"
                                 onChange={this.handleChange}
                                 value={this.state.confirmPassword}
-                            />
+                                error={this.state.confirmPasswordError || this.state.passwordMatchError}
+                                />
+                                {this.state.passwordMatchError
+                                ?
+                                <Message
+                                error
+                                content='passwords do not match'
+                                />
+                                :
+                                null}
+                            
                             <Form.Group inline>
                                 <label>Type of User</label>
                                 <Form.Radio
