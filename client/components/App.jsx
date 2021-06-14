@@ -35,11 +35,6 @@ class App extends Component {
                         <Route exact path="/" component={Homepage} />
                         <Route exact path="/sign-in" component={SignInForm} />
                         <Route exact path="/sign-up" component={SignUp} />
-                        <Route
-                            exact
-                            path="/sign-up/recipient"
-                            component={SignUpRecipient}
-                        />
                         <Route path="/user/:id" component={UserProfile} />
                     </Switch>
                 </main>

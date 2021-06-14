@@ -1,15 +1,20 @@
 import React, { Component } from "react";
 // import { Link } from "react-router-dom";
-import { Button, Form, Grid, Header, Segment } from "semantic-ui-react";
+import {
+    Button,
+    Form,
+    Grid,
+    Header,
+    Segment,
+    Divider,
+} from "semantic-ui-react";
 import { connect } from "react-redux";
 import { addUser, signIn } from "../../store/thunk";
 import authenticate from "./authenticate";
-
-const options = [
-    { key: "m", text: "Male", value: "male" },
-    { key: "f", text: "Female", value: "female" },
-    { key: "o", text: "Other", value: "other" },
-];
+import {
+    genderOptions,
+    raceOptions,
+} from "../UserProfile/SubProfiles/Utils/MenuItems/DonateFormItems";
 
 class SignUp extends Component {
     constructor(props) {
@@ -126,13 +131,16 @@ class SignUp extends Component {
                 verticalAlign="middle"
             >
                 <Grid.Column style={{ maxWidth: 450 }}>
-                    <Header as="h2" color="teal" textAlign="center"></Header>
+                    <Header as="h2" color="blue" textAlign="center">
+                        Sign Up
+                    </Header>
                     <Form
                         size="large"
                         onSubmit={this.handleSubmit}
                         error={this.state.formError}
                     >
-                        <Segment stacked>
+                        <Segment>
+                            <Divider horizontal>Personal Information</Divider>
                             <Form.Input
                                 fluid
                                 icon="user"
@@ -155,22 +163,11 @@ class SignUp extends Component {
                             />
                             <Form.Select
                                 fluid
-                                options={options}
+                                options={genderOptions}
                                 placeholder="Gender"
                                 name="gender"
                                 onChange={this.handleSelect}
                                 value={this.state.gender}
-                            />
-                            <Form.Input
-                                required
-                                fluid
-                                icon="mail"
-                                iconPosition="left"
-                                placeholder="E-mail address"
-                                name="email"
-                                onChange={this.handleChange}
-                                value={this.state.email}
-                                error={this.state.emailError}
                             />
                             <Form.Input
                                 fluid
@@ -189,6 +186,18 @@ class SignUp extends Component {
                                 name="state"
                                 onChange={this.handleChange}
                                 value={this.state.state}
+                            />
+                            <Divider horizontal>Sign In Information</Divider>
+                            <Form.Input
+                                required
+                                fluid
+                                icon="mail"
+                                iconPosition="left"
+                                placeholder="E-mail address"
+                                name="email"
+                                onChange={this.handleChange}
+                                value={this.state.email}
+                                error={this.state.emailError}
                             />
                             <Form.Input
                                 required
@@ -246,7 +255,7 @@ class SignUp extends Component {
                                     onChange={this.handleRadioChange}
                                 />
                             </Form.Group>
-                            <Button color="teal" fluid size="large">
+                            <Button color="blue" fluid size="large">
                                 Submit
                             </Button>
                         </Segment>
