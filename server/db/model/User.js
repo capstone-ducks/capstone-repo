@@ -153,9 +153,9 @@ User.byToken = async (token) => {
     }
 };
 
-User.randomRecipients = async (numRecipient) => {
-    const users = await User.findAll({ where: { isDonor: false } });
-    let shuffled = shuffle(users);
+User.randomRecipients = async (numRecipient, array) => {
+    if ( numRecipient > array.length ) return array;
+    let shuffled = shuffle(array);
     return shuffled.slice(0, numRecipient);
 };
 

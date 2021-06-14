@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Form, Accordion } from "semantic-ui-react";
 import MetaMaskOnboarding from "@metamask/onboarding";
 import Web3 from "web3";
+import axios from "axios";
 import DonationContract from "../../../../../../build/contracts/DonationContract.json";
 import generateDonationId from "../../../../../utils/generateDonationId";
 import { createDonationThunk } from "../../../../../store/thunk/donations";
@@ -124,11 +125,19 @@ class Donate extends Component {
         const amountEthToWei = await web3.utils.toHex(
             web3.utils.toWei(this.state.detailEthTotal.toString(), "ether"),
         );
+        const { data } = await axios.post("api/users/recipients", {
+            numRecipients: this.state.detailNumRecipients,
+            gender: "Female",
+        });
+        console.log('DATA', data)
+        const { recipientIds, cryptoAddresses } = data;
+        console.log('ADDRESSES', cryptoAddresses)
+
         const donationId = await generateDonationId();
         await this.state.donationContract.methods
             .createDonation(
                 donationId,
-                ["0x110f20472e66458feb40E86BD57daa1d601Ff383"],
+                cryptoAddresses,
                 Number(this.state.detailNumRecipients),
             )
             .send({
@@ -145,6 +154,7 @@ class Donate extends Component {
                     numRecipients: Number(this.state.detailNumRecipients),
                     transactionHash: receipt.transactionHash,
                     contractAddress: receipt.to,
+                    recipientIds,
                 };
                 await this.props.createDonationThunk(donation);
             })

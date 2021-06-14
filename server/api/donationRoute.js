@@ -99,6 +99,7 @@ router.post("/", async (req, res, next) => {
             donorId,
             transactionHash,
             contractAddress,
+            recipientIds
             // recipient location, etc. data that is selected by donor
 
         } = req.body;
@@ -119,11 +120,11 @@ router.post("/", async (req, res, next) => {
             contractAddress,
             // recipient location, etc. data that is selected by donor
         });
-        const recipients = await User.randomRecipients(numRecipients); // fetch from findALL
-        recipients.map(async (recipient) => {
+        // const recipients = await User.randomRecipients(numRecipients); // fetch from findALL
+        recipientIds.map(async (recipientId) => {
             await DonationsRecipients.create({
                 donationId: donation.id,
-                recipientId: recipient.id,
+                recipientId: recipientId,
                 amountOwed: donation.amount / donation.numRecipients
             });
         });
