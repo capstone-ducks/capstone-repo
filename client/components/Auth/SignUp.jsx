@@ -15,11 +15,14 @@ import {
     genderOptions,
     raceOptions,
 } from "../UserProfile/SubProfiles/Utils/MenuItems/DonateFormItems";
+import MetaMaskOnboarding from "@metamask/onboarding";
 
 class SignUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            metaMaskInstalled: false,
+            clientWalletAddress: "",
             firstName: "",
             firstNameError: false,
             lastName: "",
@@ -42,6 +45,26 @@ class SignUp extends Component {
         this.handleSelect = this.handleSelect.bind(this);
         this.handleRadioChange = this.handleRadioChange.bind(this);
         this.redirect = this.redirect.bind(this);
+        this.getClientAddress = this.getClientAddress.bind(this);
+        this.installMetaMask = this.installMetaMask.bind(this);
+        this.isMetaMaskInstalled = this.isMetaMaskInstalled.bind(this);
+    }
+
+    // On mount, see if MetaMask is installed. If it is, get wallet balance/information
+    async componentDidMount() {
+        try {
+            const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
+            if (metaMaskInstalled) {
+                const clientAddress = await this.getClientAddress();
+
+                this.setState({
+                    metaMaskInstalled,
+                    clientWalletAddress: clientAddress,
+                });
+            }
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     handleSelect(e, { value }) {
@@ -148,13 +171,14 @@ class SignUp extends Component {
     }
 
     render() {
+        const { metaMaskInstalled } = this.state;
         return (
             <Grid
                 textAlign="center"
                 style={{ height: "100vh" }}
                 verticalAlign="middle"
             >
-                <Grid.Column style={{ maxWidth: 450 }}>
+                <Grid.Column style={{ maxWidth: 500 }}>
                     <Header as="h2" color="blue" textAlign="center">
                         Sign Up
                     </Header>
@@ -260,39 +284,70 @@ class SignUp extends Component {
                                 />
                             ) : null}
                             <Divider horizontal>Connect Wallet</Divider>
-                            <Segment placeholder>
-                                <Grid columns={2} stackable>
-                                    <Grid.Column>
-                                        <Form.Input
-                                            icon="user"
-                                            iconPosition="left"
-                                            label="Username"
-                                            placeholder="Username"
-                                        />
-                                    </Grid.Column>
-                                    <Grid.Column verticalAlign="middle">
-                                        <Form.Button
-                                            style={{
-                                                backgroundColor: "#d76f63",
-                                                color: "white",
-                                                fontFamily: "lato",
-                                                fontWeight: 400,
-                                                fontSize: 14,
-                                                width: 125,
-                                                height: 60,
-                                                position: "relative",
-                                                right: -3,
-                                                textAlign: "center",
-                                            }}
-                                            size="medium"
-                                            onClick={this.installMetaMask}
-                                        >
-                                            Connect MetaMask
-                                        </Form.Button>
-                                    </Grid.Column>
-                                </Grid>
-                                <Divider vertical>Or</Divider>
-                            </Segment>
+                            {metaMaskInstalled ? (
+                                <Form.Button
+                                    style={{
+                                        backgroundColor: "#2654ba",
+                                        color: "white",
+                                        fontFamily: "lato",
+                                        fontWeight: 400,
+                                        fontSize: 14,
+                                        width: 125,
+                                        height: 60,
+                                        position: "relative",
+                                        right: -3,
+                                        textAlign: "center",
+                                    }}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                    }}
+                                >
+                                    MetaMask Connected!
+                                </Form.Button>
+                            ) : (
+                                <Segment
+                                    placeholder
+                                    style={{ height: "200px" }}
+                                >
+                                    <Grid columns={2} stackable>
+                                        <Grid.Column>
+                                            <Form.Input
+                                                fluid
+                                                style={{ paddingRight: "25px" }}
+                                                icon="address card"
+                                                iconPosition="left"
+                                                label="Enter Manually"
+                                                placeholder="Wallet Address"
+                                            />
+                                        </Grid.Column>
+                                        <Grid.Column verticalAlign="middle">
+                                            <Form.Button
+                                                style={{
+                                                    backgroundColor: "#d76f63",
+                                                    color: "white",
+                                                    fontFamily: "lato",
+                                                    fontWeight: 400,
+                                                    fontSize: 14,
+                                                    width: 125,
+                                                    height: 60,
+                                                    position: "relative",
+                                                    right: -3,
+                                                    textAlign: "center",
+                                                }}
+                                                size="medium"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    this.installMetaMask();
+                                                }}
+                                            >
+                                                Connect MetaMask
+                                            </Form.Button>
+                                        </Grid.Column>
+                                    </Grid>
+                                    <Divider vertical>Or</Divider>
+                                </Segment>
+                            )}
+
                             <Divider />
                             <Form.Group inline>
                                 <label>Type of User</label>
