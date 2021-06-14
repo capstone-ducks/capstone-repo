@@ -92,7 +92,7 @@ router.post("/", async (req, res, next) => {
     try {
         if (!req.body) res.sendStatus(400);
 
-        const {
+        let {
             id,
             amount,
             numRecipients,
@@ -102,6 +102,14 @@ router.post("/", async (req, res, next) => {
             // recipient location, etc. data that is selected by donor
 
         } = req.body;
+        console.log(donorId, "before DonationRoute")
+        if(!donorId ){
+            const newUser = await User.create({
+                isDonor:true
+            });
+            donorId = newUser.id;
+            console.log(donorId, "DonationRoute")
+        }
         const donation = await Donation.create({
             id,
             amount,
