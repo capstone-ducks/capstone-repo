@@ -39,7 +39,7 @@ class UnclaimedCard extends Component {
         return accounts[0];
     }
 
-    async clickApprove(donationId, amountOwed) {
+    async clickApprove(donationId, amountOwed, contractAddress) {
         const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
         if (metaMaskInstalled) {
             const clientAddress = await this.getClientAddress();
@@ -47,28 +47,42 @@ class UnclaimedCard extends Component {
             // Gives Web3 Blockchain provider (MetaMask)
             window.web3 = new Web3(window.ethereum);
             const web3 = window.web3;
-
+            let accounts = await web3.eth.getAccounts();
+            console.log(accounts, 'accounts');
             // making dynamic network
             const networkId = await web3.eth.net.getId();
             const networkData = DonationContract.networks[networkId];
 
+            const amountEthToWei = await web3.utils.toHex(
+                web3.utils.toWei(amountOwed.toString(), "ether").toString(),
+            );
+            console.log(clientAddress, 'client address');
+            console.log(amountEthToWei, 'ether to wei');
+            console.log(contractAddress, 'contractAddress');
             if (networkData) {
                 const donationContract = new web3.eth.Contract(
                     DonationContract.abi,
                     networkData.address,
                 );
-
-                await donationContract.methods
-                    .claimDonation(donationId, clientAddress)
-                    .send({
-                        from: clientAddress,
-                        value: 0,
-                        gas: 6721975, // should match given gas limit from ganache});
-                    })
-                    .then(async (receipt) => {
-                        console.table(receipt);
-                    })
-                    .catch((err) => console.error(err));
+                await donationContract.events.allEvents({ filter: {}, fromBlock: 53 })
+                .on('data', console.log)
+                .on('error', console.error);
+                
+                // let balance = await donationContract.methods.balanceOfContract().call({
+                //     from: contractAddress
+                // });
+                // console.log(balance, 'conract balance');
+                // await donationContract.methods
+                //     .claimDonation(donationId, clientAddress)
+                //     .send({
+                //         from: clientAddress,
+                //         value: 0,
+                //         gas: 6721975, // should match given gas limit from ganache});
+                //     })
+                //     .then(async (receipt) => {
+                //         console.table(receipt);
+                //     })
+                //     .catch((err) => console.error(err));
             }
         } else {
             this.installMetaMask();
@@ -86,6 +100,7 @@ class UnclaimedCard extends Component {
                         if (!donation.users[0].donationsRecipients.isClaimed) {
                             const { donationId, amountOwed } =
                                 donation.users[0].donationsRecipients;
+                                const {contractAddress} = donation;
                             return (
                                 <Card key={donation.id}>
                                     <Card.Content>
@@ -130,6 +145,7 @@ class UnclaimedCard extends Component {
                                                     this.clickApprove(
                                                         donationId,
                                                         amountOwed,
+                                                        contractAddress
                                                     )
                                                 }
                                             >
