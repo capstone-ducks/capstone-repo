@@ -6,10 +6,20 @@ const {
 // Errors
 const { notFound, badSyntax, conflict, unauthorized } = require("./errors");
 
-
 router.post("/", async (req, res, next) => {
     try {
-        const { firstName, lastName, email, password, city, state, checked } = req.body;
+        const {
+            firstName,
+            lastName,
+            email,
+            password,
+            city,
+            state,
+            checked,
+            gender,
+            clientWalletAddress,
+        } = req.body;
+
         const newUser = await User.create({
             firstName,
             lastName,
@@ -18,6 +28,8 @@ router.post("/", async (req, res, next) => {
             city,
             state,
             isDonor: checked === "isDonor",
+            gender,
+            cryptoAddress: clientWalletAddress,
         });
         res.status(201).send(newUser);
     } catch (error) {
@@ -30,7 +42,8 @@ router.post("/", async (req, res, next) => {
 router.put("/:id", async (req, res, next) => {
     try {
         const { id } = req.params;
-        const { firstName, lastName, email, phone, gender, race, city, state} = req.body;
+        const { firstName, lastName, email, phone, gender, race, city, state } =
+            req.body;
 
         // Need token to prove you have the authentication to edit yourself
         const token = req.headers.authorization;
@@ -73,7 +86,6 @@ router.put("/:id", async (req, res, next) => {
     }
 });
 
-
 // Gets associated donations with specific user
 router.get("/:id/donations", async (req, res, next) => {
     try {
@@ -85,8 +97,8 @@ router.get("/:id/donations", async (req, res, next) => {
                 where: { donorId: id },
                 include: [
                     { model: User, as: "donor" },
-                    { model: User, through: DonationsRecipients }
-                ]
+                    { model: User, through: DonationsRecipients },
+                ],
             });
             res.status(200).send(donations);
         } else {
@@ -97,18 +109,18 @@ router.get("/:id/donations", async (req, res, next) => {
                         where: {
                             id,
                         },
-                        through: { DonationsRecipients }
+                        through: { DonationsRecipients },
                     },
                     {
                         model: User,
-                        as: "donor"
-                    }
-                ]
+                        as: "donor",
+                    },
+                ],
             });
             res.status(200).send(donations);
         }
     } catch (error) {
-        console.log('Error in GET /api/users/:id/donations route', error);
+        console.log("Error in GET /api/users/:id/donations route", error);
         next(error);
     }
 });
@@ -119,12 +131,13 @@ router.post("/recipients", async (req, res, next) => {
         const { gender, numRecipients } = req.body;
         const users = await User.findAll({ where: { gender } });
         const recipients = await User.randomRecipients(numRecipients, users);
-        const recipientIds = recipients.map(({id}) => id);
-        const cryptoAddresses = recipients.map(({cryptoAddress}) => cryptoAddress);
-        res.status(201).send({recipientIds, cryptoAddresses});
-    }
-    catch (error) {
-        console.log('Error in POST /users/recipients route', error);
+        const recipientIds = recipients.map(({ id }) => id);
+        const cryptoAddresses = recipients.map(
+            ({ cryptoAddress }) => cryptoAddress,
+        );
+        res.status(201).send({ recipientIds, cryptoAddresses });
+    } catch (error) {
+        console.log("Error in POST /users/recipients route", error);
         next(error);
     }
 });
@@ -136,7 +149,6 @@ module.exports = router;
 // we send back an array of recipients that is the same number that they specify in numRecipients
 // then these addresses are used to create the donation
 // post request to our donations route including the origin recipient array.
-
 
 // router.delete("/:id", async (req, res, next) => {
 //     try {
@@ -150,8 +162,6 @@ module.exports = router;
 //         next(error);
 //     }
 // });
-
-
 
 /* can use for admin */
 // router.get("/", async (req, res, next) => {
