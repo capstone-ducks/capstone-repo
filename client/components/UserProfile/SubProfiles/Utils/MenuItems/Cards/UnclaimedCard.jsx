@@ -48,7 +48,6 @@ class UnclaimedCard extends Component {
             window.web3 = new Web3(window.ethereum);
             const web3 = window.web3;
             let accounts = await web3.eth.getAccounts();
-            console.log(accounts, 'accounts');
             // making dynamic network
             const networkId = await web3.eth.net.getId();
             const networkData = DonationContract.networks[networkId];
@@ -56,6 +55,8 @@ class UnclaimedCard extends Component {
             const amountEthToWei = await web3.utils.toHex(
                 web3.utils.toWei(amountOwed.toString(), "ether").toString(),
             );
+            console.log(accounts, 'accounts');
+            console.log(donationId, 'donation ID');
             console.log(clientAddress, 'client address');
             console.log(amountEthToWei, 'ether to wei');
             console.log(contractAddress, 'contractAddress');
@@ -64,25 +65,27 @@ class UnclaimedCard extends Component {
                     DonationContract.abi,
                     networkData.address,
                 );
-                await donationContract.events.allEvents({ filter: {}, fromBlock: 53 })
-                .on('data', console.log)
-                .on('error', console.error);
+               
                 
-                // let balance = await donationContract.methods.balanceOfContract().call({
-                //     from: contractAddress
+                // await donationContract.methods.balanceOfContract().call().then(function(result){
+                //     console.log(result, 'balance result');
                 // });
-                // console.log(balance, 'conract balance');
-                // await donationContract.methods
-                //     .claimDonation(donationId, clientAddress)
-                //     .send({
-                //         from: clientAddress,
-                //         value: 0,
-                //         gas: 6721975, // should match given gas limit from ganache});
-                //     })
-                //     .then(async (receipt) => {
-                //         console.table(receipt);
-                //     })
-                //     .catch((err) => console.error(err));
+                //console.log(balance, 'contract balance');
+
+                await donationContract.methods
+                    .claimDonation(donationId, clientAddress)
+                    .send({
+                        from: clientAddress,
+                    })
+                    .on('confirmation', function(confirmationNumber, receipt){
+                        console.log(confirmationNumber);
+                    })
+                    .on('receipt', function(receipt){
+                    console.log(receipt);
+                })
+                .on('error', function(error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
+                    console.log(error);
+                });
             }
         } else {
             this.installMetaMask();
