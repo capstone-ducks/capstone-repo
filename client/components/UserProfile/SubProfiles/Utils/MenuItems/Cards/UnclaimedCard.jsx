@@ -39,7 +39,7 @@ class UnclaimedCard extends Component {
         return accounts[0];
     }
 
-    async clickApprove(donationId, amountOwed, contractAddress) {
+    async clickApprove(donationId) {
         const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
         if (metaMaskInstalled) {
             const clientAddress = await this.getClientAddress();
@@ -52,25 +52,15 @@ class UnclaimedCard extends Component {
             const networkId = await web3.eth.net.getId();
             const networkData = DonationContract.networks[networkId];
 
-            const amountEthToWei = await web3.utils.toHex(
-                web3.utils.toWei(amountOwed.toString(), "ether").toString(),
-            );
-            console.log(accounts, 'accounts');
-            console.log(donationId, 'donation ID');
-            console.log(clientAddress, 'client address');
-            console.log(amountEthToWei, 'ether to wei');
-            console.log(contractAddress, 'contractAddress');
             if (networkData) {
                 const donationContract = new web3.eth.Contract(
                     DonationContract.abi,
                     networkData.address,
                 );
-               
-                
+
                 // await donationContract.methods.balanceOfContract().call().then(function(result){
                 //     console.log(result, 'balance result');
                 // });
-                //console.log(balance, 'contract balance');
 
                 await donationContract.methods
                     .claimDonation(donationId, clientAddress)
@@ -146,9 +136,7 @@ class UnclaimedCard extends Component {
                                                 color="green"
                                                 onClick={() =>
                                                     this.clickApprove(
-                                                        donationId,
-                                                        amountOwed,
-                                                        contractAddress
+                                                        donationId
                                                     )
                                                 }
                                             >
