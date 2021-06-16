@@ -8,9 +8,15 @@ class UserProfile extends Component {
         this.state = {};
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.user !== this.props.user) {
+            this.props.history.push("/");
+        }
+    }
+
     render() {
         if (!this.props.user) {
-            return `BAD! You didn't sign in.`;
+            return "Redirecting...";
         }
 
         const { isDonor } = this.props.user;
