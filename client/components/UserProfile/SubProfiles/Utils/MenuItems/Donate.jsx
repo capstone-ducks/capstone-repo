@@ -129,9 +129,8 @@ class Donate extends Component {
             numRecipients: this.state.detailNumRecipients,
             gender: "Female",
         });
-        console.log('DATA', data)
+
         const { recipientIds, cryptoAddresses } = data;
-        console.log('ADDRESSES', cryptoAddresses)
 
         const donationId = await generateDonationId();
         await this.state.donationContract.methods
