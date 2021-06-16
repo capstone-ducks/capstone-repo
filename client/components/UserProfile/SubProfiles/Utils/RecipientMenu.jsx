@@ -1,17 +1,42 @@
 import React, { Component } from "react";
-import { Input, Menu, Segment } from "semantic-ui-react";
+import { Input, Menu, Segment, Label, Icon } from "semantic-ui-react";
 import {
     Bio,
     MyWallet,
     UnclaimedDonations,
     RecipientHistory,
 } from "./MenuItems";
+import { connect } from "react-redux";
+import { fetchAllUsersDonations } from "../../../../store/thunk/donations";
 
 class DonorMenu extends Component {
     constructor(props) {
         super(props);
-        this.state = { activeItem: "My Wallet" };
+        this.state = {
+            activeItem: "My Wallet",
+            numberOfDonations: 0,
+            loading: true,
+        };
+        this._isMounted = false;
         this.handleItemClick = this.handleItemClick.bind(this);
+    }
+
+    async componentDidMount() {
+        this._isMounted = true;
+
+        const userId = this.props.user.id;
+        await this.props.fetchAllUsersDonations(userId);
+
+        if (this._isMounted) {
+            this.setState({
+                numberOfDonations: this.props.donations.length,
+                loading: false,
+            });
+        }
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     handleItemClick(e, { name }) {
@@ -19,7 +44,12 @@ class DonorMenu extends Component {
     }
 
     render() {
-        const { activeItem } = this.state;
+        const { activeItem, numberOfDonations, loading } = this.state;
+
+        if (loading) {
+            return "loading";
+        }
+
         return (
             <div>
                 <Menu attached="top" tabular>
@@ -27,22 +57,39 @@ class DonorMenu extends Component {
                         name="My Wallet"
                         active={activeItem === "My Wallet"}
                         onClick={this.handleItemClick}
-                    />
+                    >
+                        <Icon name="ethereum" /> My Wallet
+                    </Menu.Item>
                     <Menu.Item
                         name="Unclaimed"
                         active={activeItem === "Unclaimed"}
                         onClick={this.handleItemClick}
-                    />
+                    >
+                        <Icon name="mail" /> Unclaimed
+                        {numberOfDonations > 0 ? (
+                            <Label color="red" floating size="tiny">
+                                {numberOfDonations}
+                            </Label>
+                        ) : (
+                            ""
+                        )}
+                    </Menu.Item>
                     <Menu.Item
                         name="History"
                         active={activeItem === "History"}
                         onClick={this.handleItemClick}
-                    />
+                    >
+                        <Icon name="history" />
+                        History
+                    </Menu.Item>
                     <Menu.Item
                         name="Bio"
                         active={activeItem === "Bio"}
                         onClick={this.handleItemClick}
-                    />
+                    >
+                        <Icon name="user" />
+                        Bio
+                    </Menu.Item>
                     <Menu.Menu position="right">
                         <Menu.Item>
                             <Input
@@ -77,4 +124,17 @@ class DonorMenu extends Component {
     }
 }
 
-export default DonorMenu;
+function mapStateToProps(state) {
+    return {
+        donations: state.donations,
+        user: state.auth.user,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        fetchAllUsersDonations: (id) => dispatch(fetchAllUsersDonations(id)),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DonorMenu);

@@ -41,6 +41,7 @@ class Donate extends Component {
             clientWalletAddress: "",
             donationContract: "",
         };
+        this._isMounted = false;
         this.handleEdit = this.handleEdit.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -49,42 +50,48 @@ class Donate extends Component {
 
     async componentDidMount() {
         try {
-            this.setState(
-                {
-                    exchangeRate: parseFloat(await getExchangeRate()),
-                },
-                async () => {
-                    const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
-                    if (metaMaskInstalled) {
-                        const clientAddress = await this.getClientAddress();
+            this._isMounted = true;
+            const exchangeRate = await getExchangeRate();
+            if (this._isMounted) {
+                this.setState(
+                    {
+                        exchangeRate: parseFloat(exchangeRate),
+                    },
+                    async () => {
+                        const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
+                        if (metaMaskInstalled) {
+                            const clientAddress = await this.getClientAddress();
 
-                        // Gives Web3 Blockchain provider (MetaMask)
-                        window.web3 = new Web3(window.ethereum);
-                        const web3 = window.web3;
+                            // Gives Web3 Blockchain provider (MetaMask)
+                            window.web3 = new Web3(window.ethereum);
+                            const web3 = window.web3;
 
-                        // making dynamic network
-                        const networkId = await web3.eth.net.getId();
-                        const networkData =
-                            DonationContract.networks[networkId];
+                            // making dynamic network
+                            const networkId = await web3.eth.net.getId();
+                            const networkData =
+                                DonationContract.networks[networkId];
 
-                        if (networkData) {
-                            const donationContract = new web3.eth.Contract(
-                                DonationContract.abi,
-                                networkData.address,
-                            );
+                            if (networkData) {
+                                const donationContract = new web3.eth.Contract(
+                                    DonationContract.abi,
+                                    networkData.address,
+                                );
 
-                            this.setState({
-                                metaMaskInstalled,
-                                donationContract,
-                                clientWalletAddress: clientAddress,
-                                exchangeRate: parseFloat(
-                                    await getExchangeRate(),
-                                ),
-                            });
+                                if (this._isMounted) {
+                                    this.setState({
+                                        metaMaskInstalled,
+                                        donationContract,
+                                        clientWalletAddress: clientAddress,
+                                        exchangeRate: parseFloat(
+                                            await getExchangeRate(),
+                                        ),
+                                    });
+                                }
+                            }
                         }
-                    }
-                },
-            );
+                    },
+                );
+            }
         } catch (err) {
             console.log(err);
         }
@@ -94,6 +101,10 @@ class Donate extends Component {
         if (prevState.metaMaskInstalled !== this.state.metaMaskInstalled) {
             console.log("USER CONNECTED TO METAMASK");
         }
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     //Created check function to see if the MetaMask extension is installed
