@@ -2,9 +2,9 @@ import React from "react";
 import { Form, Input, Icon, Header, Accordion, Dropdown, Segment, Divider } from "semantic-ui-react";
 
 const DonationDetails = (props) => {
-    const { active, handleClick, handleEdit, usd, eth, numRecipients, recipientOptions } = props;
+    const { active, handleClick, handleEdit, usd, eth, numRecipients, raceOptions, genderOptions, cityOptions, stateOptions } = props;
 
-    const genderOptions = [
+    const genders = [
         { key: 'random', text: 'Random', value: 'random' },
         { key: 'gender', text: 'Male', value: 'male'},
         { key: 'female', text: 'Female', value: 'female' },
@@ -12,7 +12,7 @@ const DonationDetails = (props) => {
         { key: 'nonbinary', text: 'Non-Binary', value: 'nonbinary' },
     ];
 
-    const raceOptions = [
+    const races = [
         { key: 'random', text: 'Random', value: 'random' },
         { key: 'white', text: 'White', value: 'white' },
         { key: 'black_africanAmerican', text: 'Black/African American', value: 'black_africanAmerican' },
@@ -22,7 +22,7 @@ const DonationDetails = (props) => {
         { key: 'nativeHawaiian_pacificIslander', text: 'Native Hawaiian/Other Pacific Islander', value: 'nativeHawaiian_pacificIslander' },
     ];
 
-    const cityOptions = [
+    const cities = [
         { key: 'brooklyn', text: 'Brooklyn', value: 'brooklyn' },
         { key: 'queens', text: 'Queens', value: 'queens' },
         { key: 'bronx', text: 'Bronx', value: 'bronx' },
@@ -30,15 +30,17 @@ const DonationDetails = (props) => {
         { key: 'statenIsland', text: 'Staten Island', value: 'statenIsland' },
     ];
 
-    const stateOptions = [
+    const states= [
         { key: 'ny', text: 'NY', value: 'ny' },
         { key: 'ca', text: 'CA', value: 'ca' },
         { key: 'az', text: 'AZ', value: 'az' },
         { key: 'ar', text: 'AR', value: 'ar' },
         { key: 'ma', text: 'MA', value: 'ma' },
     ];
-      console.log(genderOptions);
-      console.log(raceOptions);
+      console.log(genderOptions, 'genders');
+      console.log(raceOptions, 'races');
+      console.log(cityOptions, 'cities');
+      console.log(stateOptions, 'states');
     return (
         <React.Fragment>
             <Accordion.Title active={active} index={1} onClick={handleClick}>
@@ -87,30 +89,30 @@ const DonationDetails = (props) => {
                         <Form.Group widths="equal">
                         <Form.Dropdown 
                             label="Race" 
-                            name="recipientOptions" 
+                            name="raceOptions" 
                             placeholder='Race' 
-                            fluid multiple selection options={raceOptions} 
+                            fluid multiple selection options={races} 
                             onChange={handleEdit} 
                         />
                          <Form.Dropdown 
                             label="Gender" 
-                            name="recipientOptions" 
+                            name="genderOptions" 
                             placeholder='Gender' 
-                            fluid multiple selection options={genderOptions} 
+                            fluid multiple selection options={genders} 
                             onChange={handleEdit} 
                         />
                         <Form.Dropdown 
                             label="City" 
-                            name="recipientOptions" 
+                            name="cityOptions" 
                             placeholder='City' 
-                            fluid multiple selection options={cityOptions} 
+                            fluid multiple selection options={cities} 
                             onChange={handleEdit} 
                         />
                         <Form.Dropdown 
                             label="State" 
-                            name="recipientOptions" 
-                            placeholder='City' 
-                            fluid multiple selection options={stateOptions} 
+                            name="stateOptions" 
+                            placeholder='State' 
+                            fluid multiple selection options={states} 
                             onChange={handleEdit} 
                         />
                 </Form.Group>

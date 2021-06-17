@@ -168,7 +168,7 @@ class Donate extends Component {
     }
 
     // Handles Form Field Edits
-    handleEdit(e, { name, value, key}) {
+    handleEdit(e, { name, value }) {
         // Remove commas to store number
         if (name === "detailUSDTotal") {
             value = parseFloat(value.replace(/,/g, "")) || 0;
