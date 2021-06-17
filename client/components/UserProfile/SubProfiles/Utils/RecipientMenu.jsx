@@ -23,7 +23,6 @@ class DonorMenu extends Component {
     async componentDidMount() {
         this._isMounted = true;
 
-        console.log(this.props.donations);
         if (this._isMounted) {
             this.setState({
                 numberOfDonations: this.props.donations.length,

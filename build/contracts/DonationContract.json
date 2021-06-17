@@ -38,7 +38,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -61,7 +62,8 @@
       "name": "createDonation",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function"
+      "type": "function",
+      "payable": true
     },
     {
       "inputs": [
@@ -92,7 +94,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.8.0+commit.c7dfd78e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"allDonations\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"numberOfRecipients\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"donationTotal\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"donorAddress\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"active\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"balanceOfContract\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_donationId\",\"type\":\"uint256\"},{\"internalType\":\"address payable\",\"name\":\"_recipient\",\"type\":\"address\"}],\"name\":\"claimDonation\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_donationId\",\"type\":\"uint256\"},{\"internalType\":\"address payable[]\",\"name\":\"_recipientAddresses\",\"type\":\"address[]\"},{\"internalType\":\"uint256\",\"name\":\"_numberOfRecipients\",\"type\":\"uint256\"}],\"name\":\"createDonation\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/Users/anthony/fs/senior-phase/capstone-repo/contracts/DonationContract.sol\":\"DonationContract\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/anthony/fs/senior-phase/capstone-repo/contracts/DonationContract.sol\":{\"keccak256\":\"0x2dc2fe260e42bea3707dfed70cfb5387532c2de1ff61acee406c4a2ca5c17c3d\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3d42a39c0d3959f2c6c363f6f6a857a43b3445b09e3bd089207b4a290a11217d\",\"dweb:/ipfs/QmUdtcLunnNTWHfTAoKT4RE7DB41e3jy41L8ZsakB81MF8\"]}},\"version\":1}",
@@ -8439,12 +8442,13 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x43F7fcc7e8270C38B87cCA225B6a2fD1AA2F98A2",
-      "transactionHash": "0xbba53db47c1ffe79eebdd479edcdade6459d70ff74c445f26522063cebc4ce65"
+      "address": "0x348f19F79A18Bf0b083404720E0454215Ee21277",
+      "transactionHash": "0x752c20be033fa1bd6f2e6b7f174102108350cf8a9cf1e9fa4d8fc55846b3f57c"
     }
   },
   "schemaVersion": "3.4.1",
-  "updatedAt": "2021-06-16T01:28:06.517Z",
+  "updatedAt": "2021-06-17T16:22:08.637Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {},

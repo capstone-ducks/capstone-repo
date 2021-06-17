@@ -167,6 +167,7 @@ class Donate extends Component {
                     recipientIds,
                 };
                 await this.props.createDonationThunk(donation);
+                console.log("Successful Donation");
             })
             .catch((err) => {
                 console.log("Donate function error ", err);
@@ -218,11 +219,11 @@ class Donate extends Component {
         this.setState({ activeIndices: newIndices });
     };
 
-    handleSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
-        this.donate();
-        console.table(this.state);
-        console.log("SUBMITTED!");
+        await this.donate();
+        // console.table(this.state);
+        // console.log("SUBMITTED!");
     }
 
     render() {
@@ -239,38 +240,63 @@ class Donate extends Component {
             detailNumRecipients,
             message,
             agreeToTerms,
+            metaMaskInstalled,
         } = this.state;
 
         return (
             <Form onSubmit={this.handleSubmit}>
-                <Accordion>
-                    <DonorInformation
-                        active={activeIndices.includes(0)}
-                        handleClick={this.handleClick}
-                        handleEdit={this.handleEdit}
-                        firstName={donorFirstName}
-                        lastName={donorLastName}
-                        gender={donorGender}
-                        email={donorEmail}
-                        phone={donorPhone}
-                        race={donorRace}
-                    />
-                    <DonationDetails
-                        active={activeIndices.includes(1)}
-                        handleClick={this.handleClick}
-                        handleEdit={this.handleEdit}
-                        usd={detailUSDTotal}
-                        eth={detailEthTotal}
-                        numRecipients={detailNumRecipients}
-                    />
-                    <TargetPopulation
-                        active={activeIndices.includes(2)}
-                        handleClick={this.handleClick}
-                        handleEdit={this.handleEdit}
-                        message={message}
-                        agreeToTerms={agreeToTerms}
-                    />
-                </Accordion>
+                {metaMaskInstalled ? (
+                    <Accordion>
+                        <DonorInformation
+                            active={activeIndices.includes(0)}
+                            handleClick={this.handleClick}
+                            handleEdit={this.handleEdit}
+                            firstName={donorFirstName}
+                            lastName={donorLastName}
+                            gender={donorGender}
+                            email={donorEmail}
+                            phone={donorPhone}
+                            race={donorRace}
+                        />
+                        <DonationDetails
+                            active={activeIndices.includes(1)}
+                            handleClick={this.handleClick}
+                            handleEdit={this.handleEdit}
+                            usd={detailUSDTotal}
+                            eth={detailEthTotal}
+                            numRecipients={detailNumRecipients}
+                        />
+                        <TargetPopulation
+                            active={activeIndices.includes(2)}
+                            handleClick={this.handleClick}
+                            handleEdit={this.handleEdit}
+                            message={message}
+                            agreeToTerms={agreeToTerms}
+                        />
+                    </Accordion>
+                ) : (
+                    <Form.Button
+                        style={{
+                            backgroundColor: "#d76f63",
+                            color: "white",
+                            fontFamily: "lato",
+                            fontWeight: 400,
+                            fontSize: 14,
+                            width: 125,
+                            height: 60,
+                            position: "relative",
+                            right: -3,
+                            textAlign: "center",
+                        }}
+                        size="medium"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            this.installMetaMask();
+                        }}
+                    >
+                        Connect MetaMask
+                    </Form.Button>
+                )}
             </Form>
         );
     }
