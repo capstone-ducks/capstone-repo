@@ -5,7 +5,6 @@ const DonationDetails = (props) => {
     const { active, handleClick, handleEdit, usd, eth, numRecipients, raceOptions, genderOptions, cityOptions, stateOptions } = props;
 
     const genders = [
-        { key: 'random', text: 'Random', value: 'random' },
         { key: 'gender', text: 'Male', value: 'male'},
         { key: 'female', text: 'Female', value: 'female' },
         { key: 'transgender', text: 'Transgender', value: 'transgender' },
@@ -13,7 +12,6 @@ const DonationDetails = (props) => {
     ];
 
     const races = [
-        { key: 'random', text: 'Random', value: 'random' },
         { key: 'white', text: 'White', value: 'white' },
         { key: 'black_africanAmerican', text: 'Black/African American', value: 'black_africanAmerican' },
         { key: 'hispanic_latino', text: 'Hispanic/Latinx', value: 'hispanic_latino' },
@@ -37,10 +35,12 @@ const DonationDetails = (props) => {
         { key: 'ar', text: 'AR', value: 'ar' },
         { key: 'ma', text: 'MA', value: 'ma' },
     ];
-      console.log(genderOptions, 'genders');
-      console.log(raceOptions, 'races');
-      console.log(cityOptions, 'cities');
-      console.log(stateOptions, 'states');
+
+    console.log(genderOptions, 'genders');
+    console.log(raceOptions, 'races');
+    console.log(cityOptions, 'cities');
+    console.log(stateOptions, 'states');
+    
     return (
         <React.Fragment>
             <Accordion.Title active={active} index={1} onClick={handleClick}>
