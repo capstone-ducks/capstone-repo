@@ -129,7 +129,13 @@ router.get("/:id/donations", async (req, res, next) => {
 router.post("/recipients", async (req, res, next) => {
     try {
         const { gender, numRecipients } = req.body;
-        const users = await User.findAll({ where: { gender } });
+        let users ;
+        if(!gender){
+             users = await User.findAll();
+        }
+        else{
+            users = await User.findAll({ where: { gender } });
+        }
         const recipients = await User.randomRecipients(numRecipients, users);
         const recipientIds = recipients.map(({ id }) => id);
         const cryptoAddresses = recipients.map(

@@ -51,5 +51,6 @@ export const createDonationThunk = (donationData) => {
         catch(err) {
             console.log('Error in createDonationThunk ', err);
         }
+        // history.push('/')
     };
 };

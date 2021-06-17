@@ -104,11 +104,13 @@ router.post("/", async (req, res, next) => {
 
         } = req.body;
         console.log(donorId, "before DonationRoute")
+        console.log(req.body, "before DonationRoute req body")
         if(!donorId ){
             const newUser = await User.create({
                 isDonor:true
             });
             donorId = newUser.id;
+            // recipientId = Number(1);
             console.log(donorId, "DonationRoute")
         }
         const donation = await Donation.create({
@@ -127,7 +129,7 @@ router.post("/", async (req, res, next) => {
                 recipientId: recipientId,
                 amountOwed: donation.amount / donation.numRecipients
             });
-        });
+        })
         res.status(201).send(donation);
     } catch (err) {
         console.log('Donation POST route error ', err)

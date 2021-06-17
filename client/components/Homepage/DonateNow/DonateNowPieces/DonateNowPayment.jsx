@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import {Redirect} from 'react-router'
 import { Form, Image, Message, Icon } from "semantic-ui-react";
 import ethereumLogo from "../../../../../public/images/ethereum-logo.svg";
 import MetaMaskOnboarding from "@metamask/onboarding";
 import Web3 from "web3";
-// import PaymentSplitter from '../../../../../build/contracts/PaymentSplitter.json';
 import DonationContract from '../../../../../build/contracts/DonationContract.json'
 import getExchangeRate from "../../../UserProfile/SubProfiles/Utils/MenuItems/getExchangeRate";
 import generateDonationId from '../../../../utils/generateDonationId';
 import { createDonationThunk } from "../../../../store/thunk/donations";
+import axios from 'axios'
+
 
 
 // TODO
@@ -123,30 +125,10 @@ class DonateNowPaymentForm extends Component {
 
     // Handles the donation submission
     async handleSubmit() {
-        console.log("SUBMIT DONATION!");
         this.donate();
-        // const transactionParameters = {
-        //     nonce: "0x00", // ignored by MetaMask
-        //     gasPrice: "0x5208", // customizable by user during MetaMask confirmation.
-        //     gas: "0x5208", // customizable by user during MetaMask confirmation.
-        //     to: "0x4717cF101876c2c19c2520E9F138385edC18493e", // Required except during contract publications.
-        //     from: ethereum.selectedAddress, // must match user's active address.
-        //     value: "0x0004", // Only required to send ether to the recipient from the initiating external account.
-        //     //data:
-        //     //'0x7f7465737432000000000000000000000000000000000000000000000000000000600057', // Optional, but used for defining smart contract creation and interaction.
-        //     chainId: "0x3", // Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
-        // };
-
-        // // txHash is a hex string
-        // // As with any RPC call, it may throw an error
-        // const txHash = await ethereum.request({
-        //     method: "eth_sendTransaction",
-        //     params: [transactionParameters],
-        // });
     }
 
     async handleChange(ev){
-        console.log(this.state, 'handle change')
      this.setState({
          [ev.target.name]: ev.target.value
      })
@@ -159,11 +141,15 @@ class DonateNowPaymentForm extends Component {
             web3.utils.toWei(this.state.detailEthTotal.toString(), "ether"),
         );
         const donationId = await generateDonationId();
+        const { data } = await axios.post("api/users/recipients", {
+            numRecipients: 1
+        });
+        const { recipientIds, cryptoAddresses } = data;
         await this.state.donationContract.methods
             .createDonation(
                 donationId,
-                ["0xd9dfa1c796354E3f26648408851AFb89059d6355"],
-                1, //numRecipient
+                ['0x7292160Dde5D4547760d16D66A0702f816149C5b'],
+                recipientIds.length, //numRecipient
             )
             .send({
                 from: this.state.clientWalletAddress,
@@ -176,11 +162,15 @@ class DonateNowPaymentForm extends Component {
                     id: donationId,
                     donorId: NaN,
                     amount: this.state.detailEthTotal, // NOTE this is not in Wei like when its sent to the contract
-                    numRecipients: 1,
+                    numRecipients: recipientIds.length,
                     transactionHash: receipt.transactionHash,
-                    contractAddress: receipt.to
+                    contractAddress: receipt.to,
+                    recipientIds,
                 };
-                await this.props.createDonationThunk(donation);
+                await this.props.createDonationThunk(donation)
+                 alert('Thank you for your generous donation. You truly make the difference for us, and we are extremely grateful!');
+                 window.location.href='/';
+
             })
             .catch((err) => {
                 console.log('Donate function error ', err);

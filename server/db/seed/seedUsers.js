@@ -94,6 +94,7 @@ const seedUsers = async () => {
             lastName: "Tim",
             email: "recipient@gmail.com",
             password: "123",
+            cryptoAddress:'0x189d77063c4c62447570D33D37548A84Cab42b9d',
             gender: 'Male',
             isDonor: false,
         });
@@ -104,7 +105,7 @@ const seedUsers = async () => {
             lastName: "Valentine",
             email: "recipient2@gmail.com",
             password: "123",
-            cryptoAddress: "0xd9dfa1c796354E3f26648408851AFb89059d6355",
+            cryptoAddress: "0x292c66a7987a6875d670eBd5cbdF64A5bd16BC47",
             isDonor: false,
             gender: 'Female',
         });
@@ -116,7 +117,7 @@ const seedUsers = async () => {
             password: "123",
             isDonor: false,
             gender: 'Female',
-            cryptoAddress: "0x71e810d1Fb275664a91840fcc3bADEe1F07De00B"
+            cryptoAddress: "0x342af3A4C85A60Fb6f3d0AD385683A180F8D8D23"
         });
 
         const recipient4 = await User.create({
@@ -126,6 +127,7 @@ const seedUsers = async () => {
             password: "123",
             isDonor: false,
             gender: 'Male',
+            cryptoAddress:'0x24A7e02A77386C39855Cc55BB6ca690055ACea30'
         });
 
         const donation1 = await Donation.create({
