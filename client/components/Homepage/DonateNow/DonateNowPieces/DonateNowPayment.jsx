@@ -125,7 +125,9 @@ class DonateNowPaymentForm extends Component {
 
     // Handles the donation submission
     async handleSubmit() {
-        this.donate();
+        await this.donate();
+        alert('Thank you for your generous donation. You truly make the difference for us, and we are extremely grateful!');
+        window.location.href='/';
     }
 
     async handleChange(ev){
@@ -168,8 +170,8 @@ class DonateNowPaymentForm extends Component {
                     recipientIds,
                 };
                 await this.props.createDonationThunk(donation)
-                 alert('Thank you for your generous donation. You truly make the difference for us, and we are extremely grateful!');
-                 window.location.href='/';
+                // alert('Thank you for your generous donation. You truly make the difference for us, and we are extremely grateful!');
+                // window.location.href='/';
 
             })
             .catch((err) => {

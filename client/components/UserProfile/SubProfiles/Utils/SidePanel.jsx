@@ -14,6 +14,7 @@ class SidePanel extends Component {
     }
 
     render() {
+        // console.log(this.props, 'SidePanel MENU')
         const { isDonor } = this.props.user;
         return (
             <Segment id="user-side-panel" vertical>

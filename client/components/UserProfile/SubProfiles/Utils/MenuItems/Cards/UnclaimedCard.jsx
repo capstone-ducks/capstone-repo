@@ -77,6 +77,7 @@ class UnclaimedCard extends Component {
 
     render() {
         const { donations } = this.props;
+        console.log(this.props, 'UnclaimedCard')
         return (
             <div>
                 {!donations.length ? (
