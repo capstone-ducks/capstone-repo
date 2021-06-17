@@ -51,6 +51,8 @@ class Donate extends Component {
         try {
             this.setState(
                 {
+                    /* FEEDBACK: async calls like this should be moved out of setState
+                    so you make the call first, and if it's successful then call setState*/
                     exchangeRate: parseFloat(await getExchangeRate()),
                 },
                 async () => {
@@ -77,6 +79,7 @@ class Donate extends Component {
                                 metaMaskInstalled,
                                 donationContract,
                                 clientWalletAddress: clientAddress,
+                                //FEEDBACK: same as above
                                 exchangeRate: parseFloat(
                                     await getExchangeRate(),
                                 ),

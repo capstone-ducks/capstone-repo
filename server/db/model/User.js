@@ -153,6 +153,14 @@ User.byToken = async (token) => {
     }
 };
 
+/*FEEDBACK: i believe sequelize has this functionality built in. I think it would be something like:
+    User.findAll({
+        order: Sequelize.literal('random()'),
+        limit: numRecipient
+    })
+
+ reference: https://stackoverflow.com/questions/42146200/selecting-a-random-record-from-sequelize-findall
+*/
 User.randomRecipients = async (numRecipient, array) => {
     if ( numRecipient > array.length ) return array;
     let shuffled = shuffle(array);
