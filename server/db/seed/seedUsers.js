@@ -78,7 +78,6 @@ const seedUsers = async () => {
             password: "123",
             isDonor: true,
         });
-        // donor1.save();
 
         const donor2 = await User.create({
             firstName: "Chandler",
@@ -87,26 +86,25 @@ const seedUsers = async () => {
             password: "123",
             isDonor: true,
         });
-        // donor2.save();
 
         const recipient1 = await User.create({
             firstName: "Tiny",
             lastName: "Tim",
-            email: "recipient@gmail.com",
+            email: "recipient1@gmail.com",
             password: "123",
-            gender: 'Male',
+            gender: "Male",
             isDonor: false,
+            cryptoAddress: "0x279EF613Cd59dbe6F44248384d92584E2D78c1C0",
         });
-        // recipient1.save();
 
         const recipient2 = await User.create({
             firstName: "Billy",
             lastName: "Valentine",
             email: "recipient2@gmail.com",
             password: "123",
-            cryptoAddress: "0xd9dfa1c796354E3f26648408851AFb89059d6355",
+            cryptoAddress: "0xC806740a59Ed36D8aBE3F7b83D51a74fd5E59403",
             isDonor: false,
-            gender: 'Female',
+            gender: "Female",
         });
 
         const recipient3 = await User.create({
@@ -115,8 +113,8 @@ const seedUsers = async () => {
             email: "recipient3@gmail.com",
             password: "123",
             isDonor: false,
-            gender: 'Female',
-            cryptoAddress: "0x71e810d1Fb275664a91840fcc3bADEe1F07De00B"
+            gender: "Female",
+            cryptoAddress: "0xB790c0FD9417b2Eb69292579748dA4C71246466E",
         });
 
         const recipient4 = await User.create({
@@ -125,7 +123,8 @@ const seedUsers = async () => {
             email: "recipient4@gmail.com",
             password: "123",
             isDonor: false,
-            gender: 'Male',
+            gender: "Male",
+            cryptoAddress: "0x84f15426f06F230B4d549e7558Aa9c4d59c7A049",
         });
 
         const donation1 = await Donation.create({
