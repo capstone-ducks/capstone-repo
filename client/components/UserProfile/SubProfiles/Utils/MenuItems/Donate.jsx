@@ -98,7 +98,9 @@ class Donate extends Component {
             console.log("USER CONNECTED TO METAMASK");
         }
     }
-
+    /*FEEDBACK: some of these functions are used in multiple components. I recommend calling them in the App component and adding them to the redux store or some other
+    global state for this app */
+    
     //Created check function to see if the MetaMask extension is installed
     isMetaMaskInstalled() {
         // Have to check the ethereum binding on the window object to see if it's installed
