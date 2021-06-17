@@ -7,7 +7,6 @@ import {
     RecipientHistory,
 } from "./MenuItems";
 import { connect } from "react-redux";
-import { fetchAllUsersDonations } from "../../../../store/thunk/donations";
 
 class DonorMenu extends Component {
     constructor(props) {
@@ -24,13 +23,19 @@ class DonorMenu extends Component {
     async componentDidMount() {
         this._isMounted = true;
 
-        const userId = this.props.user.id;
-        await this.props.fetchAllUsersDonations(userId);
-
+        console.log(this.props.donations);
         if (this._isMounted) {
             this.setState({
                 numberOfDonations: this.props.donations.length,
                 loading: false,
+            });
+        }
+    }
+
+    async componentDidUpdate(prevProps) {
+        if (prevProps.donations.length !== this.props.donations.length) {
+            this.setState({
+                numberOfDonations: this.props.donations.length,
             });
         }
     }
@@ -131,10 +136,4 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        fetchAllUsersDonations: (id) => dispatch(fetchAllUsersDonations(id)),
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(DonorMenu);
+export default connect(mapStateToProps)(DonorMenu);

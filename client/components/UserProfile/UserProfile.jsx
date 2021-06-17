@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { DonorProfile, RecipientProfile } from "./SubProfiles";
+import { fetchAllUsersDonations } from "../../store/thunk/donations";
 
 class UserProfile extends Component {
     constructor(props) {
@@ -8,9 +9,20 @@ class UserProfile extends Component {
         this.state = {};
     }
 
-    componentDidUpdate(prevProps) {
-        if (!this.props.user) {
-            this.props.history.push("/");
+    async componentDidMount() {
+        const { user, fetchAllUsersDonations } = this.props;
+
+        if (user) {
+            await fetchAllUsersDonations(user.id);
+        }
+    }
+
+    async componentDidUpdate(prevProps) {
+        const { user, fetchAllUsersDonations, history } = this.props;
+        if (!user) {
+            history.push("/");
+        } else if (!prevProps.user && user) {
+            await fetchAllUsersDonations(user.id);
         }
     }
 
@@ -35,4 +47,10 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps)(UserProfile);
+function mapDispatchToProps(dispatch) {
+    return {
+        fetchAllUsersDonations: (id) => dispatch(fetchAllUsersDonations(id)),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
