@@ -5,10 +5,10 @@ const DonationDetails = (props) => {
     const { active, handleClick, handleEdit, usd, eth, numRecipients, raceOptions, genderOptions, cityOptions, stateOptions } = props;
 
     const genders = [
-        { key: 'gender', text: 'Male', value: 'male'},
-        { key: 'female', text: 'Female', value: 'female' },
-        { key: 'transgender', text: 'Transgender', value: 'transgender' },
-        { key: 'nonbinary', text: 'Non-Binary', value: 'nonbinary' },
+        { key: 'Male', text: 'Male', value: 'Male'},
+        { key: 'Female', text: 'Female', value: 'Female' },
+        { key: 'Transgender', text: 'Transgender', value: 'Transgender' },
+        { key: 'Non-Binary', text: 'Non-Binary', value: 'Non-Binary' },
     ];
 
     const races = [
@@ -40,7 +40,7 @@ const DonationDetails = (props) => {
     console.log(raceOptions, 'races');
     console.log(cityOptions, 'cities');
     console.log(stateOptions, 'states');
-    
+
     return (
         <React.Fragment>
             <Accordion.Title active={active} index={1} onClick={handleClick}>

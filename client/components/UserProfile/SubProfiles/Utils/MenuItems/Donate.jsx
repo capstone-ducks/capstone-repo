@@ -129,10 +129,13 @@ class Donate extends Component {
         const amountEthToWei = await web3.utils.toHex(
             web3.utils.toWei(this.state.detailEthTotal.toString(), "ether"),
         );
-        console.log(this.state.recipientOptions, 'recipient options');
+        //console.log(this.state.recipientOptions, 'recipient options');
         const { data } = await axios.post("api/users/recipients", {
             numRecipients: this.state.detailNumRecipients,
-            gender: "Female",
+            races: this.state.raceOptions,
+            genders: this.state.genderOptions,
+            cities: this.state.cityOptions,
+            states: this.state.stateOptions,
         });
 
         const { recipientIds, cryptoAddresses } = data;

@@ -6,6 +6,10 @@ const {
 // Errors
 const { notFound, badSyntax, conflict, unauthorized } = require("./errors");
 
+
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
+
 router.post("/", async (req, res, next) => {
     try {
         const {
@@ -126,21 +130,60 @@ router.get("/:id/donations", async (req, res, next) => {
 });
 
 // Create an object that we send back
+// router.post("/recipients", async (req, res, next) => {
+//     try {
+//         const { gender, numRecipients } = req.body;
+//         const users = await User.findAll({ where: { gender } });
+//         const recipients = await User.randomRecipients(numRecipients, users);
+//         const recipientIds = recipients.map(({ id }) => id);
+//         const cryptoAddresses = recipients.map(
+//             ({ cryptoAddress }) => cryptoAddress,
+//         );
+//         res.status(201).send({ recipientIds, cryptoAddresses });
+//     } catch (error) {
+//         console.log("Error in POST /users/recipients route", error);
+//         next(error);
+//     }
+// });
+
 router.post("/recipients", async (req, res, next) => {
-    try {
-        const { gender, numRecipients } = req.body;
-        const users = await User.findAll({ where: { gender } });
-        const recipients = await User.randomRecipients(numRecipients, users);
-        const recipientIds = recipients.map(({ id }) => id);
-        const cryptoAddresses = recipients.map(
-            ({ cryptoAddress }) => cryptoAddress,
-        );
-        res.status(201).send({ recipientIds, cryptoAddresses });
-    } catch (error) {
-        console.log("Error in POST /users/recipients route", error);
-        next(error);
-    }
-});
+        try {
+            const { genders, races, cities, states, numRecipients } = req.body;
+            if(genders)
+            {
+                console.log(genders, 'genders');
+                const users = await User.findAll({ 
+                    where: { 
+                        gender: {
+                            [Op.in]: genders
+                        }
+                    } 
+                });
+            }
+
+            if(races)
+            {
+                console.log(races, 'races');
+                const users = await User.findAll({ 
+                    where: { 
+                        race: {
+                            [Op.in]: races
+                        }
+                    } 
+                });
+            }
+            console.log(users, 'users');
+            const recipients = await User.randomRecipients(numRecipients, users);
+            const recipientIds = recipients.map(({ id }) => id);
+            const cryptoAddresses = recipients.map(
+                ({ cryptoAddress }) => cryptoAddress,
+            );
+            res.status(201).send({ recipientIds, cryptoAddresses });
+        } catch (error) {
+            console.log("Error in POST /users/recipients route", error);
+            next(error);
+        }
+    });
 
 module.exports = router;
 
