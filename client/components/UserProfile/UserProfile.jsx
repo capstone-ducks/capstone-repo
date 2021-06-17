@@ -9,7 +9,7 @@ class UserProfile extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.user !== this.props.user) {
+        if (!this.props.user) {
             this.props.history.push("/");
         }
     }
