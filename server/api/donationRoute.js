@@ -4,22 +4,6 @@ const {
 } = require("../db/model/index");
 
 
-// All donations, for generate donation id
-// router.get("/", async (req, res, next) => {
-//     try {
-//         const donations = await Donation.findAll({
-//             include: [{ all: true }],
-//         });
-
-//         //console.log(donations, 'success in get route Donations');
-//         res.status(200).send(donations);
-//     } catch (err) {
-//         //console.log(err, 'error in get route donations');
-//         next(err);
-//     }
-// });
-
-
 // get all donations
 router.get("/", async (req, res, next) => {
     try {
@@ -36,12 +20,12 @@ router.get("/", async (req, res, next) => {
         //console.log(donations, 'success in get route Donations');
         res.status(200).send(donations);
     } catch (err) {
-        //console.log(err, 'error in get route donations');
+        console.log("Error in GET /api/donations route ", err);
         next(err);
     }
 });
 
-// get one donation by id
+
 router.get("/:id", async (req, res, next) => {
     try {
         const { id } = req.params;
@@ -83,11 +67,12 @@ router.get("/:id", async (req, res, next) => {
         }
         res.status(200).send(donations);
     } catch (err) {
+        console.log("Error in GET /api/donations/:id route ", err);
         next(err);
     }
 });
 
-// This will post from the blockchain to the db...
+// Save new donation to db
 router.post("/", async (req, res, next) => {
     try {
         if (!req.body) res.sendStatus(400);
@@ -100,10 +85,9 @@ router.post("/", async (req, res, next) => {
             transactionHash,
             contractAddress,
             recipientIds
-            // recipient location, etc. data that is selected by donor
+            // TODO: add recipient location, etc. data that is selected by donor
 
         } = req.body;
-        console.log(donorId, "before DonationRoute")
         if(!donorId ){
             const newUser = await User.create({
                 isDonor:true
@@ -118,9 +102,8 @@ router.post("/", async (req, res, next) => {
             donorId,
             transactionHash,
             contractAddress,
-            // recipient location, etc. data that is selected by donor
+            // TODO: add recipient location, etc. data that is selected by donor
         });
-        // const recipients = await User.randomRecipients(numRecipients); // fetch from findALL
         recipientIds.map(async (recipientId) => {
             await DonationsRecipients.create({
                 donationId: donation.id,
@@ -130,7 +113,7 @@ router.post("/", async (req, res, next) => {
         });
         res.status(201).send(donation);
     } catch (err) {
-        console.log('Donation POST route error ', err)
+        console.log('Error in POST /api/donations route ', err);
         next(err);
     }
 });
