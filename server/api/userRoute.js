@@ -42,7 +42,6 @@ router.post("/", async (req, res, next) => {
     }
 });
 
-//put routes
 
 router.put("/:id", async (req, res, next) => {
     try {

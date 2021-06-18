@@ -86,9 +86,6 @@ class Donate extends Component {
                                         metaMaskInstalled,
                                         donationContract,
                                         clientWalletAddress: clientAddress,
-                                        exchangeRate: parseFloat(
-                                            await getExchangeRate(),
-                                        ),
                                     });
                                 }
                             }
