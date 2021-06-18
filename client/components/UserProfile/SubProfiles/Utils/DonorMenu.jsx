@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Input, Menu, Segment } from "semantic-ui-react";
+import { Input, Menu, Segment, Icon } from "semantic-ui-react";
 import { Bio, Donate, DonateHistory } from "./MenuItems";
 
 class DonorMenu extends Component {
@@ -22,17 +22,25 @@ class DonorMenu extends Component {
                         name="donate"
                         active={activeItem === "donate"}
                         onClick={this.handleItemClick}
-                    />
+                    >
+                        <Icon name="ethereum" /> Donate
+                    </Menu.Item>
                     <Menu.Item
                         name="history"
                         active={activeItem === "history"}
                         onClick={this.handleItemClick}
-                    />
+                    >
+                        <Icon name="history" />
+                        History
+                    </Menu.Item>
                     <Menu.Item
                         name="bio"
                         active={activeItem === "bio"}
                         onClick={this.handleItemClick}
-                    />
+                    >
+                        <Icon name="user" />
+                        Bio
+                    </Menu.Item>
                     <Menu.Menu position="right">
                         <Menu.Item>
                             <Input

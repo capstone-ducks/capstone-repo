@@ -4,17 +4,11 @@ import {
     CREATE_DONATION,
 } from "../action-types";
 
-const initialState = {
-    donations: [],
-};
-
-const donationReducer = (state = initialState, action) => {
+const donationReducer = (state = [], action) => {
     if (action.type === GET_ALL_DONATIONS) {
         state = action.donations;
     } else if (action.type === CREATE_DONATION) {
-        state = {
-            donations: [...state.donations, action.donation],
-        };
+        state = [...state, action.donation];
     }
 
     return state;
