@@ -39,7 +39,7 @@ class UnclaimedCard extends Component {
         return accounts[0];
     }
 
-    async clickApprove(donationId, amountOwed) {
+    async clickApprove(donationId) {
         const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
         if (metaMaskInstalled) {
             const clientAddress = await this.getClientAddress();
@@ -47,7 +47,7 @@ class UnclaimedCard extends Component {
             // Gives Web3 Blockchain provider (MetaMask)
             window.web3 = new Web3(window.ethereum);
             const web3 = window.web3;
-
+            let accounts = await web3.eth.getAccounts();
             // making dynamic network
             const networkId = await web3.eth.net.getId();
             const networkData = DonationContract.networks[networkId];
@@ -58,17 +58,24 @@ class UnclaimedCard extends Component {
                     networkData.address,
                 );
 
+                // await donationContract.methods.balanceOfContract().call().then(function(result){
+                //     console.log(result, 'balance result');
+                // });
+
                 await donationContract.methods
                     .claimDonation(donationId, clientAddress)
                     .send({
                         from: clientAddress,
-                        value: 0,
-                        gas: 6721975, // should match given gas limit from ganache});
                     })
-                    .then(async (receipt) => {
-                        console.table(receipt);
+                    .on('confirmation', function(confirmationNumber, receipt){
+                        console.log(confirmationNumber);
                     })
-                    .catch((err) => console.error(err));
+                    .on('receipt', function(receipt){
+                    console.log(receipt);
+                })
+                .on('error', function(error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
+                    console.log(error);
+                });
             }
         } else {
             this.installMetaMask();
@@ -87,6 +94,7 @@ class UnclaimedCard extends Component {
                         if (!donation.users[0].donationsRecipients.isClaimed) {
                             const { donationId, amountOwed } =
                                 donation.users[0].donationsRecipients;
+                                const {contractAddress} = donation;
                             return (
                                 <Card key={donation.id}>
                                     <Card.Content>
@@ -129,8 +137,7 @@ class UnclaimedCard extends Component {
                                                 color="green"
                                                 onClick={() =>
                                                     this.clickApprove(
-                                                        donationId,
-                                                        amountOwed,
+                                                        donationId
                                                     )
                                                 }
                                             >

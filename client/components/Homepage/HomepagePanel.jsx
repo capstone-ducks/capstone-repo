@@ -40,7 +40,7 @@ const HomepagePanel = ({ donate }) => {
                 </div>
                 <div className="panel-btn-container">
                     <NavLink
-                        to="#"
+                        to="/sign-up"
                         className={`panel-btn ${donate ? "blue-h" : "red-h"}`}
                         style={buttonStyle}
                     >

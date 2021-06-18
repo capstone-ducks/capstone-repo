@@ -78,7 +78,6 @@ const seedUsers = async () => {
             password: "123",
             isDonor: true,
         });
-        // donor1.save();
 
         const donor2 = await User.create({
             firstName: "Chandler",
@@ -87,18 +86,17 @@ const seedUsers = async () => {
             password: "123",
             isDonor: true,
         });
-        // donor2.save();
 
         const recipient1 = await User.create({
             firstName: "Tiny",
             lastName: "Tim",
-            email: "recipient@gmail.com",
+            email: "recipient1@gmail.com",
             password: "123",
             cryptoAddress:'0x189d77063c4c62447570D33D37548A84Cab42b9d',
             gender: 'Male',
             isDonor: false,
+            cryptoAddress: "0xf134529Bfd45f72BAE582fD7c754D7B3cEBb2e2f",
         });
-        // recipient1.save();
 
         const recipient2 = await User.create({
             firstName: "Billy",
@@ -107,7 +105,7 @@ const seedUsers = async () => {
             password: "123",
             cryptoAddress: "0x292c66a7987a6875d670eBd5cbdF64A5bd16BC47",
             isDonor: false,
-            gender: 'Female',
+            gender: "Female",
         });
 
         const recipient3 = await User.create({

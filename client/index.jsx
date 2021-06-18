@@ -13,10 +13,11 @@ import store from "./store/index";
 import { App } from "./components";
 
 ReactDom.render(
-     <Provider store={store}>
-    <Router>
-        <App />
-    </Router>,
-     </Provider>,
+    <Provider store={store}>
+        <Router>
+            <App />
+        </Router>
+        ,
+    </Provider>,
     document.querySelector("#app"),
 );
