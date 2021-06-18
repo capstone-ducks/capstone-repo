@@ -7,39 +7,43 @@ const DonationDetails = (props) => {
     const genders = [
         { key: 'Male', text: 'Male', value: 'Male'},
         { key: 'Female', text: 'Female', value: 'Female' },
-        { key: 'Transgender', text: 'Transgender', value: 'Transgender' },
         { key: 'Non-Binary', text: 'Non-Binary', value: 'Non-Binary' },
+        { key: 'Other', text: 'Other', value: 'Other' },
+        { key: 'Transgender', text: 'Transgender', value: 'Transgender' },
     ];
 
     const races = [
-        { key: 'white', text: 'White', value: 'white' },
-        { key: 'black_africanAmerican', text: 'Black/African American', value: 'black_africanAmerican' },
-        { key: 'hispanic_latino', text: 'Hispanic/Latinx', value: 'hispanic_latino' },
-        { key: 'asian', text: 'Asian', value: 'asian' },
-        { key: 'americanIndian_alaskaNative', text: 'American Indian/Alaska Native', value: 'americanIndian_alaskaNative' },
-        { key: 'nativeHawaiian_pacificIslander', text: 'Native Hawaiian/Other Pacific Islander', value: 'nativeHawaiian_pacificIslander' },
+        { key: 'americanIndian_alaskaNative', text: 'American Indian or Alaska Native', value: 'American Indian or Alaska Native' },
+        { key: 'asian', text: 'Asian', value: 'Asian' },
+        { key: 'black / african american', text: 'Black/African American', value: 'Black / African American' },
+        { key: 'hispanic_latino', text: 'Hispanic/Latinx', value: 'Hispanic or Latino' },
+        { key: 'multiracial', text: 'Multiracial', value: 'Multiracial' },
+        { key: 'Native Hawaiian or Other Pacific Islander', text: 'Native Hawaiian/Other Pacific Islander', value: 'Native Hawaiian or Other Pacific Islander' },
+        { key: 'Other', text: 'Other', value: 'Other' },
+        { key: 'white', text: 'White', value: 'White' },
     ];
 
     const cities = [
-        { key: 'brooklyn', text: 'Brooklyn', value: 'brooklyn' },
-        { key: 'queens', text: 'Queens', value: 'queens' },
-        { key: 'bronx', text: 'Bronx', value: 'bronx' },
-        { key: 'manhattan', text: 'Manhattan', value: 'manhattan' },
-        { key: 'statenIsland', text: 'Staten Island', value: 'statenIsland' },
+        { key: 'akron', text: 'Akron', value: 'Akron' },
+        { key: 'bronx', text: 'Bronx', value: 'Bronx' },
+        { key: 'brooklyn', text: 'Brooklyn', value: 'Brooklyn' },
+        { key: 'queens', text: 'Queens', value: 'Queens' },
+        { key: 'los angeles', text: 'Staten Island', value: 'Los Angeles' },
+        { key: 'manhattan', text: 'Manhattan', value: 'Manhattan' },
+        { key: 'new york', text: 'New York', value: 'New York' },
+        { key: 'san diego', text: 'San Diego', value: 'San Diego' },
     ];
 
     const states= [
-        { key: 'ny', text: 'NY', value: 'ny' },
-        { key: 'ca', text: 'CA', value: 'ca' },
-        { key: 'az', text: 'AZ', value: 'az' },
-        { key: 'ar', text: 'AR', value: 'ar' },
-        { key: 'ma', text: 'MA', value: 'ma' },
+        { key: 'ar', text: 'AR', value: 'AR' },
+        { key: 'az', text: 'AZ', value: 'AZ' },
+        { key: 'ca', text: 'CA', value: 'CA' },
+        { key: 'ct', text: 'CT', value: 'CT' },
+        { key: 'ma', text: 'MA', value: 'MA' },
+        { key: 'ny', text: 'NY', value: 'NY' },
+        { key: 'oh', text: 'OH', value: 'OH' },
     ];
 
-    console.log(genderOptions, 'genders');
-    console.log(raceOptions, 'races');
-    console.log(cityOptions, 'cities');
-    console.log(stateOptions, 'states');
 
     return (
         <React.Fragment>
