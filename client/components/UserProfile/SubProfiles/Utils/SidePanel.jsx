@@ -24,6 +24,8 @@ class SidePanel extends Component {
     render() {
         const { isDonor } = this.props.user;
 
+        const totalDonations = isDonor ? this.props.donations.length : "";
+
         const totalFundsDonated = isDonor
             ? this.props.donations.reduce((acc, cur) => {
                   acc += parseFloat(cur.amount);
@@ -104,6 +106,14 @@ class SidePanel extends Component {
                                             </Grid.Column>
                                             <Grid.Column>
                                                 {totalPeopleReached}
+                                            </Grid.Column>
+                                        </Grid.Row>
+                                        <Grid.Row>
+                                            <Grid.Column>
+                                                Total Donations:
+                                            </Grid.Column>
+                                            <Grid.Column>
+                                                {totalDonations}
                                             </Grid.Column>
                                         </Grid.Row>
                                         <Grid.Row>
