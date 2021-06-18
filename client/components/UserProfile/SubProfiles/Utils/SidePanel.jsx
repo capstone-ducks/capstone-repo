@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import "../../../../../public/assets/userProfile.css";
-import { Segment, Grid, Divider, Card, Header, Image } from "semantic-ui-react";
+import {
+    Segment,
+    Grid,
+    Divider,
+    Card,
+    Header,
+    Image,
+    Icon,
+} from "semantic-ui-react";
 import { connect } from "react-redux";
 
 import nanPic from "../../../../../public/images/profile-pictures/nan.png";
@@ -15,6 +23,57 @@ class SidePanel extends Component {
 
     render() {
         const { isDonor } = this.props.user;
+
+        const totalFundsDonated = isDonor
+            ? this.props.donations.reduce((acc, cur) => {
+                  acc += parseFloat(cur.amount);
+                  return acc;
+              }, 0)
+            : 0;
+
+        const totalPeopleReached = isDonor
+            ? this.props.donations.reduce((acc, cur) => {
+                  acc += cur.users.length;
+                  return acc;
+              }, 0)
+            : 0;
+
+        console.log(this.props.donations);
+
+        const totalFundsClaimed = !isDonor
+            ? this.props.donations.reduce((acc, cur) => {
+                  let userRecInst;
+                  for (const user of cur.users) {
+                      if (user.id === this.props.user.id) {
+                          userRecInst = user.donationsRecipients;
+                      }
+                  }
+
+                  if (userRecInst.isClaimed) {
+                      acc += userRecInst.amountOwed;
+                  }
+
+                  return acc;
+              }, 0)
+            : 0;
+
+        const totalFundsToClaim = !isDonor
+            ? this.props.donations.reduce((acc, cur) => {
+                  let userRecInst;
+                  for (const user of cur.users) {
+                      if (user.id === this.props.user.id) {
+                          userRecInst = user.donationsRecipients;
+                      }
+                  }
+
+                  if (!userRecInst.isClaimed) {
+                      acc += userRecInst.amountOwed;
+                  }
+
+                  return acc;
+              }, 0)
+            : 0;
+
         return (
             <Segment id="user-side-panel" vertical>
                 <Grid padded>
@@ -39,9 +98,50 @@ class SidePanel extends Component {
                     <Grid.Row>
                         <Grid.Column>
                             {isDonor ? (
-                                <div className="stats-container"></div>
+                                <div className="stats-container">
+                                    <Grid columns="2">
+                                        <Grid.Row>
+                                            <Grid.Column>
+                                                Total People Reached:
+                                            </Grid.Column>
+                                            <Grid.Column>
+                                                {totalPeopleReached}
+                                            </Grid.Column>
+                                        </Grid.Row>
+                                        <Grid.Row>
+                                            <Grid.Column>
+                                                Total Funds Sent:
+                                            </Grid.Column>
+                                            <Grid.Column>
+                                                <Icon name="ethereum" />{" "}
+                                                {totalFundsDonated}
+                                            </Grid.Column>
+                                        </Grid.Row>
+                                    </Grid>
+                                </div>
                             ) : (
-                                <div className="stats-container"></div>
+                                <div className="stats-container">
+                                    <Grid columns="2">
+                                        <Grid.Row>
+                                            <Grid.Column>
+                                                Funds Available
+                                            </Grid.Column>
+                                            <Grid.Column>
+                                                <Icon name="ethereum" />{" "}
+                                                {totalFundsToClaim}
+                                            </Grid.Column>
+                                        </Grid.Row>
+                                        <Grid.Row>
+                                            <Grid.Column>
+                                                Total Funds Claimed
+                                            </Grid.Column>
+                                            <Grid.Column>
+                                                <Icon name="ethereum" />{" "}
+                                                {totalFundsClaimed}
+                                            </Grid.Column>
+                                        </Grid.Row>
+                                    </Grid>
+                                </div>
                             )}
                         </Grid.Column>
                     </Grid.Row>
@@ -54,6 +154,7 @@ class SidePanel extends Component {
 function mapStateToProps(state) {
     return {
         user: state.auth.user,
+        donations: state.donations,
     };
 }
 
