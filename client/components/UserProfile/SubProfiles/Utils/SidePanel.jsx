@@ -38,8 +38,6 @@ class SidePanel extends Component {
               }, 0)
             : 0;
 
-        console.log(this.props.donations);
-
         const totalFundsClaimed = !isDonor
             ? this.props.donations.reduce((acc, cur) => {
                   let userRecInst;
