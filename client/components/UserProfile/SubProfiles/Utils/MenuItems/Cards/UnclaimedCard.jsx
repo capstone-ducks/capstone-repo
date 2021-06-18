@@ -58,10 +58,6 @@ class UnclaimedCard extends Component {
                     networkData.address,
                 );
 
-                // await donationContract.methods.balanceOfContract().call().then(function(result){
-                //     console.log(result, 'balance result');
-                // });
-
                 await donationContract.methods
                     .claimDonation(donationId, clientAddress)
                     .send({
@@ -120,8 +116,7 @@ class UnclaimedCard extends Component {
                                             User {donation.donor.firstName}{" "}
                                             {donation.donor.lastName[0]}.{" "}
                                             {donation.donor.city
-                                                ? `from ${donation.donor.city}`
-                                                : "UNKOWN"}{" "}
+                                                ? `from ${donation.donor.city}` : ''}
                                             has sent you a donation. Click
                                             approve to{" "}
                                             <strong>

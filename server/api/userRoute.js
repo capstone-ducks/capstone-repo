@@ -37,7 +37,6 @@ router.post("/", async (req, res, next) => {
     }
 });
 
-//put routes
 
 router.put("/:id", async (req, res, next) => {
     try {
@@ -143,7 +142,7 @@ router.post("/recipients", async (req, res, next) => {
         );
         res.status(201).send({ recipientIds, cryptoAddresses });
     } catch (error) {
-        console.log("Error in POST /users/recipients route", error);
+        console.log("Error in POST /api/users/recipients route", error);
         next(error);
     }
 });
