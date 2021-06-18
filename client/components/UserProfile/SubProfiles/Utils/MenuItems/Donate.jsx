@@ -45,6 +45,7 @@ class Donate extends Component {
             cityOptions: [],
             stateOptions: [],
         };
+        this._isMounted = false;
         this.handleEdit = this.handleEdit.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -53,42 +54,48 @@ class Donate extends Component {
 
     async componentDidMount() {
         try {
-            this.setState(
-                {
-                    exchangeRate: parseFloat(await getExchangeRate()),
-                },
-                async () => {
-                    const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
-                    if (metaMaskInstalled) {
-                        const clientAddress = await this.getClientAddress();
+            this._isMounted = true;
+            const exchangeRate = await getExchangeRate();
+            if (this._isMounted) {
+                this.setState(
+                    {
+                        exchangeRate: parseFloat(exchangeRate),
+                    },
+                    async () => {
+                        const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
+                        if (metaMaskInstalled) {
+                            const clientAddress = await this.getClientAddress();
 
-                        // Gives Web3 Blockchain provider (MetaMask)
-                        window.web3 = new Web3(window.ethereum);
-                        const web3 = window.web3;
+                            // Gives Web3 Blockchain provider (MetaMask)
+                            window.web3 = new Web3(window.ethereum);
+                            const web3 = window.web3;
 
-                        // making dynamic network
-                        const networkId = await web3.eth.net.getId();
-                        const networkData =
-                            DonationContract.networks[networkId];
+                            // making dynamic network
+                            const networkId = await web3.eth.net.getId();
+                            const networkData =
+                                DonationContract.networks[networkId];
 
-                        if (networkData) {
-                            const donationContract = new web3.eth.Contract(
-                                DonationContract.abi,
-                                networkData.address,
-                            );
+                            if (networkData) {
+                                const donationContract = new web3.eth.Contract(
+                                    DonationContract.abi,
+                                    networkData.address,
+                                );
 
-                            this.setState({
-                                metaMaskInstalled,
-                                donationContract,
-                                clientWalletAddress: clientAddress,
-                                exchangeRate: parseFloat(
-                                    await getExchangeRate(),
-                                ),
-                            });
+                                if (this._isMounted) {
+                                    this.setState({
+                                        metaMaskInstalled,
+                                        donationContract,
+                                        clientWalletAddress: clientAddress,
+                                        exchangeRate: parseFloat(
+                                            await getExchangeRate(),
+                                        ),
+                                    });
+                                }
+                            }
                         }
-                    }
-                },
-            );
+                    },
+                );
+            }
         } catch (err) {
             console.log(err);
         }
@@ -98,6 +105,10 @@ class Donate extends Component {
         if (prevState.metaMaskInstalled !== this.state.metaMaskInstalled) {
             console.log("USER CONNECTED TO METAMASK");
         }
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     //Created check function to see if the MetaMask extension is installed
@@ -164,6 +175,7 @@ class Donate extends Component {
                     recipientIds,
                 };
                 await this.props.createDonationThunk(donation);
+                console.log("Successful Donation");
             })
             .catch((err) => {
                 console.log("Donate function error ", err);
@@ -215,11 +227,11 @@ class Donate extends Component {
         this.setState({ activeIndices: newIndices });
     };
 
-    handleSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
-        this.donate();
-        console.table(this.state);
-        console.log("SUBMITTED!");
+        await this.donate();
+        // console.table(this.state);
+        // console.log("SUBMITTED!");
     }
 
     render() {
@@ -240,42 +252,68 @@ class Donate extends Component {
             genderOptions,
             cityOptions,
             stateOptions,
+            metaMaskInstalled,
+
         } = this.state;
 
         return (
             <Form onSubmit={this.handleSubmit}>
-                <Accordion>
-                    <DonorInformation
-                        active={activeIndices.includes(0)}
-                        handleClick={this.handleClick}
-                        handleEdit={this.handleEdit}
-                        firstName={donorFirstName}
-                        lastName={donorLastName}
-                        gender={donorGender}
-                        email={donorEmail}
-                        phone={donorPhone}
-                        race={donorRace}
-                    />
-                    <DonationDetails
-                        active={activeIndices.includes(1)}
-                        handleClick={this.handleClick}
-                        handleEdit={this.handleEdit}
-                        usd={detailUSDTotal}
-                        eth={detailEthTotal}
-                        numRecipients={detailNumRecipients}
-                        raceOptions={raceOptions}
-                        genderOptions={genderOptions}
-                        cityOptions={cityOptions}
-                        stateOptions={stateOptions}
-                    />
-                    <TargetPopulation
-                        active={activeIndices.includes(2)}
-                        handleClick={this.handleClick}
-                        handleEdit={this.handleEdit}
-                        message={message}
-                        agreeToTerms={agreeToTerms}
-                    />
-                </Accordion>
+                {metaMaskInstalled ? (
+                    <Accordion>
+                        <DonorInformation
+                            active={activeIndices.includes(0)}
+                            handleClick={this.handleClick}
+                            handleEdit={this.handleEdit}
+                            firstName={donorFirstName}
+                            lastName={donorLastName}
+                            gender={donorGender}
+                            email={donorEmail}
+                            phone={donorPhone}
+                            race={donorRace}
+                        />
+                        <DonationDetails
+                            active={activeIndices.includes(1)}
+                            handleClick={this.handleClick}
+                            handleEdit={this.handleEdit}
+                            usd={detailUSDTotal}
+                            eth={detailEthTotal}
+                            numRecipients={detailNumRecipients}
+                            raceOptions={raceOptions}
+                            genderOptions={genderOptions}
+                            cityOptions={cityOptions}
+                            stateOptions={stateOptions}
+                        />
+                        <TargetPopulation
+                            active={activeIndices.includes(2)}
+                            handleClick={this.handleClick}
+                            handleEdit={this.handleEdit}
+                            message={message}
+                            agreeToTerms={agreeToTerms}
+                        />
+                    </Accordion>
+                ) : (
+                    <Form.Button
+                        style={{
+                            backgroundColor: "#d76f63",
+                            color: "white",
+                            fontFamily: "lato",
+                            fontWeight: 400,
+                            fontSize: 14,
+                            width: 125,
+                            height: 60,
+                            position: "relative",
+                            right: -3,
+                            textAlign: "center",
+                        }}
+                        size="medium"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            this.installMetaMask();
+                        }}
+                    >
+                        Connect MetaMask
+                    </Form.Button>
+                )}
             </Form>
         );
     }
