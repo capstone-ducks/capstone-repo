@@ -143,7 +143,7 @@ router.post("/recipients", async (req, res, next) => {
 
 module.exports = router;
 
-// donor makes a donation - male/female/nonbinary/don't care
+// donor makes a donation - male/female/nonbinary/or doesn't specify
 // send a post request to users
 // we send back an array of recipients that is the same number that they specify in numRecipients
 // then these addresses are used to create the donation

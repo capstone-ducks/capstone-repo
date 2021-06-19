@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { DonorProfile, RecipientProfile } from "./SubProfiles";
-import { fetchAllUsersDonations } from "../../store/thunk/donations";
+import { fetchAllUsersDonations } from "../../store/thunk";
 
 class UserProfile extends Component {
     constructor(props) {
