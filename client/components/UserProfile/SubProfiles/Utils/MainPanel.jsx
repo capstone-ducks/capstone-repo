@@ -20,61 +20,16 @@ class MainPanel extends Component {
 
     render() {
         const { firstName, lastName, city, state, isDonor } = this.props.user;
-        console.log(this.props, 'MainPanel MENU')
-        // return (
-        //     <Segment id="user-main-panel" vertical>
-        //         <Grid padded>
-        //             <Grid.Row>
-        //                 <Grid.Column>
-        //                     <div className="row-extension">
-        //                         <Header as="h1" id="name-header">
-        //                             {firstName} {lastName}
-        //                         </Header>
-        //                         <Icon
-        //                             id="profile-location-icon"
-        //                             name="map marker alternate"
-        //                             size="large"
-        //                             color="grey"
-        //                         />
-        //                         {city ? (
-        //                             <small id="profile-location-text">
-        //                                 {city}, {state}
-        //                             </small>
-        //                         ) : (
-        //                             <small id="profile-location-text">
-        //                                 Unknown Location
-        //                             </small>
-        //                         )}
-        //                     </div>
-        //                     <Header as="h2" id="profile-type">
-        //                         {isDonor ? "Donor" : "Recipient"}
-        //                     </Header>
-        //                 </Grid.Column>
-        //             </Grid.Row>
-        //             <Grid.Row>
-        //                 <Grid.Column>
-        //                     {isDonor ? <DonorMenu /> : <RecipientMenu />}
-        //                 </Grid.Column>
-        //             </Grid.Row>
-        //         </Grid>
-        //     </Segment>
-        // );
         if(this.props.donations.length && !isDonor){
         return (
             <Segment id="user-main-panel" vertical>
                 <Message icon color='teal'>
                     <Icon name='info circle' />
                     <Message.Content>
-                    <Message.Header> Welcome back {firstName} {lastName} !</Message.Header>
+                    <Message.Header> Hi {firstName} {lastName}!</Message.Header>
                     You have ({this.props.donations.length}) unclaimed donation(s)
                     </Message.Content>
                 </Message>
-                {/* <Message 
-                    icon='info circle' 
-                    info
-                    header='Welcome back' {firstName}
-                    content='You may now log-in with the username you have chosen'
-                /> */}
                 <Grid padded>
                     <Grid.Row>
                         <Grid.Column>

@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import { Button, Card, Image } from "semantic-ui-react";
+import { connect } from "react-redux";
 import MetaMaskOnboarding from "@metamask/onboarding";
 import Web3 from "web3";
 import DonationContract from "../../../../../../../build/contracts/DonationContract.json";
+import { updateDonationThunk } from '../../../../../../store/thunk/donations';
+import axios from 'axios';
 
 class UnclaimedCard extends Component {
     constructor(props) {
@@ -12,6 +15,7 @@ class UnclaimedCard extends Component {
         this.isMetaMaskInstalled = this.isMetaMaskInstalled.bind(this);
         this.installMetaMask = this.installMetaMask.bind(this);
         this.getClientAddress = this.getClientAddress.bind(this);
+        //this.handleApprove = this.handleApprove.bind(this)
         this.clickApprove = this.clickApprove.bind(this);
     }
 
@@ -39,7 +43,20 @@ class UnclaimedCard extends Component {
         return accounts[0];
     }
 
-    async clickApprove(donationId) {
+    // async handleApprove(ev){
+    //     console.log(this.props, 'handleApprove')
+    //     ev.target.disabled = true;
+    //     ev.target.innerHTML = 'Donation already claimed!';
+    //     console.log(ev, 'ev in handleApprove')
+    //    // await this.clickApprove( donationId)
+    // }
+
+    async clickApprove(ev, donationId) {
+         console.log(donationId)
+        // console.log(ev)
+        const { data } = await axios.get(`api/donations/${donationId}`);
+        console.log(data, 'Donation to update');
+
         const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
         if (metaMaskInstalled) {
             const clientAddress = await this.getClientAddress();
@@ -72,6 +89,9 @@ class UnclaimedCard extends Component {
                 .on('error', function(error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
                     console.log(error);
                 });
+                await this.props.updateDonationThunk(donationToUpdate)
+                ev.target.disabled = true;
+                ev.target.innerHTML = 'Donation already claimed!';
             }
         } else {
             this.installMetaMask();
@@ -80,7 +100,7 @@ class UnclaimedCard extends Component {
 
     render() {
         const { donations } = this.props;
-        console.log(this.props, 'UnclaimedCard')
+        //console.log(this.props, 'UnclaimedCard')
         return (
             <div>
                 {!donations.length ? (
@@ -130,11 +150,9 @@ class UnclaimedCard extends Component {
                                             <Button
                                                 basic
                                                 color="green"
-                                                onClick={() =>
-                                                    this.clickApprove(
-                                                        donationId
-                                                    )
-                                                }
+                                                onClick={(ev) =>{
+                                                    this.clickApprove(ev, donationId)
+                                                }}
                                             >
                                                 Approve
                                             </Button>
@@ -150,4 +168,10 @@ class UnclaimedCard extends Component {
     }
 }
 
-export default UnclaimedCard;
+function mapDispatchToProps(dispatch) {
+    return {
+        updateDonationThunk: (donation) => dispatch(updateDonationThunk(donation))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(UnclaimedCard);

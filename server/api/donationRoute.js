@@ -119,6 +119,21 @@ router.post("/", async (req, res, next) => {
     }
 });
 
+// route called when recipient claims donation
+router.put("/:id", async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const donation = await Donation.findByPk(id);
+        donation.isClaimed = true;
+        await donation.save();
+        res.status(200).send(donation);
+    }
+    catch (err) {
+        console.log("Error in PUT /api/donations/:id route ", err);
+        next(err);
+    }
+});
+
 module.exports = router;
 
 

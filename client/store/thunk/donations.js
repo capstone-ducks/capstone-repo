@@ -3,6 +3,7 @@ import {
     getAllDonations,
     getOneDonation,
     createDonation,
+    updateDonation
 } from "../action-creators";
 
 export const fetchAllDonations = () => {
@@ -54,3 +55,26 @@ export const createDonationThunk = (donationData) => {
         // history.push('/')
     };
 };
+
+export const updateDonationThunk = (donation) =>{
+    console.log(id, 'in thunk')
+    return async (dispatch) => {
+        try {
+            const token = window.localStorage.getItem("token");
+            const { data: updatedDonation } = await axios.put(
+                `/api/donations/${donation.id}`, 
+                {
+                    headers: {
+                        authorization: token,
+                    },
+                },
+        );
+        dispatch(updateDonation(updatedDonation));
+        }
+        catch(err) {
+            console.log('Error in updateDonationThunk ', err);
+        }
+        // history.push('/')
+    };
+
+}

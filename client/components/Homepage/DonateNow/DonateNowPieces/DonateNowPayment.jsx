@@ -37,7 +37,6 @@ class DonateNowPaymentForm extends Component {
 
     // On mount, see if MetaMask is installed. If it is, get wallet balance/information     
     async componentDidMount(){
-        console.log(this.state, 'STATE')
         try {
             this.setState(
                 {
@@ -170,8 +169,6 @@ class DonateNowPaymentForm extends Component {
                     recipientIds,
                 };
                 await this.props.createDonationThunk(donation)
-                // alert('Thank you for your generous donation. You truly make the difference for us, and we are extremely grateful!');
-                // window.location.href='/';
 
             })
             .catch((err) => {
