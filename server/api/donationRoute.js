@@ -44,7 +44,6 @@ router.get("/:id", async (req, res, next) => {
                     },
                     {
                         model: User,
-                        as: "recipient",
                     },
                 ],
             });

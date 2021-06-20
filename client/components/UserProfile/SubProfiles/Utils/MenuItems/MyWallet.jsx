@@ -6,7 +6,19 @@ class MyWallet extends Component {
         this.state = {};
     }
     render() {
-        return "My Wallet";
+        const {walletBalance, clientWalletAddress} = this.props;
+        console.log(walletBalance, 'wallet balance');
+        return (
+            <div>
+                <p>
+                    Wallet Address: {clientWalletAddress}
+                </p>
+                <p>
+                    Ethereum Balance: {walletBalance}
+                </p>
+            </div>
+        
+        );
     }
 }
 

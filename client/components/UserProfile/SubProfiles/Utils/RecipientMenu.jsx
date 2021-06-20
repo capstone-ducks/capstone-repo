@@ -7,6 +7,8 @@ import {
     RecipientHistory,
 } from "./MenuItems";
 import { connect } from "react-redux";
+import MetaMaskOnboarding from "@metamask/onboarding";
+import Web3 from "web3";
 
 class DonorMenu extends Component {
     constructor(props) {
@@ -22,11 +24,37 @@ class DonorMenu extends Component {
 
     async componentDidMount() {
         this._isMounted = true;
+        //const exchangeRate = await getExchangeRate();
 
         if (this._isMounted) {
             this.setState({
                 numberOfDonations: this.props.donations.length,
                 loading: false,
+            },
+            async () => {
+                const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
+                if (metaMaskInstalled) {
+                    const clientAddress = await this.getClientAddress();
+
+                    // Gives Web3 Blockchain provider (MetaMask)
+                    window.web3 = new Web3(window.ethereum);
+                    const web3 = window.web3;
+
+                    // making dynamic network
+                    const networkId = await web3.eth.net.getId();
+                    let balance = await web3.eth.getBalance(clientAddress) / 1000000000000000000;
+                    //if (networkData) {
+
+                        if (this._isMounted) {
+                            console.log(clientAddress);
+                            this.setState({
+                                metaMaskInstalled,
+                                clientWalletAddress: clientAddress,
+                                walletBalance: balance,
+                            });
+                        }
+                   // }
+                }
             });
         }
     }
@@ -43,12 +71,35 @@ class DonorMenu extends Component {
         this._isMounted = false;
     }
 
+    isMetaMaskInstalled() {
+        // Have to check the ethereum binding on the window object to see if it's installed
+        const { ethereum } = window;
+        const metaMaskInstalled = Boolean(ethereum && ethereum.isMetaMask);
+        return metaMaskInstalled;
+    }
+
+    // Sends user to MetaMask to install it
+    installMetaMask() {
+        // We create a new MetaMask onboarding object to use in our app
+        const forwarderOrigin = "http://localhost:4500";
+        const onboarding = new MetaMaskOnboarding({ forwarderOrigin });
+        onboarding.startOnboarding();
+    }
+
+    async getClientAddress() {
+        const { ethereum } = window;
+        await ethereum.request({ method: "eth_requestAccounts" });
+        const accounts = await ethereum.request({ method: "eth_accounts" });
+       
+        return accounts[0];
+    }
+
     handleItemClick(e, { name }) {
         this.setState({ activeItem: name });
     }
 
     render() {
-        const { activeItem, numberOfDonations, loading } = this.state;
+        const { activeItem, numberOfDonations, loading, walletBalance, clientWalletAddress } = this.state;
 
         if (loading) {
             return "loading";
@@ -112,7 +163,7 @@ class DonorMenu extends Component {
 
                 <Segment attached="bottom">
                     {activeItem === "My Wallet" ? (
-                        <MyWallet />
+                        <MyWallet walletBalance={walletBalance} clientWalletAddress={clientWalletAddress} />
                     ) : activeItem === "Unclaimed" ? (
                         <UnclaimedDonations />
                     ) : activeItem === "History" ? (
