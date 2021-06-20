@@ -76,6 +76,10 @@ const seedUsers = async () => {
             lastName: "Moneybags",
             email: "donortest1@gmail.com",
             password: "123",
+            gender: "Non-Binary",
+            race: "White",
+            city: "New York",
+            state: "NY",
             isDonor: true,
         });
 
@@ -84,6 +88,10 @@ const seedUsers = async () => {
             lastName: "Moneybags",
             email: "donortest2@gmail.com",
             password: "123",
+            gender: "Other",
+            race: "Hispanic or Latino",
+            city: "San Diego",
+            state: "CA",
             isDonor: true,
         });
 
@@ -92,9 +100,10 @@ const seedUsers = async () => {
             lastName: "Tim",
             email: "recipient1@gmail.com",
             password: "123",
-            gender: 'Male',
+            gender: "Male",
+            race: "Multiracial",
             isDonor: false,
-            cryptoAddress: "0x3FA4f899fDB0d3d78B0ece79bCe56e823d587D86",
+            cryptoAddress: "0xF6461266D1Cad5eA47F3FD318CAf0499f096DACE",
         });
 
         const recipient2 = await User.create({
@@ -102,9 +111,12 @@ const seedUsers = async () => {
             lastName: "Valentine",
             email: "recipient2@gmail.com",
             password: "123",
-            cryptoAddress: "0x6088eb6D87e78c11070766dBc93158AF9FEce72a",
-            isDonor: false,
             gender: "Female",
+            race: "Black / African American",
+            city: "Queens",
+            state: "NY",
+            isDonor: false,
+            cryptoAddress: "0xb7BEa560052eeECDD58e27E6BBB5BE2F18d7df29",
         });
 
         const recipient3 = await User.create({
@@ -112,9 +124,12 @@ const seedUsers = async () => {
             lastName: "Shmo",
             email: "recipient3@gmail.com",
             password: "123",
+            gender: "Female",
+            race: "Hispanic or Latino",
+            city: "Hartford",
+            state: "CT",
             isDonor: false,
-            gender: 'Female',
-            cryptoAddress: "0x2B96830Ab6BD3B483a17A398298f71A8943676a7"
+            cryptoAddress: "0x2e9aFbbC6437074657CDD044147a216B54415680",
         });
 
         const recipient4 = await User.create({
@@ -122,9 +137,77 @@ const seedUsers = async () => {
             lastName: "Shmo",
             email: "recipient4@gmail.com",
             password: "123",
+            gender: "Male",
+            race: "Multiracial",
+            city: "Los Angeles",
+            state: "CA",
             isDonor: false,
-            gender: 'Male',
-            cryptoAddress:'0x6A82188DB1524A79516f3763a39dF5eFD93AA40D'
+            cryptoAddress: "0xd464b61bAD10b8E71249277571cB5720e6D70Df6",
+        });
+
+        const recipient5 = await User.create({
+            firstName: "Thomas",
+            lastName: "Hobbes",
+            email: "recipient5@gmail.com",
+            password: "123",
+            gender: "Transgender",
+            race: "Asian",
+            city: "San Diego",
+            state: "CA",
+            isDonor: false,
+            cryptoAddress: "0x1C99CA86e9106Bd23Fd68dD65e6C310cF27515cB",
+        });
+
+        const recipient6 = await User.create({
+            firstName: "Mike",
+            lastName: "Wazowski",
+            email: "recipient6@gmail.com",
+            password: "123",
+            gender: "Non-Binary",
+            race: "Native Hawaiian or Other Pacific Islander",
+            city: "Queens",
+            state: "NY",
+            isDonor: false,
+            cryptoAddress: "0x5d5A371d2d462EBe747ab420185903bD5482B32c",
+        });
+
+        const recipient7 = await User.create({
+            firstName: "Ben",
+            lastName: "Grimm",
+            email: "ff4@gmail.com",
+            password: "123",
+            gender: "Non-Binary",
+            race: "Native Hawaiian or Other Pacific Islander",
+            city: "New York",
+            state: "NY",
+            isDonor: false,
+            cryptoAddress: "0x46fF6E6361693AEcdAAfBA98C8F1901D2C1439c4",
+        });
+
+        const recipient8 = await User.create({
+            firstName: "Bender",
+            lastName: "Rodriguez",
+            email: "benderb@gmail.com",
+            password: "123",
+            gender: "Non-Binary",
+            race: "Multiracial",
+            city: "Brooklyn",
+            state: "NY",
+            isDonor: false,
+            cryptoAddress: "0x3136cE2E7872dcabE036E74555666508CB1BE75E",
+        });
+
+        const recipient9 = await User.create({
+            firstName: "Clint",
+            lastName: "Barton",
+            email: "hawkeye@gmail.com",
+            password: "123",
+            gender: "Male",
+            race: "White",
+            city: "Akron",
+            state: "OH",
+            isDonor: false,
+            cryptoAddress: "0xF6461266D1Cad5eA47F3FD318CAf0499f096DACE",
         });
 
         const donation1 = await Donation.create({
