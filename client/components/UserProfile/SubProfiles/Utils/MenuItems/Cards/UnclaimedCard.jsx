@@ -18,24 +18,6 @@ class UnclaimedCard extends Component {
         this.clickApprove = this.clickApprove.bind(this);
     }
 
-    // componentDidMount() {
-    //     this.setState({
-    //         donations: this.props.donations
-    //     })
-    // }
-
-    // componentDidUpdate = (prevProps, prevState) => {
-    //     console.log('PREVPROPS', prevProps)
-    //     console.log('PROPS', this.props)
-    //     console.log('STATE', this.state)
-    //     console.log('PRESTATE', prevState)
-    //     // if(!prevProps.donations.id && this.props.user.id){
-    //     //   this.setState({
-    //     //     donations: this.props.donations,
-    //     //   })
-    //     // }
-    //   }
-
     //Created check function to see if the MetaMask extension is installed
     isMetaMaskInstalled() {
         // Have to check the ethereum binding on the window object to see if it's installed
@@ -60,8 +42,6 @@ class UnclaimedCard extends Component {
     }
 
     async clickApprove(donationId) {
-        this.props.claimDonation(donationId, this.props.user.id);
-        console.log('AFTERCLAIM', this.props.donations[0].users[0].donationsRecipients)
         const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
         if (metaMaskInstalled) {
             const clientAddress = await this.getClientAddress();
@@ -94,6 +74,8 @@ class UnclaimedCard extends Component {
                     .on('error', function(error) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
                         console.log(error);
                     });
+                // removes the claimed donation from UnclaimedCard
+                await this.props.claimDonation(donationId, this.props.donations[0].users[0].id);
             }
         } else {
             this.installMetaMask();
@@ -142,7 +124,7 @@ class UnclaimedCard extends Component {
                                             {donation.donor.city
                                                 ? `from ${donation.donor.city}` : ''}
                                             has sent you a donation. Click
-                                            approve to{" "}{donationId}
+                                            approve to{" "}
                                             <strong>
                                                 claim your donation funds
                                             </strong>

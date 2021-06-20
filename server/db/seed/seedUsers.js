@@ -102,7 +102,7 @@ const seedUsers = async () => {
             lastName: "Valentine",
             email: "recipient2@gmail.com",
             password: "123",
-            cryptoAddress: "0x9227B439aD3eC8bC287444182b3Fa1C1383676b7",
+            cryptoAddress: "0x453b7512bc974c1B6D9dDc7E14157Ab12D76103d",
             isDonor: false,
             gender: "Female",
         });
@@ -114,7 +114,7 @@ const seedUsers = async () => {
             password: "123",
             isDonor: false,
             gender: "Female",
-            cryptoAddress: "0xa11204554E2739bC5Eb434F6c944A07fF85be4b1",
+            cryptoAddress: "0xAf16862F8c9784b902B37D61ACdd26A8e903CaF0",
         });
 
         const recipient4 = await User.create({

@@ -13,9 +13,10 @@ const donationReducer = (state = [], action) => {
         state = [...state, action.donation];
     }
     else if (action.type === CLAIM_DONATION) {
-        const donations = state.donations.map(donation =>{
-            donation.id === action.donation.id ? action.donation : donation });
-        state = [...state, donations];
+        const index = state.findIndex(donation => donation.id === action.donation.donationId);
+        let newState = [...state];
+        newState[index].isClaimed = true;
+        state = newState;
     }
     return state;
 };

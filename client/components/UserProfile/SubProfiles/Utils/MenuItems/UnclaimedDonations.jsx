@@ -7,7 +7,6 @@ class UnclaimedDonations extends Component {
     constructor(props) {
         super(props);
     }
-
     render() {
         const { donations } = this.props;
         const unClaimed = donations.filter((donation) => !donation.users[0].donationsRecipients.isClaimed);
