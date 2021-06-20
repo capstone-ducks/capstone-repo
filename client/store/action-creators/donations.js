@@ -2,6 +2,7 @@ import {
     GET_ALL_DONATIONS,
     GET_ONE_DONATION,
     CREATE_DONATION,
+    CLAIM_DONATION,
 } from "../action-types";
 
 export const getAllDonations = (donations) => {
@@ -23,4 +24,11 @@ export const createDonation = (donation) => {
         type: CREATE_DONATION,
         donation,
     };
+};
+
+export const claimDonation = (donation) => {
+    return {
+        type: CLAIM_DONATION,
+        donation
+    }
 };

@@ -1,14 +1,17 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Button, Card, Image } from "semantic-ui-react";
 import MetaMaskOnboarding from "@metamask/onboarding";
 import Web3 from "web3";
 import DonationContract from "../../../../../../../build/contracts/DonationContract.json";
+import { claimDonationThunk } from "../../../../../../store/thunk";
 
 class UnclaimedCard extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
-
+        // this.state = {
+            // donations: this.props.donations ? this.props.donations : [],
+        // };
         this.isMetaMaskInstalled = this.isMetaMaskInstalled.bind(this);
         this.installMetaMask = this.installMetaMask.bind(this);
         this.getClientAddress = this.getClientAddress.bind(this);
@@ -35,7 +38,6 @@ class UnclaimedCard extends Component {
         const { ethereum } = window;
         await ethereum.request({ method: "eth_requestAccounts" });
         const accounts = await ethereum.request({ method: "eth_accounts" });
-
         return accounts[0];
     }
 
@@ -67,11 +69,13 @@ class UnclaimedCard extends Component {
                         console.log(confirmationNumber);
                     })
                     .on('receipt', function(receipt){
-                    console.log(receipt);
-                })
-                .on('error', function(error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
-                    console.log(error);
-                });
+                        console.log(receipt);
+                    })
+                    .on('error', function(error) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
+                        console.log(error);
+                    });
+                // removes the claimed donation from UnclaimedCard
+                await this.props.claimDonation(donationId, this.props.donations[0].users[0].id);
             }
         } else {
             this.installMetaMask();
@@ -79,19 +83,22 @@ class UnclaimedCard extends Component {
     }
 
     render() {
+        // console.log('STATE', this.state)
+        console.log(this.props)
         const { donations } = this.props;
+        // return (<div></div>)
         return (
             <div>
-                {!donations.length ? (
+                {
+                !donations ? (
                     <div>No donations to claim at this time</div>
                 ) : (
                     donations.map((donation) => {
-                        if (!donation.users[0].donationsRecipients.isClaimed) {
-                            const { donationId, amountOwed } =
-                                donation.users[0].donationsRecipients;
-                                const {contractAddress} = donation;
+                        // if (!donation.users[0].donationsRecipients.isClaimed) {
+                            const { donationId } = donation.users[0].donationsRecipients;
+                                // const {contractAddress} = donation;
                             return (
-                                <Card key={donation.id}>
+                                <Card key={donationId}>
                                     <Card.Content>
                                         <Image
                                             floated="right"
@@ -141,12 +148,26 @@ class UnclaimedCard extends Component {
                                     </Card.Content>
                                 </Card>
                             );
-                        }
+                        // }
                     })
                 )}
             </div>
         );
     }
-}
+};
 
-export default UnclaimedCard;
+// function mapStateToProps(state) {
+//     return {
+//         donations: state.donations,
+//         user: state.auth.user,
+//     };
+// };
+
+function mapDispatchToProps(dispatch) {
+    return {
+        claimDonation: (donationId, userId) =>
+            dispatch(claimDonationThunk(donationId, userId)),
+    };
+};
+
+export default connect(null, mapDispatchToProps)(UnclaimedCard);

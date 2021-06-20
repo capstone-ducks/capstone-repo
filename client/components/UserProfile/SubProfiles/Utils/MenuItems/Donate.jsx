@@ -161,7 +161,6 @@ class Donate extends Component {
                 gas: 6721975, // should match given gas limit from ganache
             })
             .then(async (receipt) => {
-                // console.log(receipt);
                 const donation = {
                     id: donationId,
                     donorId: this.props.user.id,
@@ -172,7 +171,7 @@ class Donate extends Component {
                     recipientIds,
                 };
                 await this.props.createDonationThunk(donation);
-                console.log("Successful Donation");
+                console.log("Successful Donation", receipt);
             })
             .catch((err) => {
                 console.log("Donate function error ", err);

@@ -30,6 +30,9 @@ Donation.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
+        createdAt: {
+            type: DataTypes.DATEONLY,
+        }
     },
     {
         sequelize: db,

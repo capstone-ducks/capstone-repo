@@ -111,6 +111,8 @@ const seedUsers = async () => {
             lastName: "Valentine",
             email: "recipient2@gmail.com",
             password: "123",
+            cryptoAddress: "0x453b7512bc974c1B6D9dDc7E14157Ab12D76103d",
+            isDonor: false,
             gender: "Female",
             race: "Black / African American",
             city: "Queens",

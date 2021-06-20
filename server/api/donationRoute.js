@@ -17,7 +17,6 @@ router.get("/", async (req, res, next) => {
             ],
         });
         //does not work with a second alias for...reasons?
-        //console.log(donations, 'success in get route Donations');
         res.status(200).send(donations);
     } catch (err) {
         console.log("Error in GET /api/donations route ", err);
@@ -114,6 +113,26 @@ router.post("/", async (req, res, next) => {
         res.status(201).send(donation);
     } catch (err) {
         console.log('Error in POST /api/donations route ', err);
+        next(err);
+    }
+});
+
+// route called when recipient claims donation
+router.put("/:donationId/:userId", async (req, res, next) => {
+    try {
+        const { donationId, userId } = req.params;
+        let donation = await DonationsRecipients.findOne({
+            where: {
+                donationId: donationId,
+                recipientId: userId
+            }
+        });
+        const claimedDonation = await donation.update({ isClaimed: true });
+        await donation.save();
+        res.status(200).send(claimedDonation);
+    }
+    catch (err) {
+        console.log("Error in PUT /api/donations/:donationId/:userId route ", err);
         next(err);
     }
 });
