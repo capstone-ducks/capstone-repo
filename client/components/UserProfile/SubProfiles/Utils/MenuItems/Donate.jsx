@@ -40,6 +40,10 @@ class Donate extends Component {
             metaMaskInstalled: false,
             clientWalletAddress: "",
             donationContract: "",
+            raceOptions: [],
+            genderOptions: [],
+            cityOptions: [],
+            stateOptions: [],
         };
         this._isMounted = false;
         this.handleEdit = this.handleEdit.bind(this);
@@ -82,9 +86,6 @@ class Donate extends Component {
                                         metaMaskInstalled,
                                         donationContract,
                                         clientWalletAddress: clientAddress,
-                                        exchangeRate: parseFloat(
-                                            await getExchangeRate(),
-                                        ),
                                     });
                                 }
                             }
@@ -136,9 +137,13 @@ class Donate extends Component {
         const amountEthToWei = await web3.utils.toHex(
             web3.utils.toWei(this.state.detailEthTotal.toString(), "ether"),
         );
+        //console.log(this.state.recipientOptions, 'recipient options');
         const { data } = await axios.post("api/users/recipients", {
             numRecipients: this.state.detailNumRecipients,
-            gender: "Female",
+            races: this.state.raceOptions,
+            genders: this.state.genderOptions,
+            cities: this.state.cityOptions,
+            states: this.state.stateOptions,
         });
 
         const { recipientIds, cryptoAddresses } = data;
@@ -186,7 +191,7 @@ class Donate extends Component {
                 agreeToTerms: !this.state.agreeToTerms,
             });
             // Else, update the value
-        } else {
+        }else {
             this.setState(
                 {
                     [name]: value,
@@ -239,7 +244,12 @@ class Donate extends Component {
             detailNumRecipients,
             message,
             agreeToTerms,
+            raceOptions,
+            genderOptions,
+            cityOptions,
+            stateOptions,
             metaMaskInstalled,
+
         } = this.state;
 
         return (
@@ -264,6 +274,10 @@ class Donate extends Component {
                             usd={detailUSDTotal}
                             eth={detailEthTotal}
                             numRecipients={detailNumRecipients}
+                            raceOptions={raceOptions}
+                            genderOptions={genderOptions}
+                            cityOptions={cityOptions}
+                            stateOptions={stateOptions}
                         />
                         <TargetPopulation
                             active={activeIndices.includes(2)}
