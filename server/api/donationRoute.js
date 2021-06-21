@@ -103,14 +103,14 @@ router.post("/", async (req, res, next) => {
             // TODO: add recipient location, etc. data that is selected by donor
         });
         recipientIds.map(async (recipientId) => {
+            const amountOwed = donation.amount / donation.numRecipients;
             await DonationsRecipients.create({
                 donationId: donation.id,
                 recipientId: recipientId,
-                amountOwed: donation.amount / donation.numRecipients
+                amountOwed,
             });
             const recipient = await User.findByPk(recipientId);
-            console.log(recipient)
-            await sendEmail(recipient.firstName, recipient.email); // sends email to each recipient
+            await sendEmail(recipient.firstName, recipient.email, amountOwed, recipientId); // sends email to each recipient
         });
         res.status(201).send(donation);
     } catch (err) {
