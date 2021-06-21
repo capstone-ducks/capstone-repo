@@ -1,6 +1,5 @@
 const nodemailer = require("nodemailer");
 const newDonation = require("./newDonation");
-const {ADMIN_EMAIL, ADMIN_PASS} = require("./env");
 
 const sendEmail = () => { // (to, name) after testing
 
@@ -8,8 +7,8 @@ const sendEmail = () => { // (to, name) after testing
     service: "gmail",
     logger: true,
     auth: {
-      user: ADMIN_EMAIL,
-      pass: ADMIN_PASS
+      user: process.env.ADMIN_EMAIL,
+      pass: process.env.ADMIN_PASS
     }
   });
 
