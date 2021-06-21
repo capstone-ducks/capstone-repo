@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer");
 const newDonation = require("./newDonation");
+const {ADMIN_EMAIL, ADMIN_PASS} = require("./env");
 
 const sendEmail = () => { // (to, name) after testing
 
@@ -7,20 +8,14 @@ const sendEmail = () => { // (to, name) after testing
     service: "gmail",
     logger: true,
     auth: {
-      user: 'capstonetest.2101flex@gmail.com',
-      pass: 'mmoneybags2101',
-      // type: OAuth2,
-      // user: process.env.ADMIN_EMAIL,
-      // pass: process.env.ADMIN_PASS,
-      // clientId: process.env.CLIENT_ID,
-      // clientSecret: process.env.CLIENT_SECRET,
-      // refreshToken,
+      user: ADMIN_EMAIL,
+      pass: ADMIN_PASS
     }
   });
 
   const email = {
-    from: "ninjasamuri17@gmail.com",
-    to: "ninjasamuri17@gmail.com",
+    from: "capstonetest.2101flex@gmail.com",
+    to: "capstonetest.2101flex@gmail.com",
     subject: `New Donation to Claim`,
     html: newDonation(),
   };

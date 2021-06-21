@@ -111,7 +111,7 @@ router.post("/", async (req, res, next) => {
                 amountOwed: donation.amount / donation.numRecipients
             });
         });
-        // await sendEmail(); // email to recipients
+        await sendEmail(); // email to recipients
         res.status(201).send(donation);
     } catch (err) {
         console.log('Error in POST /api/donations route ', err);
