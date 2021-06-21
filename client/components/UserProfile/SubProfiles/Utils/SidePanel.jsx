@@ -36,11 +36,11 @@ class SidePanel extends Component {
     componentDidUpdate(prevProps) {
         if (prevProps.donations !== this.props.donations) {
             const { user, donations } = this.props;
-            calculateSidePanelStats(user, donations);
+            this.calculateSidePanelStats(user, donations);
         }
     }
 
-    calculateSidePanelState(user, donations) {
+    calculateSidePanelStats(user, donations) {
         const { isDonor } = user;
 
         const totalDonations = isDonor ? donations.length : "";
@@ -113,6 +113,7 @@ class SidePanel extends Component {
             totalFundsToClaim,
         } = this.state;
 
+        const { isDonor } = this.props.user;
         if (loading) return "loading";
 
         return (

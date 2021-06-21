@@ -108,6 +108,9 @@ router.post("/", async (req, res, next) => {
             });
         });
 
+        console.log("*****************");
+        console.log(donation);
+
         // We need to keep our donation in the same format as our GET route
         // (with all the includes...), which is why this is necessary
         const newDonation = await Donation.findOne({
@@ -121,7 +124,6 @@ router.post("/", async (req, res, next) => {
                 },
                 {
                     model: User,
-                    as: "recipient",
                 },
             ],
         });
