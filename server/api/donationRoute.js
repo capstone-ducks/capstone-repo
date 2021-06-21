@@ -144,9 +144,22 @@ router.put("/:donationId/:userId", async (req, res, next) => {
                 recipientId: userId,
             },
         });
+
         const claimedDonation = await donation.update({ isClaimed: true });
         await donation.save();
-        res.status(200).send(claimedDonation);
+
+        const claimedDonationWithAssociations = await Donation.findOne({
+            where: { id: claimedDonation.id },
+            include: [
+                {
+                    model: User,
+                    as: "donor",
+                },
+                { model: User },
+            ],
+        });
+
+        res.status(200).send(claimedDonationWithAssociations);
     } catch (err) {
         console.log(
             "Error in PUT /api/donations/:donationId/:userId route ",
