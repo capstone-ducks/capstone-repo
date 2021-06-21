@@ -12,7 +12,7 @@ class DonorProfile extends Component {
         const { user } = this.props;
         return (
             <div id="profile-screen">
-                {/* <SidePanel /> */}
+                <SidePanel user={user}/>
                 <MainPanel user={user} />
             </div>
         );
