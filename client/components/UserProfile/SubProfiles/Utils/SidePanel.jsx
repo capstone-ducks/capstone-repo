@@ -20,11 +20,11 @@ class SidePanel extends Component {
         super(props);
         this.state = {};
     }
-
     render() {
+        console.log(this.props);
         const { isDonor } = this.props.user;
-
-        const totalDonations = isDonor ? this.props.donations.length : "";
+        const numberOfDonations = !this.props.donations ? 0 : this.props.donations.length;
+        const totalDonations = isDonor ? numberOfDonations : "";
 
         const totalFundsDonated = isDonor
             ? this.props.donations.reduce((acc, cur) => {

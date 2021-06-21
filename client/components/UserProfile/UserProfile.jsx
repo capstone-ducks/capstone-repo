@@ -17,14 +17,22 @@ class UserProfile extends Component {
         }
     }
 
-    async componentDidUpdate(prevProps) {
-        const { user, fetchAllUsersDonations, history } = this.props;
+    async componentDidUpdate(prevState, prevProps) {
+        const { user, donations, fetchAllUsersDonations, history } = this.props;
         if (!user) {
             history.push("/");
-        } else if (!prevProps.user && user) {
+        } else if (prevProps.user !== user || prevProps.donations !== donations) {
             await fetchAllUsersDonations(user.id);
         }
     }
+    // async componentDidUpdate(prevProps) {
+    //     const { user, fetchAllUsersDonations, history } = this.props;
+    //     if (!user) {
+    //         history.push("/");
+    //     } else if (!prevProps.user && user ) {
+    //         await fetchAllUsersDonations(user.id);
+    //     }
+    // }
 
     render() {
         if (!this.props.user) {
