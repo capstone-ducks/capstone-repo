@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 const newDonation = require("./newDonation");
 
-const sendEmail = () => { // (to, name) after testing
+const sendEmail = (name, recipientEmail) => { // (to, name) after testing
 
   let transporter = nodemailer.createTransport({
     service: "gmail",
@@ -16,7 +16,7 @@ const sendEmail = () => { // (to, name) after testing
     from: "capstonetest.2101flex@gmail.com",
     to: "capstonetest.2101flex@gmail.com",
     subject: `New Donation to Claim`,
-    html: newDonation(),
+    html: newDonation(name),
   };
 
     // verify connection configuration

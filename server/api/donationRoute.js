@@ -85,8 +85,6 @@ router.post("/", async (req, res, next) => {
             transactionHash,
             contractAddress,
             recipientIds
-            // TODO: add recipient location, etc. data that is selected by donor
-
         } = req.body;
         if(!donorId ){
             const newUser = await User.create({
@@ -110,8 +108,10 @@ router.post("/", async (req, res, next) => {
                 recipientId: recipientId,
                 amountOwed: donation.amount / donation.numRecipients
             });
+            const recipient = await User.findByPk(recipientId);
+            console.log(recipient)
+            await sendEmail(recipient.firstName, recipient.email); // sends email to each recipient
         });
-        await sendEmail(); // email to recipients
         res.status(201).send(donation);
     } catch (err) {
         console.log('Error in POST /api/donations route ', err);

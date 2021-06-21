@@ -1,4 +1,4 @@
-const newDonation = () => {
+const newDonation = (name) => {
   return `
   <html lang="en">
     <head>
@@ -7,7 +7,7 @@ const newDonation = () => {
       <title>Document</title>
     </head>
     <body>
-      <h2>Hello </h2>
+      <h2>Hello ${name}</h2>
     </body>
   </html>
   `
