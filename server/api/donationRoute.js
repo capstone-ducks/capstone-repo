@@ -100,6 +100,7 @@ router.post("/", async (req, res, next) => {
             contractAddress,
             // TODO: add recipient location, etc. data that is selected by donor
         });
+
         recipientIds.map(async (recipientId) => {
             await DonationsRecipients.create({
                 donationId: donation.id,
@@ -107,9 +108,6 @@ router.post("/", async (req, res, next) => {
                 amountOwed: donation.amount / donation.numRecipients,
             });
         });
-
-        console.log("*****************");
-        console.log(donation);
 
         // We need to keep our donation in the same format as our GET route
         // (with all the includes...), which is why this is necessary
@@ -124,6 +122,9 @@ router.post("/", async (req, res, next) => {
                 },
                 {
                     model: User,
+                    through: {
+                        model: DonationsRecipients,
+                    },
                 },
             ],
         });

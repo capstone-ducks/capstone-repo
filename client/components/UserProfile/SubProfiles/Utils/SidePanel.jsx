@@ -52,6 +52,7 @@ class SidePanel extends Component {
               }, 0)
             : 0;
 
+        console.log(donations);
         const totalPeopleReached = isDonor
             ? donations.reduce((acc, cur) => {
                   acc += cur.users.length;
