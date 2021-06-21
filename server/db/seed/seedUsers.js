@@ -95,16 +95,16 @@ const seedUsers = async () => {
             isDonor: true,
         });
 
-        // const recipient1 = await User.create({
-        //     firstName: "Tiny",
-        //     lastName: "Tim",
-        //     email: "recipient1@gmail.com",
-        //     password: "123",
-        //     gender: "Male",
-        //     race: "Multiracial",
-        //     isDonor: false,
-        //     cryptoAddress: "0xfCD6e6FF10939BEac528BF83D9Bf6B6E6c85b188",
-        // });
+        const recipient1 = await User.create({
+            firstName: "Tiny",
+            lastName: "Tim",
+            email: "recipient1@gmail.com",
+            password: "123",
+            gender: "Male",
+            race: "Multiracial",
+            isDonor: false,
+            cryptoAddress: "0xfCD6e6FF10939BEac528BF83D9Bf6B6E6c85b188",
+        });
 
         const recipient2 = await User.create({
             firstName: "Billy",

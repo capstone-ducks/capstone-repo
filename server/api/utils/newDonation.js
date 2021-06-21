@@ -1,20 +1,7 @@
 // source
 // https://codepen.io/md-khokon/pen/bPLqzV
 
-// const logo = require("../../../public/images/logo-dark-letters.png");
-const newDonation = (name, email, amount, id) => {
-  // return `
-  // <html lang="en">
-  //   <head>
-  //     <meta charset="UTF-8">
-  //     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  //     <title>Document</title>
-  //   </head>
-  //   <body>
-  //     <h2>Hello ${name}</h2>
-  //   </body>
-  // </html>
-  // `
+const newDonation = (name, email, amount, id) => {]
   return `
   <!DOCTYPE html>
 <html>
