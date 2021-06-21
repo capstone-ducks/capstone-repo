@@ -52,7 +52,6 @@ class SidePanel extends Component {
               }, 0)
             : 0;
 
-        console.log(donations);
         const totalPeopleReached = isDonor
             ? donations.reduce((acc, cur) => {
                   acc += cur.users.length;
@@ -179,7 +178,7 @@ class SidePanel extends Component {
                                             </Grid.Column>
                                             <Grid.Column>
                                                 <Icon name="ethereum" />{" "}
-                                                {totalFundsToClaim}
+                                                {totalFundsToClaim.toFixed(4)}
                                             </Grid.Column>
                                         </Grid.Row>
                                         <Grid.Row>
@@ -188,7 +187,7 @@ class SidePanel extends Component {
                                             </Grid.Column>
                                             <Grid.Column>
                                                 <Icon name="ethereum" />{" "}
-                                                {totalFundsClaimed}
+                                                {totalFundsClaimed.toFixed(4)}
                                             </Grid.Column>
                                         </Grid.Row>
                                     </Grid>

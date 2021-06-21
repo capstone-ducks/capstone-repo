@@ -101,31 +101,29 @@ router.post("/", async (req, res, next) => {
             // TODO: add recipient location, etc. data that is selected by donor
         });
 
-        recipientIds.map(async (recipientId) => {
-            await DonationsRecipients.create({
-                donationId: donation.id,
-                recipientId: recipientId,
-                amountOwed: donation.amount / donation.numRecipients,
-            });
+        let donationRecipientInstances = [];
+        recipientIds.map((recipientId) => {
+            donationRecipientInstances.push(
+                DonationsRecipients.create({
+                    donationId: donation.id,
+                    recipientId: recipientId,
+                    amountOwed: donation.amount / donation.numRecipients,
+                }),
+            );
         });
+
+        await Promise.all(donationRecipientInstances);
 
         // We need to keep our donation in the same format as our GET route
         // (with all the includes...), which is why this is necessary
         const newDonation = await Donation.findOne({
-            where: {
-                id: donation.id,
-            },
+            where: { id: donation.id },
             include: [
                 {
                     model: User,
                     as: "donor",
                 },
-                {
-                    model: User,
-                    through: {
-                        model: DonationsRecipients,
-                    },
-                },
+                { model: User },
             ],
         });
 
