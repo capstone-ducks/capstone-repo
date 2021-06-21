@@ -1,7 +1,7 @@
 // source
 // https://codepen.io/md-khokon/pen/bPLqzV
 
-const newDonation = (name, email, amount, id) => {]
+const newDonation = (name, email, amount, id) => {
   return `
   <!DOCTYPE html>
 <html>
