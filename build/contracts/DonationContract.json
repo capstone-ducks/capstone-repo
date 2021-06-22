@@ -8442,12 +8442,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x6EFfEEEAD2519Ac0D19e707eb7E932a0650eff27",
-      "transactionHash": "0x6b01f96d837e64cbcaeeeaa373c6a91321f9056a37160ea4acdd6833ad00ebff"
+      "address": "0xb2732B4f72767ceDdc0DC72d9BF83Efe17D5b962",
+      "transactionHash": "0xc81ea784ccd7c872bca7cf9004f5103b86676b160e8069c609022905867eec58"
     }
   },
   "schemaVersion": "3.4.1",
-  "updatedAt": "2021-06-21T21:03:48.506Z",
+  "updatedAt": "2021-06-22T00:22:21.728Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

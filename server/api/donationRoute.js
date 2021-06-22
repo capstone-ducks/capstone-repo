@@ -149,7 +149,7 @@ router.put("/:donationId/:userId", async (req, res, next) => {
         await donation.save();
 
         const claimedDonationWithAssociations = await Donation.findOne({
-            where: { id: claimedDonation.id },
+            where: { id: donationId },
             include: [
                 {
                     model: User,

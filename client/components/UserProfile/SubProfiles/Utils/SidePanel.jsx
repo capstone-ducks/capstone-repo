@@ -43,6 +43,8 @@ class SidePanel extends Component {
     calculateSidePanelStats(user, donations) {
         const { isDonor } = user;
 
+        console.log(donations);
+
         const totalDonations = isDonor ? donations.length : "";
 
         const totalFundsDonated = isDonor
@@ -61,15 +63,18 @@ class SidePanel extends Component {
 
         const totalFundsClaimed = !isDonor
             ? donations.reduce((acc, cur) => {
-                  let userRecInst;
+                  let userRecInst = null;
+
                   for (const curUser of cur.users) {
                       if (curUser.id === user.id) {
                           userRecInst = curUser.donationsRecipients;
                       }
                   }
 
-                  if (userRecInst.isClaimed) {
-                      acc += userRecInst.amountOwed;
+                  if (userRecInst) {
+                      if (userRecInst.isClaimed) {
+                          acc += userRecInst.amountOwed;
+                      }
                   }
 
                   return acc;
@@ -85,8 +90,10 @@ class SidePanel extends Component {
                       }
                   }
 
-                  if (!userRecInst.isClaimed) {
-                      acc += userRecInst.amountOwed;
+                  if (userRecInst) {
+                      if (!userRecInst.isClaimed) {
+                          acc += userRecInst.amountOwed;
+                      }
                   }
 
                   return acc;
