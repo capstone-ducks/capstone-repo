@@ -12,10 +12,11 @@ const donationReducer = (state = [], action) => {
         state = [...state, action.donation];
     } else if (action.type === CLAIM_DONATION) {
         const index = state.findIndex(
-            (donation) => donation.id === action.donation.donationId,
+            (donation) => donation.id === action.donation.id,
         );
+
         let newState = [...state];
-        newState[index - 1].isClaimed = true;
+        newState[index].isClaimed = true;
         state = newState;
     }
     return state;
