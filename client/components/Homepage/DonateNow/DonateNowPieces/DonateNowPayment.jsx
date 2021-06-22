@@ -9,7 +9,8 @@ import DonationContract from '../../../../../build/contracts/DonationContract.js
 import getExchangeRate from "../../../UserProfile/SubProfiles/Utils/MenuItems/getExchangeRate";
 import generateDonationId from '../../../../utils/generateDonationId';
 import { createDonationThunk } from "../../../../store/thunk/donations";
-import axios from 'axios'
+import axios from 'axios';
+import {ThankYouMessage} from '../../../Utils'
 
 
 
@@ -125,7 +126,8 @@ class DonateNowPaymentForm extends Component {
     // Handles the donation submission
     async handleSubmit() {
         await this.donate();
-        alert('Thank you for your generous donation. You truly make the difference for us, and we are extremely grateful!');
+        // alert('Thank you for your generous donation. You truly make the difference for us, and we are extremely grateful!');
+        <ThankYouMessage/>
         window.location.href='/';
     }
 
