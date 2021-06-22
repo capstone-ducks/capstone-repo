@@ -75,6 +75,8 @@ class Donate extends Component {
                             const networkData =
                                 DonationContract.networks[networkId];
 
+                            console.log("DONATION NETWORK", networkData);
+
                             if (networkData) {
                                 const donationContract = new web3.eth.Contract(
                                     DonationContract.abi,
@@ -191,7 +193,7 @@ class Donate extends Component {
                 agreeToTerms: !this.state.agreeToTerms,
             });
             // Else, update the value
-        }else {
+        } else {
             this.setState(
                 {
                     [name]: value,
@@ -249,7 +251,6 @@ class Donate extends Component {
             cityOptions,
             stateOptions,
             metaMaskInstalled,
-
         } = this.state;
 
         return (

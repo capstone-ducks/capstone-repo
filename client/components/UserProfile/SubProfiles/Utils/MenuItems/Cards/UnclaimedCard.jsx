@@ -10,7 +10,7 @@ class UnclaimedCard extends Component {
     constructor(props) {
         super(props);
         // this.state = {
-            // donations: this.props.donations ? this.props.donations : [],
+        // donations: this.props.donations ? this.props.donations : [],
         // };
         this.isMetaMaskInstalled = this.isMetaMaskInstalled.bind(this);
         this.installMetaMask = this.installMetaMask.bind(this);
@@ -43,8 +43,11 @@ class UnclaimedCard extends Component {
 
     async clickApprove(donationId) {
         // moved this here for debugging
-        await this.props.claimDonation(donationId, this.props.donations[0].users[0].id);
-        console.log(donationId, this.props.donations[0].users[0].id)
+        await this.props.claimDonation(
+            donationId,
+            this.props.donations[0].users[0].id,
+        );
+        console.log(donationId, this.props.donations[0].users[0].id);
         const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
         if (metaMaskInstalled) {
             const clientAddress = await this.getClientAddress();
@@ -53,9 +56,12 @@ class UnclaimedCard extends Component {
             window.web3 = new Web3(window.ethereum);
             const web3 = window.web3;
             let accounts = await web3.eth.getAccounts();
+
             // making dynamic network
             const networkId = await web3.eth.net.getId();
             const networkData = DonationContract.networks[networkId];
+
+            console.log("NETWORKS", networkData);
 
             if (networkData) {
                 const donationContract = new web3.eth.Contract(
@@ -68,13 +74,14 @@ class UnclaimedCard extends Component {
                     .send({
                         from: clientAddress,
                     })
-                    .on('confirmation', function(confirmationNumber, receipt){
+                    .on("confirmation", function (confirmationNumber, receipt) {
                         console.log(confirmationNumber);
                     })
-                    .on('receipt', function(receipt){
+                    .on("receipt", function (receipt) {
                         console.log(receipt);
                     })
-                    .on('error', function(error) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
+                    .on("error", function (error) {
+                        // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
                         console.log(error);
                     });
                 // removes the claimed donation from UnclaimedCard
@@ -87,77 +94,73 @@ class UnclaimedCard extends Component {
 
     render() {
         // console.log('STATE', this.state)
-        console.log(this.props)
+        console.log(this.props);
         const { donations } = this.props;
         // return (<div></div>)
         return (
             <div>
-                {
-                !donations ? (
+                {!donations ? (
                     <div>No donations to claim at this time</div>
                 ) : (
                     donations.map((donation) => {
                         // if (!donation.users[0].donationsRecipients.isClaimed) {
-                            const { donationId } = donation.users[0].donationsRecipients;
-                                // const {contractAddress} = donation;
-                            return (
-                                <Card key={donationId}>
-                                    <Card.Content>
-                                        <Image
-                                            floated="right"
-                                            size="mini"
-                                            src="/images/ethereum-logo.svg"
-                                        />
-                                        <Card.Header>
-                                            You have an unclaimed donation of{" "}
-                                            {
-                                                donation.users[0]
-                                                    .donationsRecipients
-                                                    .amountOwed
-                                            }{" "}
-                                            ETH
-                                        </Card.Header>
-                                        <Card.Meta>
-                                            {donation.createdAt}
-                                        </Card.Meta>{" "}
-                                        {/*  reformat createdAt data */}
-                                        <Card.Description>
-                                            User {donation.donor.firstName}{" "}
-                                            {donation.donor.lastName[0]}.{" "}
-                                            {donation.donor.city
-                                                ? `from ${donation.donor.city}` : ''}
-                                            has sent you a donation. Click
-                                            approve to{" "}
-                                            <strong>
-                                                claim your donation funds
-                                            </strong>
-                                            .
-                                        </Card.Description>
-                                    </Card.Content>
-                                    <Card.Content extra>
-                                        <div>
-                                            <Button
-                                                basic
-                                                color="green"
-                                                onClick={() =>
-                                                    this.clickApprove(
-                                                        donationId
-                                                    )
-                                                }
-                                            >
-                                                Approve
-                                            </Button>
-                                        </div>
-                                    </Card.Content>
-                                </Card>
-                            );
+                        const { donationId } =
+                            donation.users[0].donationsRecipients;
+                        // const {contractAddress} = donation;
+                        return (
+                            <Card key={donationId}>
+                                <Card.Content>
+                                    <Image
+                                        floated="right"
+                                        size="mini"
+                                        src="/images/ethereum-logo.svg"
+                                    />
+                                    <Card.Header>
+                                        You have an unclaimed donation of{" "}
+                                        {
+                                            donation.users[0]
+                                                .donationsRecipients.amountOwed
+                                        }{" "}
+                                        ETH
+                                    </Card.Header>
+                                    <Card.Meta>{donation.createdAt}</Card.Meta>{" "}
+                                    {/*  reformat createdAt data */}
+                                    <Card.Description>
+                                        User {donation.donor.firstName}{" "}
+                                        {donation.donor.lastName[0]}.{" "}
+                                        {donation.donor.city
+                                            ? `from ${donation.donor.city}`
+                                            : ""}
+                                        has sent you a donation. Click approve
+                                        to{" "}
+                                        <strong>
+                                            claim your donation funds
+                                        </strong>
+                                        .
+                                    </Card.Description>
+                                </Card.Content>
+                                <Card.Content extra>
+                                    <div>
+                                        <Button
+                                            basic
+                                            color="green"
+                                            onClick={() =>
+                                                this.clickApprove(donationId)
+                                            }
+                                        >
+                                            Approve
+                                        </Button>
+                                    </div>
+                                </Card.Content>
+                            </Card>
+                        );
                         // }
                     })
                 )}
             </div>
         );
     }
-};
+}
 
 // function mapStateToProps(state) {
 //     return {
@@ -171,6 +174,6 @@ function mapDispatchToProps(dispatch) {
         claimDonation: (donationId, userId) =>
             dispatch(claimDonationThunk(donationId, userId)),
     };
-};
+}
 
 export default connect(null, mapDispatchToProps)(UnclaimedCard);
