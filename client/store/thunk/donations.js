@@ -11,26 +11,26 @@ export const fetchAllDonations = () => {
         try {
             const { data: donations } = await axios.get(`/api/donations`);
             dispatch(getAllDonations(donations));
-        }
-        catch(err) {
+        } catch (err) {
             console.log("Error in fetchAllDonations thunk ", err);
         }
-    }
+    };
 };
 
 export const fetchAllUsersDonations = (id) => {
     return async (dispatch) => {
-        try{
+        try {
             const token = window.localStorage.getItem("token");
-            const { data: donations } = await axios.get(`/api/users/${id}/donations`,
+            const { data: donations } = await axios.get(
+                `/api/users/${id}/donations`,
                 {
                     headers: {
                         authorization: token,
                     },
-                });
+                },
+            );
             dispatch(getAllDonations(donations));
-            }
-        catch(err) {
+        } catch (err) {
             console.log("Error in fetchAllUsersDonations thunk ", err);
         }
     };
@@ -56,10 +56,10 @@ export const createDonationThunk = (donationData) => {
                         authorization: token,
                     },
                 },
-        );
-        dispatch(createDonation(donation));
-        }
-        catch(err) {
+            );
+            console.log(donation);
+            dispatch(createDonation(donation));
+        } catch (err) {
             console.log("Error in createDonationThunk ", err);
         }
     };
@@ -68,12 +68,15 @@ export const createDonationThunk = (donationData) => {
 export const claimDonationThunk = (donationId, userId, body) => {
     return async (dispatch) => {
         try {
-            const { data: donation } = await axios.put(`/api/donations/${donationId}/${userId}`, body);
+            const { data: donation } = await axios.put(
+                `/api/donations/${donationId}/${userId}`,
+                body,
+            );
+
             dispatch(claimDonation(donation));
-            dispatch(fetchAllUsersDonations(userId))
-        }
-        catch (err) {
+            // dispatch(fetchAllUsersDonations(userId));
+        } catch (err) {
             console.log("Error in claimDonationThunk ", err);
         }
-    }
+    };
 };

@@ -21,18 +21,10 @@ class UserProfile extends Component {
         const { user, donations, fetchAllUsersDonations, history } = this.props;
         if (!user) {
             history.push("/");
-        } else if (prevProps.user !== user || prevProps.donations !== donations) {
+        } else if (!prevProps.user && user) {
             await fetchAllUsersDonations(user.id);
         }
     }
-    // async componentDidUpdate(prevProps) {
-    //     const { user, fetchAllUsersDonations, history } = this.props;
-    //     if (!user) {
-    //         history.push("/");
-    //     } else if (!prevProps.user && user ) {
-    //         await fetchAllUsersDonations(user.id);
-    //     }
-    // }
 
     render() {
         if (!this.props.user) {
