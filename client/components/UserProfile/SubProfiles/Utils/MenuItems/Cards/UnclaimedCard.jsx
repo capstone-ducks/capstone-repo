@@ -42,6 +42,9 @@ class UnclaimedCard extends Component {
     }
 
     async clickApprove(donationId) {
+        // moved this here for debugging
+        await this.props.claimDonation(donationId, this.props.donations[0].users[0].id);
+        console.log(donationId, this.props.donations[0].users[0].id)
         const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
         if (metaMaskInstalled) {
             const clientAddress = await this.getClientAddress();
@@ -75,7 +78,7 @@ class UnclaimedCard extends Component {
                         console.log(error);
                     });
                 // removes the claimed donation from UnclaimedCard
-                await this.props.claimDonation(donationId, this.props.donations[0].users[0].id);
+                // await this.props.claimDonation(donationId, this.props.donations[0].users[0].id);
             }
         } else {
             this.installMetaMask();
