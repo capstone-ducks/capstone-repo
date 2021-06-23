@@ -103,7 +103,7 @@ const seedUsers = async () => {
             gender: "Male",
             race: "Multiracial",
             isDonor: false,
-            cryptoAddress: "0x3FA4f899fDB0d3d78B0ece79bCe56e823d587D86",
+            cryptoAddress: "0x7B73FEd116dC6183653b40f2caE1bCfbb0474e1b",
         });
 
         const recipient2 = await User.create({
@@ -116,7 +116,7 @@ const seedUsers = async () => {
             city: "Queens",
             state: "NY",
             isDonor: false,
-            cryptoAddress: "0x6088eb6D87e78c11070766dBc93158AF9FEce72a",
+            cryptoAddress: "0xF7b8746421Fe550255E6eAA5e51217158F616C96",
         });
 
         const recipient3 = await User.create({
@@ -129,7 +129,7 @@ const seedUsers = async () => {
             city: "Hartford",
             state: "CT",
             isDonor: false,
-            cryptoAddress: "0x2B96830Ab6BD3B483a17A398298f71A8943676a7",
+            cryptoAddress: "0x7CBFcC5903Be9E7239116Afa481B2bc312388f37",
         });
 
         const recipient4 = await User.create({
@@ -142,7 +142,7 @@ const seedUsers = async () => {
             city: "Los Angeles",
             state: "CA",
             isDonor: false,
-            cryptoAddress: "0x6A82188DB1524A79516f3763a39dF5eFD93AA40D",
+            cryptoAddress: "0x379D6c0489Bd9a159a8F318560Fd7bD6f95A1c4F",
         });
 
         const recipient5 = await User.create({

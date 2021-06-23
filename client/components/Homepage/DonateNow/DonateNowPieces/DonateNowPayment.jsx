@@ -145,8 +145,9 @@ class DonateNowPaymentForm extends Component {
         );
         const donationId = await generateDonationId();
         const { data } = await axios.post("api/users/recipients", {
-            numRecipients: 1
+            numRecipients: 1,
         });
+        console.log(data, 'DonateNowPayment')
         const { recipientIds, cryptoAddresses } = data;
         await this.state.donationContract.methods
             .createDonation(
