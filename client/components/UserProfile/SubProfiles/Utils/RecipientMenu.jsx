@@ -94,7 +94,7 @@ class DonorMenu extends Component {
        
         return accounts[0];
     }
-    
+
     countNumberOfDonations() {
         const { user, donations } = this.props;
 
