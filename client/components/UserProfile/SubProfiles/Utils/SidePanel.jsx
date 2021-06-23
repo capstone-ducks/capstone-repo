@@ -18,40 +18,63 @@ import matthewPic from "../../../../../public/images/profile-pictures/matthew.pn
 class SidePanel extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            loading: true,
+            totalDonations: "",
+            totalFundsClaimed: 0,
+            totalPeopleReached: 0,
+            totalFundsToClaim: 0,
+        };
+        this.calculateSidePanelStats = this.calculateSidePanelStats.bind(this);
     }
 
-    render() {
-        // console.log(this.props, 'SidePanel MENU')
-        const { isDonor } = this.props.user;
+    componentDidMount() {
+        const { user, donations } = this.props;
+        this.calculateSidePanelStats(user, donations);
+    }
 
-        const totalDonations = isDonor ? this.props.donations.length : "";
+    componentDidUpdate(prevProps) {
+        if (prevProps.donations !== this.props.donations) {
+            const { user, donations } = this.props;
+            this.calculateSidePanelStats(user, donations);
+        }
+    }
+
+    calculateSidePanelStats(user, donations) {
+        const { isDonor } = user;
+
+        console.log(donations);
+
+        const totalDonations = isDonor ? donations.length : "";
 
         const totalFundsDonated = isDonor
-            ? this.props.donations.reduce((acc, cur) => {
+            ? donations.reduce((acc, cur) => {
                   acc += parseFloat(cur.amount);
                   return acc;
               }, 0)
             : 0;
 
         const totalPeopleReached = isDonor
-            ? this.props.donations.reduce((acc, cur) => {
+            ? donations.reduce((acc, cur) => {
                   acc += cur.users.length;
                   return acc;
               }, 0)
             : 0;
 
         const totalFundsClaimed = !isDonor
-            ? this.props.donations.reduce((acc, cur) => {
-                  let userRecInst;
-                  for (const user of cur.users) {
-                      if (user.id === this.props.user.id) {
-                          userRecInst = user.donationsRecipients;
+            ? donations.reduce((acc, cur) => {
+                  let userRecInst = null;
+
+                  for (const curUser of cur.users) {
+                      if (curUser.id === user.id) {
+                          userRecInst = curUser.donationsRecipients;
                       }
                   }
 
-                  if (userRecInst.isClaimed) {
-                      acc += userRecInst.amountOwed;
+                  if (userRecInst) {
+                      if (userRecInst.isClaimed) {
+                          acc += userRecInst.amountOwed;
+                      }
                   }
 
                   return acc;
@@ -61,19 +84,44 @@ class SidePanel extends Component {
         const totalFundsToClaim = !isDonor
             ? this.props.donations.reduce((acc, cur) => {
                   let userRecInst;
-                  for (const user of cur.users) {
-                      if (user.id === this.props.user.id) {
-                          userRecInst = user.donationsRecipients;
+                  for (const curUser of cur.users) {
+                      if (curUser.id === user.id) {
+                          userRecInst = curUser.donationsRecipients;
                       }
                   }
 
-                  if (!userRecInst.isClaimed) {
-                      acc += userRecInst.amountOwed;
+                  if (userRecInst) {
+                      if (!userRecInst.isClaimed) {
+                          acc += userRecInst.amountOwed;
+                      }
                   }
 
                   return acc;
               }, 0)
             : 0;
+
+        this.setState({
+            loading: false,
+            totalDonations,
+            totalFundsDonated,
+            totalPeopleReached,
+            totalFundsClaimed,
+            totalFundsToClaim,
+        });
+    }
+
+    render() {
+        const {
+            loading,
+            totalDonations,
+            totalFundsDonated,
+            totalPeopleReached,
+            totalFundsClaimed,
+            totalFundsToClaim,
+        } = this.state;
+
+        const { isDonor } = this.props.user;
+        if (loading) return "loading";
 
         return (
             <Segment id="user-side-panel" vertical>
@@ -137,7 +185,7 @@ class SidePanel extends Component {
                                             </Grid.Column>
                                             <Grid.Column>
                                                 <Icon name="ethereum" />{" "}
-                                                {totalFundsToClaim}
+                                                {totalFundsToClaim.toFixed(4)}
                                             </Grid.Column>
                                         </Grid.Row>
                                         <Grid.Row>
@@ -146,7 +194,7 @@ class SidePanel extends Component {
                                             </Grid.Column>
                                             <Grid.Column>
                                                 <Icon name="ethereum" />{" "}
-                                                {totalFundsClaimed}
+                                                {totalFundsClaimed.toFixed(4)}
                                             </Grid.Column>
                                         </Grid.Row>
                                     </Grid>

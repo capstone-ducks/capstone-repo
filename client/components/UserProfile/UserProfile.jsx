@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { DonorProfile, RecipientProfile } from "./SubProfiles";
-import { fetchAllUsersDonations } from "../../store/thunk/donations";
+import { fetchAllUsersDonations } from "../../store/thunk";
 
 class UserProfile extends Component {
     constructor(props) {
@@ -17,8 +17,8 @@ class UserProfile extends Component {
         }
     }
 
-    async componentDidUpdate(prevProps) {
-        const { user, fetchAllUsersDonations, history } = this.props;
+    async componentDidUpdate(prevState, prevProps) {
+        const { user, donations, fetchAllUsersDonations, history } = this.props;
         if (!user) {
             history.push("/");
         } else if (!prevProps.user && user) {
