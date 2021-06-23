@@ -152,10 +152,19 @@ class Donate extends Component {
     }
 
     // Sends user to MetaMask to install it
-    installMetaMask() {
+    async installMetaMask() {
         // If metamask is installed, just connect
-        if (this.state.metaMaskInstalled) {
-            window.ethereum.request({ method: "eth_requestAccounts" });
+        if (this.isMetaMaskInstalled()) {
+            this.setState(
+                {
+                    metaMaskInstalled: true,
+                },
+                async () => {
+                    await window.ethereum.request({
+                        method: "eth_requestAccounts",
+                    });
+                },
+            );
         } else {
             // We create a new MetaMask onboarding object to use in our app
             const forwarderOrigin = "http://localhost:4500";
@@ -341,9 +350,9 @@ class Donate extends Component {
                             textAlign: "center",
                         }}
                         size="medium"
-                        onClick={(e) => {
+                        onClick={async (e) => {
                             e.preventDefault();
-                            this.installMetaMask();
+                            await this.installMetaMask();
                         }}
                     >
                         Connect MetaMask
