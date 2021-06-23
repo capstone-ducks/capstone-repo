@@ -186,7 +186,7 @@ router.post("/recipients", async (req, res, next) => {
             }
 
             //if no selections given find all recipient users to get randomly chosen
-            if(!genders.length && !races.length && !cities.length && !states.length)
+            if(genders=== undefined && races === undefined && cities == undefined && states === undefined)
             {
                 allRecipients = await User.findAll({
                     where: {

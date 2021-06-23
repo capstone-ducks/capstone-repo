@@ -10,7 +10,8 @@ import getExchangeRate from "../../../UserProfile/SubProfiles/Utils/MenuItems/ge
 import generateDonationId from '../../../../utils/generateDonationId';
 import { createDonationThunk } from "../../../../store/thunk/donations";
 import axios from 'axios';
-import {ThankYouMessage} from '../../../Utils'
+
+
 
 
 
@@ -26,6 +27,7 @@ class DonateNowPaymentForm extends Component {
             clientWalletAddress:  "",
             donationContract: "",
             detailEthTotal:'',
+            receipt:{}
         };
 
         this.isMetaMaskInstalled = this.isMetaMaskInstalled.bind(this);
@@ -125,10 +127,13 @@ class DonateNowPaymentForm extends Component {
 
     // Handles the donation submission
     async handleSubmit() {
+        console.log(this.props ,'DonateNowComponent')
         await this.donate();
-        // alert('Thank you for your generous donation. You truly make the difference for us, and we are extremely grateful!');
-        <ThankYouMessage/>
-        window.location.href='/';
+        if(this.state.receipt.status === true){
+            alert('Thank you for your generous donation. You truly make the difference for us, and we are extremely grateful!');
+            // <ThankYouMessage user={this.props.user}/>
+            window.location.href='/';
+        }
     }
 
     async handleChange(ev){
@@ -145,9 +150,9 @@ class DonateNowPaymentForm extends Component {
         );
         const donationId = await generateDonationId();
         const { data } = await axios.post("api/users/recipients", {
-            numRecipients: 1,
+            numRecipients: 8,
         });
-        console.log(data, 'DonateNowPayment')
+        //console.log(data, 'DonateNowPayment')
         const { recipientIds, cryptoAddresses } = data;
         await this.state.donationContract.methods
             .createDonation(
@@ -171,7 +176,10 @@ class DonateNowPaymentForm extends Component {
                     contractAddress: receipt.to,
                     recipientIds,
                 };
-                await this.props.createDonationThunk(donation)
+                await this.props.createDonationThunk(donation);
+                this.setState({
+                    receipt: receipt
+                })
 
             })
             .catch((err) => {

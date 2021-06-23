@@ -21,6 +21,7 @@ class MainPanel extends Component {
     render() {
         const { firstName, lastName, city, state, isDonor } = this.props.user;
         if(this.props.donations.length && !isDonor){
+
         return (
             <Segment id="user-main-panel" vertical>
                 <Message icon color='teal'>

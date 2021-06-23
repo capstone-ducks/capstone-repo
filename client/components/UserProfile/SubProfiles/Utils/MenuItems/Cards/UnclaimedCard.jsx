@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Button, Card, Image } from "semantic-ui-react";
-import { connect } from "react-redux";
 import MetaMaskOnboarding from "@metamask/onboarding";
 import Web3 from "web3";
 import DonationContract from "../../../../../../../build/contracts/DonationContract.json";
@@ -118,7 +117,7 @@ class UnclaimedCard extends Component {
                                         src="/images/ethereum-logo.svg"
                                     />
                                     <Card.Header>
-                                        You have an unclaimed donation of{" "}
+                                        You have an unclaimed donation of {" "}
                                         {
                                             donation.users[0]
                                                 .donationsRecipients.amountOwed

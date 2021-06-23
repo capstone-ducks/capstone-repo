@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Form, Accordion } from "semantic-ui-react";
+import { Form, Accordion} from "semantic-ui-react";
 import MetaMaskOnboarding from "@metamask/onboarding";
 import Web3 from "web3";
 import axios from "axios";
 import DonationContract from "../../../../../../build/contracts/DonationContract.json";
 import generateDonationId from "../../../../../utils/generateDonationId";
 import { createDonationThunk } from "../../../../../store/thunk/donations";
+import ThankYouMessage from '../../../../../components/ThankYouMessage'
 
 import {
     DonorInformation,
@@ -15,6 +16,8 @@ import {
 } from "./DonateFormItems";
 
 import getExchangeRate from "./getExchangeRate";
+import {MainPanel} from "../../Utils";
+
 
 class Donate extends Component {
     constructor(props) {
@@ -44,6 +47,7 @@ class Donate extends Component {
             genderOptions: [],
             cityOptions: [],
             stateOptions: [],
+            receipt:{},
         };
         this._isMounted = false;
         this.handleEdit = this.handleEdit.bind(this);
@@ -149,6 +153,7 @@ class Donate extends Component {
         });
 
         const { recipientIds, cryptoAddresses } = data;
+        //let returnedReceipt;
 
         const donationId = await generateDonationId();
         await this.state.donationContract.methods
@@ -172,12 +177,15 @@ class Donate extends Component {
                     contractAddress: receipt.to,
                     recipientIds,
                 };
-                await this.props.createDonationThunk(donation);
+                //returnedReceipt = receipt;
+                 await this.props.createDonationThunk(donation);
                 console.log("Successful Donation", receipt);
+                this.setState({receipt: receipt});
             })
             .catch((err) => {
                 console.log("Donate function error ", err);
             });
+            //console.log(returnedReceipt, 'receipt returned')
     }
 
     // Handles Form Field Edits
@@ -228,10 +236,29 @@ class Donate extends Component {
     async handleSubmit(e) {
         e.preventDefault();
         await this.donate();
-        // console.table(this.state);
-        // console.log("SUBMITTED!");
+        if(this.state.receipt.status === true){
+           // <ThankYouMessage user={this.props.user}/>
+             var element = document.getElementById('profile-type')
+             element.innerHTML += `<div> <br>          
+              <Message success icon color='green'>
+             <Icon name='thumbs up outline' />
+             <Message.Content>
+             <Message.Header> Thank you ${this.props.user.firstName} ${this.props.user.lastName}  for your generous donation!</Message.Header> <br>
+             You truly make the difference for us, and we are extremely grateful!
+             </Message.Content>
+         </Message> </div>`
+           this.setState({
+            detailEthTotal: 0,
+            detailUSDTotal: 0,
+            detailNumRecipients: "",
+            raceOptions: [],
+            genderOptions: [],
+            cityOptions: [],
+            stateOptions: [],
+           }) 
+        }
+        else{alert("Something went wrong with your donation!")}
     }
-
     render() {
         const {
             activeIndices,
