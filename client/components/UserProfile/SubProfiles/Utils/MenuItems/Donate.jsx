@@ -235,30 +235,9 @@ class Donate extends Component {
 
     async handleSubmit(e) {
         e.preventDefault();
-        await this.donate();
-        if(this.state.receipt.status === true){
-           // <ThankYouMessage user={this.props.user}/>
-             var element = document.getElementById('profile-type')
-             element.innerHTML += `<div> <br>          
-              <Message success icon color='green'>
-             <Icon name='thumbs up outline' />
-             <Message.Content>
-             <Message.Header> Thank you ${this.props.user.firstName} ${this.props.user.lastName}  for your generous donation!</Message.Header> <br>
-             You truly make the difference for us, and we are extremely grateful!
-             </Message.Content>
-         </Message> </div>`
-           this.setState({
-            detailEthTotal: 0,
-            detailUSDTotal: 0,
-            detailNumRecipients: "",
-            raceOptions: [],
-            genderOptions: [],
-            cityOptions: [],
-            stateOptions: [],
-           }) 
-        }
-        else{alert("Something went wrong with your donation!")}
+         await this.donate();
     }
+
     render() {
         const {
             activeIndices,
@@ -278,10 +257,13 @@ class Donate extends Component {
             cityOptions,
             stateOptions,
             metaMaskInstalled,
+            receipt
         } = this.state;
 
         return (
-            <Form onSubmit={this.handleSubmit}>
+            !receipt.status 
+            ?
+              <Form onSubmit={this.handleSubmit}>
                 {metaMaskInstalled ? (
                     <Accordion>
                         <DonorInformation
@@ -339,6 +321,7 @@ class Donate extends Component {
                     </Form.Button>
                 )}
             </Form>
+            : <ThankYouMessage/>
         );
     }
 }

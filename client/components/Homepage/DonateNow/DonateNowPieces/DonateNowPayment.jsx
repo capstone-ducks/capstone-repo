@@ -10,6 +10,7 @@ import getExchangeRate from "../../../UserProfile/SubProfiles/Utils/MenuItems/ge
 import generateDonationId from '../../../../utils/generateDonationId';
 import { createDonationThunk } from "../../../../store/thunk/donations";
 import axios from 'axios';
+import ThankYouMessage from "../../../ThankYouMessage";
 
 
 
@@ -127,12 +128,10 @@ class DonateNowPaymentForm extends Component {
 
     // Handles the donation submission
     async handleSubmit() {
-        console.log(this.props ,'DonateNowComponent')
         await this.donate();
         if(this.state.receipt.status === true){
-            alert('Thank you for your generous donation. You truly make the difference for us, and we are extremely grateful!');
-            // <ThankYouMessage user={this.props.user}/>
-            window.location.href='/';
+            alert('Thank you Anonymous user  for your generous donation! You truly make the difference for us, and we are extremely grateful!');
+            window.location.href = '/';
         }
     }
 
@@ -150,7 +149,7 @@ class DonateNowPaymentForm extends Component {
         );
         const donationId = await generateDonationId();
         const { data } = await axios.post("api/users/recipients", {
-            numRecipients: 8,
+            numRecipients: 1,
         });
         //console.log(data, 'DonateNowPayment')
         const { recipientIds, cryptoAddresses } = data;
@@ -280,6 +279,8 @@ class DonateNowPaymentForm extends Component {
                     </p>
                 </Message>
             </Form>
+            
+            
         );
     }
 }
