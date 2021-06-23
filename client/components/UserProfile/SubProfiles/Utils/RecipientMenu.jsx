@@ -18,6 +18,7 @@ class DonorMenu extends Component {
         };
         this._isMounted = false;
         this.handleItemClick = this.handleItemClick.bind(this);
+        this.countNumberOfDonations = this.countNumberOfDonations.bind(this);
     }
 
     async componentDidMount() {
@@ -25,7 +26,7 @@ class DonorMenu extends Component {
 
         if (this._isMounted) {
             this.setState({
-                numberOfDonations: this.props.donations.length,
+                numberOfDonations: this.countNumberOfDonations(),
                 loading: false,
             });
         }
@@ -34,13 +35,29 @@ class DonorMenu extends Component {
     async componentDidUpdate(prevProps) {
         if (prevProps.donations.length !== this.props.donations.length) {
             this.setState({
-                numberOfDonations: this.props.donations.length,
+                numberOfDonations: this.countNumberOfDonations(),
             });
         }
     }
 
     componentWillUnmount() {
         this._isMounted = false;
+    }
+
+    countNumberOfDonations() {
+        const { user, donations } = this.props;
+
+        // Count number of donations that this user hasn't claimed
+        const numberOfDonations = donations.reduce((acc, donation) => {
+            for (const recipient of donation.users) {
+                if (recipient.id === user.id) {
+                    if (recipient.donationsRecipients.isClaimed) acc += 1;
+                }
+                return acc;
+            }
+        }, 0);
+
+        return numberOfDonations;
     }
 
     handleItemClick(e, { name }) {
