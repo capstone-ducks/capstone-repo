@@ -23,35 +23,34 @@ class ClaimedCard extends Component {
         const { user, donations } = this.props;
 
         // Count number of donations that this user hasn't claimed
-        const claimedDonations = donations.map((donation) => {
+        const claimedDonations = donations.reduce((acc, donation) => {
             for (const recipient of donation.users) {
                 if (recipient.id === user.id) {
                     if (recipient.donationsRecipients.isClaimed) {
-                        return {
+                        acc.push({
                             ...recipient.donationsRecipients,
                             donor: donation.donor,
-                        };
+                        });
+                        return acc;
                     }
                 }
             }
-        });
+        }, []);
 
         return claimedDonations;
     }
 
     render() {
         const { claimedDonations, loading } = this.state;
-
+        console.log(claimedDonations);
         return (
             <div>
-                {!donations ? (
-                    <div>No donations to claim at this time</div>
+                {!claimedDonations ? (
+                    <div>No claimed donations.</div>
                 ) : (
-                    claimedDonations.map((donation) => {
-                        const { donationId } = donation;
-
+                    claimedDonations.map((donation, idx) => {
                         return (
-                            <Card key={donationId}>
+                            <Card key={idx}>
                                 <Card.Content>
                                     <Image
                                         floated="right"
@@ -68,7 +67,7 @@ class ClaimedCard extends Component {
                                         User {donation.donor.firstName}{" "}
                                         {donation.donor.lastName[0]}.{" "}
                                         {donation.donor.city
-                                            ? `from ${donation.donor.city}`
+                                            ? `from ${donation.donor.city} `
                                             : ""}
                                         sent this donation.
                                     </Card.Description>

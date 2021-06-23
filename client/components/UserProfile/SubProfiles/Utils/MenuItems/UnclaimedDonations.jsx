@@ -12,10 +12,14 @@ class UnclaimedDonations extends Component {
         const unClaimed = donations.filter(
             (donation) => !donation.users[0].donationsRecipients.isClaimed,
         );
-        console.log(unClaimed);
+
         return (
             <Card.Group>
-                <UnclaimedCard donations={unClaimed} />
+                {unClaimed.length > 0 ? (
+                    <UnclaimedCard donations={unClaimed} />
+                ) : (
+                    "No pending donations."
+                )}
             </Card.Group>
         );
     }
