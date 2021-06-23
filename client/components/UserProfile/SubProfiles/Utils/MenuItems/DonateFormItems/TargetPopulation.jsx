@@ -14,7 +14,7 @@ const TargetPopulation = (props) => {
 
     return (
         <React.Fragment>
-            <Accordion.Title active={active} index={2} onClick={handleClick}>
+            <Accordion.Title active={active} index={3} onClick={handleClick}>
                 <Header as="h4" id="donation-target-information-header">
                     <Icon name="dropdown" />
                     TARGET POPULATION

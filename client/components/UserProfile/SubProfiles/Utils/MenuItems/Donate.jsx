@@ -12,6 +12,7 @@ import {
     DonorInformation,
     DonationDetails,
     TargetPopulation,
+    MapBox,
 } from "./DonateFormItems";
 
 import getExchangeRate from "./getExchangeRate";
@@ -280,8 +281,12 @@ class Donate extends Component {
                             cityOptions={cityOptions}
                             stateOptions={stateOptions}
                         />
-                        <TargetPopulation
+                        <MapBox
                             active={activeIndices.includes(2)}
+                            handleClick={this.handleClick}
+                        />
+                        <TargetPopulation
+                            active={activeIndices.includes(3)}
                             handleClick={this.handleClick}
                             handleEdit={this.handleEdit}
                             message={message}
