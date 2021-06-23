@@ -42,12 +42,6 @@ class UnclaimedCard extends Component {
     }
 
     async clickApprove(donationId) {
-        // moved this here for debugging
-        await this.props.claimDonation(
-            donationId,
-            this.props.donations[0].users[0].id,
-        );
-
         const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
         if (metaMaskInstalled) {
             const clientAddress = await this.getClientAddress();
@@ -80,7 +74,7 @@ class UnclaimedCard extends Component {
 
                         // removes the claimed donation from UnclaimedCard on if we get a successful receipt.
                         // otherwise, a donation was not successful
-                        await this.props.claimDonation(
+                        await this.props.claimDonationThunk(
                             donationId,
                             this.props.donations[0].users[0].id,
                         );
@@ -165,18 +159,17 @@ class UnclaimedCard extends Component {
     }
 }
 
-// function mapStateToProps(state) {
-//     return {
-//         donations: state.donations,
-//         user: state.auth.user,
-//     };
-// };
+function mapStateToProps(state) {
+    return {
+        user: state.auth.user,
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
-        claimDonation: (donationId, userId) =>
+        claimDonationThunk: (donationId, userId) =>
             dispatch(claimDonationThunk(donationId, userId)),
     };
 }
 
-export default connect(null, mapDispatchToProps)(UnclaimedCard);
+export default connect(mapStateToProps, mapDispatchToProps)(UnclaimedCard);

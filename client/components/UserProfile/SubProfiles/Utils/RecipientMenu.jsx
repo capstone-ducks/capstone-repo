@@ -32,8 +32,8 @@ class DonorMenu extends Component {
         }
     }
 
-    async componentDidUpdate(prevProps) {
-        if (prevProps.donations.length !== this.props.donations.length) {
+    async componentDidUpdate(prevProps, prevState) {
+        if (prevState.numberOfDonations !== this.countNumberOfDonations()) {
             this.setState({
                 numberOfDonations: this.countNumberOfDonations(),
             });
@@ -51,10 +51,11 @@ class DonorMenu extends Component {
         const numberOfDonations = donations.reduce((acc, donation) => {
             for (const recipient of donation.users) {
                 if (recipient.id === user.id) {
-                    if (recipient.donationsRecipients.isClaimed) acc += 1;
+                    if (!recipient.donationsRecipients.isClaimed) acc += 1;
+                    break;
                 }
-                return acc;
             }
+            return acc;
         }, 0);
 
         return numberOfDonations;
