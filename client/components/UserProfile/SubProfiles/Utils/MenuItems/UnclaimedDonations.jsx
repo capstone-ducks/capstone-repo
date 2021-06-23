@@ -7,12 +7,19 @@ class UnclaimedDonations extends Component {
     constructor(props) {
         super(props);
     }
-
     render() {
         const { donations } = this.props;
+        const unClaimed = donations.filter(
+            (donation) => !donation.users[0].donationsRecipients.isClaimed,
+        );
+
         return (
             <Card.Group>
-                <UnclaimedCard donations={donations} />
+                {unClaimed.length > 0 ? (
+                    <UnclaimedCard donations={unClaimed} />
+                ) : (
+                    "No pending donations."
+                )}
             </Card.Group>
         );
     }

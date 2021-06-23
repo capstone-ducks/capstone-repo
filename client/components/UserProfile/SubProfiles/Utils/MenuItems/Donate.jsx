@@ -89,6 +89,10 @@ class Donate extends Component {
                                     });
                                 }
                             }
+                        } else {
+                            this.setState({
+                                metaMaskInstalled,
+                            });
                         }
                     },
                 );
@@ -99,8 +103,39 @@ class Donate extends Component {
     }
 
     async componentDidUpdate(prevProps, prevState) {
-        if (prevState.metaMaskInstalled !== this.state.metaMaskInstalled) {
-            console.log("USER CONNECTED TO METAMASK");
+        // If metamask installation status changes
+        if (prevState.metaMaskInstalled !== this.isMetaMaskInstalled()) {
+            const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
+            if (metaMaskInstalled) {
+                const clientAddress = await this.getClientAddress();
+
+                // Gives Web3 Blockchain provider (MetaMask)
+                window.web3 = new Web3(window.ethereum);
+                const web3 = window.web3;
+
+                // making dynamic network
+                const networkId = await web3.eth.net.getId();
+                const networkData = DonationContract.networks[networkId];
+
+                if (networkData) {
+                    const donationContract = new web3.eth.Contract(
+                        DonationContract.abi,
+                        networkData.address,
+                    );
+
+                    if (this._isMounted) {
+                        this.setState({
+                            metaMaskInstalled,
+                            donationContract,
+                            clientWalletAddress: clientAddress,
+                        });
+                    }
+                }
+            } else {
+                this.setState({
+                    metaMaskInstalled,
+                });
+            }
         }
     }
 
@@ -117,11 +152,25 @@ class Donate extends Component {
     }
 
     // Sends user to MetaMask to install it
-    installMetaMask() {
-        // We create a new MetaMask onboarding object to use in our app
-        const forwarderOrigin = "http://localhost:4500";
-        const onboarding = new MetaMaskOnboarding({ forwarderOrigin });
-        onboarding.startOnboarding();
+    async installMetaMask() {
+        // If metamask is installed, just connect
+        if (this.isMetaMaskInstalled()) {
+            this.setState(
+                {
+                    metaMaskInstalled: true,
+                },
+                async () => {
+                    await window.ethereum.request({
+                        method: "eth_requestAccounts",
+                    });
+                },
+            );
+        } else {
+            // We create a new MetaMask onboarding object to use in our app
+            const forwarderOrigin = "http://localhost:4500";
+            const onboarding = new MetaMaskOnboarding({ forwarderOrigin });
+            onboarding.startOnboarding();
+        }
     }
 
     async getClientAddress() {
@@ -161,7 +210,6 @@ class Donate extends Component {
                 gas: 6721975, // should match given gas limit from ganache
             })
             .then(async (receipt) => {
-                // console.log(receipt);
                 const donation = {
                     id: donationId,
                     donorId: this.props.user.id,
@@ -172,7 +220,7 @@ class Donate extends Component {
                     recipientIds,
                 };
                 await this.props.createDonationThunk(donation);
-                console.log("Successful Donation");
+                console.log("Successful Donation", receipt);
             })
             .catch((err) => {
                 console.log("Donate function error ", err);
@@ -192,7 +240,7 @@ class Donate extends Component {
                 agreeToTerms: !this.state.agreeToTerms,
             });
             // Else, update the value
-        }else {
+        } else {
             this.setState(
                 {
                     [name]: value,
@@ -250,7 +298,6 @@ class Donate extends Component {
             cityOptions,
             stateOptions,
             metaMaskInstalled,
-
         } = this.state;
 
         return (
@@ -303,9 +350,9 @@ class Donate extends Component {
                             textAlign: "center",
                         }}
                         size="medium"
-                        onClick={(e) => {
+                        onClick={async (e) => {
                             e.preventDefault();
-                            this.installMetaMask();
+                            await this.installMetaMask();
                         }}
                     >
                         Connect MetaMask

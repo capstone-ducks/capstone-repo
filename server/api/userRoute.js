@@ -1,4 +1,6 @@
 const router = require("express").Router();
+const sendEmail = require("./utils/mail");
+
 const {
     models: { User, Donation, DonationsRecipients },
 } = require("../db");
@@ -140,8 +142,8 @@ router.post("/recipients", async (req, res, next) => {
             let allRecipients = [];
 
             if(races){
-                usersbyRace = await User.findAll({ 
-                    where: { 
+                usersbyRace = await User.findAll({
+                    where: {
                         race: {
                             [Op.in]: races
                         },
@@ -151,8 +153,8 @@ router.post("/recipients", async (req, res, next) => {
             }
 
             if(genders){
-                usersbyGender = await User.findAll({ 
-                    where: { 
+                usersbyGender = await User.findAll({
+                    where: {
                         gender: {
                             [Op.in]: genders
                         },
@@ -162,8 +164,8 @@ router.post("/recipients", async (req, res, next) => {
             }
 
             if(cities){
-                usersbyCity = await User.findAll({ 
-                    where: { 
+                usersbyCity = await User.findAll({
+                    where: {
                         city: {
                             [Op.in]: cities
                         },
@@ -173,8 +175,8 @@ router.post("/recipients", async (req, res, next) => {
             }
 
             if(states){
-                usersbyState = await User.findAll({ 
-                    where: { 
+                usersbyState = await User.findAll({
+                    where: {
                         state: {
                             [Op.in]: states
                         },
@@ -182,7 +184,7 @@ router.post("/recipients", async (req, res, next) => {
                     }
                 });
             }
-            
+
             //if no selections given find all recipient users to get randomly chosen
             //if(!genders.length && !races.length && !cities.length && !states.length)
             if(genders === undefined && races === undefined && cities === undefined && states === undefined)
@@ -192,7 +194,7 @@ router.post("/recipients", async (req, res, next) => {
                         isDonor: false
                     }
                 });
-            } 
+            }
             else if(!genders.length || !races.length || !cities.length || !states.length)
             {
                 //if only some selections made check the length of the returned recipient array
@@ -217,7 +219,7 @@ router.post("/recipients", async (req, res, next) => {
             {
                 allRecipients = combineReduce(usersbyGender, usersbyRace, usersbyCity, usersbyState);
             }
-                
+
             // console.log(usersbyGender.length, 'Gender Users');
             // console.log(usersbyRace.length, 'Race Users');
             // console.log(usersbyCity.length, 'City Users');
@@ -238,7 +240,7 @@ router.post("/recipients", async (req, res, next) => {
 
 module.exports = router;
 
-// donor makes a donation - male/female/nonbinary/don't care
+// donor makes a donation - male/female/nonbinary/or doesn't specify
 // send a post request to users
 // we send back an array of recipients that is the same number that they specify in numRecipients
 // then these addresses are used to create the donation

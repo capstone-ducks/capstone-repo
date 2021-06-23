@@ -3,7 +3,6 @@ const {
     models: { User, Donation, DonationsRecipients },
 } = require("../db/model/index");
 
-
 // get all donations
 router.get("/", async (req, res, next) => {
     try {
@@ -17,14 +16,12 @@ router.get("/", async (req, res, next) => {
             ],
         });
         //does not work with a second alias for...reasons?
-        //console.log(donations, 'success in get route Donations');
         res.status(200).send(donations);
     } catch (err) {
         console.log("Error in GET /api/donations route ", err);
         next(err);
     }
 });
-
 
 router.get("/:id", async (req, res, next) => {
     try {
@@ -83,16 +80,15 @@ router.post("/", async (req, res, next) => {
             donorId,
             transactionHash,
             contractAddress,
-            recipientIds
+            recipientIds,
             // TODO: add recipient location, etc. data that is selected by donor
-
         } = req.body;
-        if(!donorId ){
+        if (!donorId) {
             const newUser = await User.create({
-                isDonor:true
+                isDonor: true,
             });
             donorId = newUser.id;
-            console.log(donorId, "DonationRoute")
+            console.log(donorId, "DonationRoute");
         }
         const donation = await Donation.create({
             id,
@@ -103,20 +99,73 @@ router.post("/", async (req, res, next) => {
             contractAddress,
             // TODO: add recipient location, etc. data that is selected by donor
         });
-        recipientIds.map(async (recipientId) => {
-            await DonationsRecipients.create({
-                donationId: donation.id,
-                recipientId: recipientId,
-                amountOwed: donation.amount / donation.numRecipients
-            });
+
+        let donationRecipientInstances = [];
+        recipientIds.map((recipientId) => {
+            donationRecipientInstances.push(
+                DonationsRecipients.create({
+                    donationId: donation.id,
+                    recipientId: recipientId,
+                    amountOwed: donation.amount / donation.numRecipients,
+                }),
+            );
         });
-        res.status(201).send(donation);
+
+        await Promise.all(donationRecipientInstances);
+
+        // We need to keep our donation in the same format as our GET route
+        // (with all the includes...), which is why this is necessary
+        const newDonation = await Donation.findOne({
+            where: { id: donation.id },
+            include: [
+                {
+                    model: User,
+                    as: "donor",
+                },
+                { model: User },
+            ],
+        });
+
+        res.status(201).send(newDonation);
     } catch (err) {
-        console.log('Error in POST /api/donations route ', err);
+        console.log("Error in POST /api/donations route ", err);
+        next(err);
+    }
+});
+
+// route called when recipient claims donation
+router.put("/:donationId/:userId", async (req, res, next) => {
+    try {
+        const { donationId, userId } = req.params;
+        let donation = await DonationsRecipients.findOne({
+            where: {
+                donationId: donationId,
+                recipientId: userId,
+            },
+        });
+
+        const claimedDonation = await donation.update({ isClaimed: true });
+        await donation.save();
+
+        const claimedDonationWithAssociations = await Donation.findOne({
+            where: { id: donationId },
+            include: [
+                {
+                    model: User,
+                    as: "donor",
+                },
+                { model: User },
+            ],
+        });
+
+        res.status(200).send(claimedDonationWithAssociations);
+    } catch (err) {
+        console.log(
+            "Error in PUT /api/donations/:donationId/:userId route ",
+            err,
+        );
         next(err);
     }
 });
 
 module.exports = router;
-
-
