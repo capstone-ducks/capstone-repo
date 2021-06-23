@@ -9,11 +9,17 @@ class UnclaimedDonations extends Component {
     }
     render() {
         const { donations } = this.props;
-        const unClaimed = donations.filter((donation) => !donation.users[0].donationsRecipients.isClaimed);
-        console.log(unClaimed)
+        const unClaimed = donations.filter(
+            (donation) => !donation.users[0].donationsRecipients.isClaimed,
+        );
+
         return (
             <Card.Group>
-                <UnclaimedCard donations={unClaimed} />
+                {unClaimed.length > 0 ? (
+                    <UnclaimedCard donations={unClaimed} />
+                ) : (
+                    "No pending donations."
+                )}
             </Card.Group>
         );
     }
@@ -27,4 +33,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(UnclaimedDonations);
-
