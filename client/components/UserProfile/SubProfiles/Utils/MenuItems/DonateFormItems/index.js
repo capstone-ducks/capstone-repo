@@ -1,13 +1,13 @@
 import DonorInformation from "./DonorInformation.jsx";
 import DonationDetails from "./DonationDetails.jsx";
-import TargetPopulation from "./TargetPopulation.jsx";
+import SubmitDonation from "./SubmitDonation.jsx";
 import MapBox from "./MapBox.jsx";
 import { genderOptions, raceOptions } from "./genderRaceOptions";
 
 export {
     DonorInformation,
     DonationDetails,
-    TargetPopulation,
+    SubmitDonation,
     MapBox,
     genderOptions,
     raceOptions,

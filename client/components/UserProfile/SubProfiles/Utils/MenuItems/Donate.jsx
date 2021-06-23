@@ -11,7 +11,7 @@ import { createDonationThunk } from "../../../../../store/thunk/donations";
 import {
     DonorInformation,
     DonationDetails,
-    TargetPopulation,
+    SubmitDonation,
     MapBox,
 } from "./DonateFormItems";
 
@@ -285,7 +285,7 @@ class Donate extends Component {
                             active={activeIndices.includes(2)}
                             handleClick={this.handleClick}
                         />
-                        <TargetPopulation
+                        <SubmitDonation
                             active={activeIndices.includes(3)}
                             handleClick={this.handleClick}
                             handleEdit={this.handleEdit}

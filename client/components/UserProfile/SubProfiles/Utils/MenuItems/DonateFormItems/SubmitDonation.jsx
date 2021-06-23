@@ -9,7 +9,7 @@ import {
     Accordion,
 } from "semantic-ui-react";
 
-const TargetPopulation = (props) => {
+const SubmitDonation = (props) => {
     const { active, handleClick, handleEdit, message, agreeToTerms } = props;
 
     return (
@@ -17,7 +17,7 @@ const TargetPopulation = (props) => {
             <Accordion.Title active={active} index={3} onClick={handleClick}>
                 <Header as="h4" id="donation-target-information-header">
                     <Icon name="dropdown" />
-                    TARGET POPULATION
+                    SUBMIT DONATION
                 </Header>
             </Accordion.Title>
             <Accordion.Content active={active}>
@@ -42,4 +42,4 @@ const TargetPopulation = (props) => {
     );
 };
 
-export default TargetPopulation;
+export default SubmitDonation;
