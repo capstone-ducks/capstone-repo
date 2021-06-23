@@ -13,7 +13,7 @@ export default class MapBox extends Component {
     this.state = {
       lng: -70.9,
       lat: 42.35,
-      zoom: 5,
+      zoom: 3,
     };
     this.mapContainer = React.createRef();
   }
@@ -34,6 +34,10 @@ export default class MapBox extends Component {
         zoom: map.getZoom().toFixed(2)
       });
     });
+
+    map.on('load', function () {
+      map.resize();
+  });
   }
   render() {
     const { active, handleClick } = this.props;
