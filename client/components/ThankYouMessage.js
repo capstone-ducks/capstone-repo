@@ -17,6 +17,7 @@ class ThankYouMessage extends Component {
                     </Message.Content>
                 </Message>
         );
+        
     }
 }
 
