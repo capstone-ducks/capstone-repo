@@ -1,19 +1,19 @@
 import React, { Component } from "react";
-import { Button, Icon } from 'semantic-ui-react';
+import { Button, Icon, Popup, Grid, Header } from 'semantic-ui-react';
 class MyWallet extends Component {
     constructor(props) {
         super(props);
         this.state = {};
-        this.showMenu = this.showMenu.bind(this);
+        //this.showMenu = this.showMenu.bind(this);
     }
 
-    showMenu = () => {
-        console.log('clicked');
-        //const linkdoc = document.getElementById('links');
-        //console.log(linkdoc);
+    // showMenu = () => {
+    //     console.log('clicked');
+    //     //const linkdoc = document.getElementById('links');
+    //     //console.log(linkdoc);
 
-            document.getElementById('links').style.display = "block";
-    };
+    //         document.getElementById('links').style.display = "block";
+    // };
 
     render() {
         const {walletBalance, clientWalletAddress} = this.props;
@@ -26,50 +26,127 @@ class MyWallet extends Component {
                 <p>
                     Wallet Balance: {walletBalance} <Icon name='ethereum' />
                 </p>
-                <h4>
-                    Cash out your Ether through one of the below services:
-                </h4>
-                <Button animated='vertical' size = 'massive' className="ui blue button" 
-                        href='https://www.gipsybee.com/'>
-                    <Button.Content hidden>Tech</Button.Content>
-                    <Button.Content visible>
-                        <Icon name='laptop' />
-                    </Button.Content>
-                </Button>
-                <Button animated='vertical' size = 'massive' className="ui blue button" href='https://www.travala.com/'>
-                    <Button.Content hidden>Travel</Button.Content>
-                    <Button.Content visible>
-                        <Icon name='plane' />
-                    </Button.Content>
-                </Button>
-                <Button animated='vertical' size = 'massive' className="ui blue button" href='https://www.egifter.com/buy-gift-cards-with-bitcoin'>
-                    <Button.Content hidden>Gift Card</Button.Content>
-                    <Button.Content visible>
-                        <Icon name='gift' />
-                    </Button.Content>
-                </Button>
-                <Button animated='vertical' size = 'massive' className="ui blue button" href='https://www.overstock.com/'>
-                    <Button.Content hidden>Shop</Button.Content>
-                    <Button.Content visible>
-                        <Icon name='shopping basket' />
-                    </Button.Content>
-                </Button>
-                <Button animated='vertical' size = 'massive' className="ui green button" onClick={this.showMenu}>
-                    <Button.Content hidden>Shop</Button.Content>
-                    <Button.Content visible>
-                        <Icon name='drupal' />
-                    </Button.Content>
-                </Button>
-                <div id='links' style="display:none;">
-                    <ul >
-                        <li><a href="#">cdn.sc.rockstargames.com</a></li>
-                        <li><a href="#">lifeinvader.com</a></li>
-                        <li><a href="#">rockstargames.com</a></li>
-                        <li><a href="#">socialclub.rockstargames.com</a></li>
-                    </ul>
-                </div>
+                <h3>
+                    Cash out your Ether through some of the below online retailers:
+                </h3>
+                <Popup position='bottom left' trigger={
+                    <Button animated='vertical' size = 'massive' className="ui blue button">
+                        <Button.Content hidden>Shop</Button.Content>
+                        <Button.Content visible>
+                            <Icon name='shopping basket' />
+                        </Button.Content>
+                    </Button>} flowing hoverable>
+                    <Grid centered divided columns={3}>
+                        <Grid.Column textAlign='center'>
+                            <Header as='h4'>OverStock.com</Header>
+                            <p>
+                            Shop for home goods using Eth
+                            </p>
+                            <Button className="ui pink button" href='https://www.overstock.com'>Visit Site</Button>
+                        </Grid.Column>
+                        <Grid.Column textAlign='center'>
+                            <Header as='h4'>Autonomous.com</Header>
+                            <p>
+                            Shop for home and office decor
+                            </p>
+                            <Button className="ui pink button" href='https://www.autonomous.ai/'>Visit Site</Button>
+                        </Grid.Column>
+                        <Grid.Column textAlign='center'>
+                            <Header as='h4'>Galaxus.com</Header>
+                            <p>
+                            Shop for your home and garden
+                            </p>
+                            <Button className="ui pink button" href='https://www.galaxus.ch/en'>Visit Site</Button>
+                        </Grid.Column>
+                    </Grid>
+                </Popup>
+                <Popup position='bottom left' trigger={
+                    <Button animated='vertical' size = 'massive' className="ui blue button">
+                        <Button.Content hidden>Tech</Button.Content>
+                        <Button.Content visible>
+                            <Icon name='laptop' />
+                        </Button.Content>
+                    </Button>} flowing hoverable>
+                    <Grid centered divided columns={3}>
+                        <Grid.Column textAlign='center'>
+                            <Header as='h4'>GipsyBee.com</Header>
+                            <p>
+                            Shop for electronics using Eth
+                            </p>
+                            <Button className="ui pink button" href='https://www.gipsybee.com/'>Visit Site</Button>
+                        </Grid.Column>
+                        <Grid.Column textAlign='center'>
+                            <Header as='h4'>Direct Voltage.com</Header>
+                            <p>
+                            Shop for home engineering and DIY
+                            </p>
+                            <Button className="ui pink button" href='https://directvoltage.com/'>Visit Site</Button>
+                        </Grid.Column>
+                        <Grid.Column textAlign='center'>
+                            <Header as='h4'>Purism.com</Header>
+                            <p>
+                            Securely shop for laptops and computers
+                            </p>
+                            <Button className="ui pink button" href='https://puri.sm/'>Visit Site</Button>
+                        </Grid.Column>
+                    </Grid>
+                </Popup>
+                <Popup position='bottom center' trigger={
+                    <Button animated='vertical' size = 'massive' className="ui blue button">
+                        <Button.Content hidden>Travel</Button.Content>
+                        <Button.Content visible>
+                            <Icon name='plane' />
+                        </Button.Content>
+                    </Button>} flowing hoverable>
+                    <Grid centered divided columns={2}>
+                        <Grid.Column textAlign='center'>
+                            <Header as='h4'>Destinia.com</Header>
+                            <p>
+                            Shop for flights using Eth
+                            </p>
+                            <Button className="ui pink button" href='https://destinia.com/en/'>Visit Site</Button>
+                        </Grid.Column>
+                        <Grid.Column textAlign='center'>
+                            <Header as='h4'>CheapAir.com</Header>
+                            <p>
+                            Shop for flights and hotels using Eth
+                            </p>
+                            <Button className="ui pink button" href='https://www.cheapair.com/'>Visit Site</Button>
+                        </Grid.Column>
+                    </Grid>
+                </Popup>
+                <Popup position='bottom center' trigger={
+                    <Button animated='vertical' size = 'massive' className="ui blue button">
+                        <Button.Content hidden>Gift Card</Button.Content>
+                        <Button.Content visible>
+                            <Icon name='gift' />
+                        </Button.Content>
+                    </Button>} flowing hoverable>
+                    <Grid centered divided columns={3}>
+                        <Grid.Column textAlign='center'>
+                            <Header as='h4'>EGifter.com</Header>
+                            <p>
+                            Shop gift cards from Amazon, App Store, and Home Depot
+                            </p>
+                            <Button className="ui pink button" href='https://www.egifter.com/buy-gift-cards-with-ethereum'>Visit Site</Button>
+                        </Grid.Column>
+                        <Grid.Column textAlign='center'>
+                            <Header as='h4'>Bidali.com</Header>
+                            <p>
+                            Use your metamask wallet to shop now for giftcards
+                            </p>
+                            <Button className="ui pink button" href='https://giftcards.bidali.com/'>Visit Site</Button>
+                        </Grid.Column>
+                        <Grid.Column textAlign='center'>
+                            <Header as='h4'>Prepaidify.com</Header>
+                            <p>
+                            Shop from over 400 kinds of email-delivered gift cards using Eth
+                            </p>
+                            <Button className="ui pink button" href='https://prepaidify.com/'>Visit Site</Button>
+                        </Grid.Column>
+                    </Grid>
+                </Popup>
             </div>
-        
         );
     }
 }
