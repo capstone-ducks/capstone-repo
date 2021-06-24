@@ -12,9 +12,9 @@ export default class MapBox extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      lng: -85.7813,
-      lat: 34.6694,
-      zoom: 4,
+      lng: -98.2832,
+      lat: 38.4106,
+      zoom: 3,
     };
     this.mapContainer = React.createRef();
   }
@@ -66,7 +66,7 @@ export default class MapBox extends Component {
         <Accordion.Title active={active} index={2} onClick={handleClick}>
             <Header as="h4" id="donation-details-information-header">
                 <Icon name="dropdown" />
-                DONATE BY COMMUNITY
+                DONATE BY REGION
             </Header>
         </Accordion.Title>
         <Accordion.Content active={active}>
