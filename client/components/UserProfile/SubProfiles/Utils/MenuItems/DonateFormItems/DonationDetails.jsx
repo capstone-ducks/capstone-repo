@@ -78,9 +78,7 @@ const DonationDetails = (props) => {
                         placeholder=""
                         readOnly
                     />
-                   </Form.Group>
-                        <Divider horizontal>Recipient Information</Divider>
-                        <Form.Group widths="equal">
+                    <Form.Group widths="equal">
                         <Form.Field
                             value={numRecipients}
                             name="detailNumRecipients"
@@ -90,34 +88,36 @@ const DonationDetails = (props) => {
                             onChange={handleEdit}
                         />
                         </Form.Group>
+                   </Form.Group>
+                        <Divider horizontal>Recipient Information</Divider>
                         <Form.Group widths="equal">
-                        <Form.Dropdown 
-                            label="Race" 
-                            name="raceOptions" 
-                            placeholder='Race' 
-                            fluid multiple selection options={races} 
-                            onChange={handleEdit} 
+                            <Form.Dropdown
+                                label="Race"
+                                name="raceOptions"
+                                placeholder='Race'
+                                fluid multiple selection options={races}
+                                onChange={handleEdit}
+                            />
+                         <Form.Dropdown
+                            label="Gender"
+                            name="genderOptions"
+                            placeholder='Gender'
+                            fluid multiple selection options={genders}
+                            onChange={handleEdit}
                         />
-                         <Form.Dropdown 
-                            label="Gender" 
-                            name="genderOptions" 
-                            placeholder='Gender' 
-                            fluid multiple selection options={genders} 
-                            onChange={handleEdit} 
+                        <Form.Dropdown
+                            label="City"
+                            name="cityOptions"
+                            placeholder='City'
+                            fluid multiple selection options={cities}
+                            onChange={handleEdit}
                         />
-                        <Form.Dropdown 
-                            label="City" 
-                            name="cityOptions" 
-                            placeholder='City' 
-                            fluid multiple selection options={cities} 
-                            onChange={handleEdit} 
-                        />
-                        <Form.Dropdown 
-                            label="State" 
-                            name="stateOptions" 
-                            placeholder='State' 
-                            fluid multiple selection options={states} 
-                            onChange={handleEdit} 
+                        <Form.Dropdown
+                            label="State"
+                            name="stateOptions"
+                            placeholder='State'
+                            fluid multiple selection options={states}
+                            onChange={handleEdit}
                         />
                 </Form.Group>
                 </Segment>
