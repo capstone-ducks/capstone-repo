@@ -40,6 +40,7 @@ router.post("/", async (req, res, next) => {
 
         res.status(201).send(newUser);
     } catch (error) {
+        console.log(error);
         next(error);
     }
 });
