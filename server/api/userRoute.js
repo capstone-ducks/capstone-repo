@@ -8,8 +8,7 @@ const {
 // Errors
 const { notFound, badSyntax, conflict, unauthorized } = require("./errors");
 
-
-const Sequelize = require('sequelize');
+const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 const combineReduce = require("../../client/utils/combineReduce");
 
@@ -38,12 +37,12 @@ router.post("/", async (req, res, next) => {
             gender,
             cryptoAddress: clientWalletAddress,
         });
+
         res.status(201).send(newUser);
     } catch (error) {
         next(error);
     }
 });
-
 
 router.put("/:id", async (req, res, next) => {
     try {
@@ -134,109 +133,127 @@ router.get("/:id/donations", async (req, res, next) => {
 // Create an object that we send back
 router.post("/recipients", async (req, res, next) => {
     try {
-            const { races, genders, cities, states, numRecipients } = req.body;
-            let usersbyGender = [];
-            let usersbyRace = [];
-            let usersbyCity = [];
-            let usersbyState = [];
-            let allRecipients = [];
+        const { races, genders, cities, states, numRecipients } = req.body;
+        let usersbyGender = [];
+        let usersbyRace = [];
+        let usersbyCity = [];
+        let usersbyState = [];
+        let allRecipients = [];
 
-            if(races){
-                usersbyRace = await User.findAll({
-                    where: {
-                        race: {
-                            [Op.in]: races
-                        },
-                        isDonor: false
-                    }
-                });
-            }
-
-            if(genders){
-                usersbyGender = await User.findAll({
-                    where: {
-                        gender: {
-                            [Op.in]: genders
-                        },
-                        isDonor: false
-                    }
-                });
-            }
-
-            if(cities){
-                usersbyCity = await User.findAll({
-                    where: {
-                        city: {
-                            [Op.in]: cities
-                        },
-                        isDonor: false
-                    }
-                });
-            }
-
-            if(states){
-                usersbyState = await User.findAll({
-                    where: {
-                        state: {
-                            [Op.in]: states
-                        },
-                        isDonor: false
-                    }
-                });
-            }
-
-            //if no selections given find all recipient users to get randomly chosen
-            //if(!genders.length && !races.length && !cities.length && !states.length)
-            if(genders === undefined && races === undefined && cities === undefined && states === undefined)
-            {
-                allRecipients = await User.findAll({
-                    where: {
-                        isDonor: false
-                    }
-                });
-            }
-            else if(!genders.length || !races.length || !cities.length || !states.length)
-            {
-                //if only some selections made check the length of the returned recipient array
-                allRecipients = combineReduce(usersbyGender, usersbyRace, usersbyCity, usersbyState);
-                if(allRecipients.length < numRecipients)
-                    {
-                        //get more users but those not included in existing recipient array
-                        let idArr = [];
-                        allRecipients.forEach(user => idArr.push(user.id));
-                        const addlUsers = await User.findAll({
-                            where: {
-                                id: {
-                                    [Op.notIn]: idArr,
-                                },
-                                isDonor: false
-                            }
-                        });
-
-                        allRecipients = allRecipients.concat(addlUsers);
-                    }
-            } else
-            {
-                allRecipients = combineReduce(usersbyGender, usersbyRace, usersbyCity, usersbyState);
-            }
-
-            // console.log(usersbyGender.length, 'Gender Users');
-            // console.log(usersbyRace.length, 'Race Users');
-            // console.log(usersbyCity.length, 'City Users');
-            // console.log(usersbyState.length, 'State Users');
-            // console.log(allRecipients.length, 'All Users');
-
-            const recipients = await User.randomRecipients(numRecipients, allRecipients);
-            const recipientIds = recipients.map(({ id }) => id);
-            const cryptoAddresses = recipients.map(
-                ({ cryptoAddress }) => cryptoAddress,
-            );
-            res.status(201).send({ recipientIds, cryptoAddresses });
-        } catch (error) {
-            console.log("Error in POST /users/recipients route", error);
-            next(error);
+        if (races) {
+            usersbyRace = await User.findAll({
+                where: {
+                    race: {
+                        [Op.in]: races,
+                    },
+                    isDonor: false,
+                },
+            });
         }
-    });
+
+        if (genders) {
+            usersbyGender = await User.findAll({
+                where: {
+                    gender: {
+                        [Op.in]: genders,
+                    },
+                    isDonor: false,
+                },
+            });
+        }
+
+        if (cities) {
+            usersbyCity = await User.findAll({
+                where: {
+                    city: {
+                        [Op.in]: cities,
+                    },
+                    isDonor: false,
+                },
+            });
+        }
+
+        if (states) {
+            usersbyState = await User.findAll({
+                where: {
+                    state: {
+                        [Op.in]: states,
+                    },
+                    isDonor: false,
+                },
+            });
+        }
+
+        //if no selections given find all recipient users to get randomly chosen
+        //if(!genders.length && !races.length && !cities.length && !states.length)
+        if (
+            genders === undefined &&
+            races === undefined &&
+            cities === undefined &&
+            states === undefined
+        ) {
+            allRecipients = await User.findAll({
+                where: {
+                    isDonor: false,
+                },
+            });
+        } else if (
+            !genders.length ||
+            !races.length ||
+            !cities.length ||
+            !states.length
+        ) {
+            //if only some selections made check the length of the returned recipient array
+            allRecipients = combineReduce(
+                usersbyGender,
+                usersbyRace,
+                usersbyCity,
+                usersbyState,
+            );
+            if (allRecipients.length < numRecipients) {
+                //get more users but those not included in existing recipient array
+                let idArr = [];
+                allRecipients.forEach((user) => idArr.push(user.id));
+                const addlUsers = await User.findAll({
+                    where: {
+                        id: {
+                            [Op.notIn]: idArr,
+                        },
+                        isDonor: false,
+                    },
+                });
+
+                allRecipients = allRecipients.concat(addlUsers);
+            }
+        } else {
+            allRecipients = combineReduce(
+                usersbyGender,
+                usersbyRace,
+                usersbyCity,
+                usersbyState,
+            );
+        }
+
+        // console.log(usersbyGender.length, 'Gender Users');
+        // console.log(usersbyRace.length, 'Race Users');
+        // console.log(usersbyCity.length, 'City Users');
+        // console.log(usersbyState.length, 'State Users');
+        // console.log(allRecipients.length, 'All Users');
+
+        const recipients = await User.randomRecipients(
+            numRecipients,
+            allRecipients,
+        );
+        const recipientIds = recipients.map(({ id }) => id);
+        const cryptoAddresses = recipients.map(
+            ({ cryptoAddress }) => cryptoAddress,
+        );
+        res.status(201).send({ recipientIds, cryptoAddresses });
+    } catch (error) {
+        console.log("Error in POST /users/recipients route", error);
+        next(error);
+    }
+});
 
 module.exports = router;
 
