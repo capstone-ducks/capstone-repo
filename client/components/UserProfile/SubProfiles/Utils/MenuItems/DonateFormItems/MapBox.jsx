@@ -4,7 +4,7 @@ import "../../../../../../../public/assets/mapbox.css";
 import { Icon, Header, Accordion, Segment } from "semantic-ui-react";
 import mapboxgl from 'mapbox-gl';
 mapboxgl.accessToken = "pk.eyJ1IjoiZW1pbHlhc2FybyIsImEiOiJja29uODBhZmMwY2xiMndwM3V3dnMxd3JpIn0.-aPNERh8iwRHxLDODbb2ew";
-import recipients from "../../../../../../../server/db/seed/recipient-locations.json";
+import recipients from "../../../../../../../server/db/seed/recipients.json";
 
 
 export default class MapBox extends Component {
@@ -21,7 +21,7 @@ export default class MapBox extends Component {
     const { lng, lat, zoom } = this.state;
     const map = new mapboxgl.Map({
       container: this.mapContainer.current,
-      style: 'mapbox://styles/mapbox/streets-v11',
+      style: 'mapbox://styles/mapbox/dark-v10',
       center: [lng, lat],
       zoom,
     });
