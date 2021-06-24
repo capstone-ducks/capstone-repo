@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { mapboxLayer1, mapboxLayer2 } from "./mapLoader";
+import { mapboxLayer1, mapboxLayer2 } from "./mapboxLayers";
 import 'mapbox-gl/dist/mapbox-gl.css';
 import "../../../../../../../public/assets/mapbox.css";
 import { Icon, Header, Accordion, Segment } from "semantic-ui-react";
@@ -8,7 +8,7 @@ mapboxgl.accessToken = "pk.eyJ1IjoiZW1pbHlhc2FybyIsImEiOiJja29uODBhZmMwY2xiMndwM
 import recipients from "../../../../../../../server/db/seed/recipients.json";
 
 
-export default class MapBox extends Component {
+export default class DonateByRegion extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -71,7 +71,7 @@ export default class MapBox extends Component {
         </Accordion.Title>
         <Accordion.Content active={active}>
           <Segment style={{minWidth: "500px", height: "480px" }}>
-            <div ref={this.mapContainer} style={{minWidth: "100%", height: "100z5" }} className="map-container" />
+            <div ref={this.mapContainer} style={{minWidth: "100%", height: "100%" }} className="map-container" />
           </Segment>
         </Accordion.Content>
       </React.Fragment>
