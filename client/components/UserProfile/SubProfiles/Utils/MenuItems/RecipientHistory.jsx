@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { Card } from "semantic-ui-react";
+
+import ClaimedCard from "./Cards/ClaimedCard.jsx";
 
 class RecipientHistory extends Component {
     constructor(props) {
@@ -6,7 +9,11 @@ class RecipientHistory extends Component {
         this.state = {};
     }
     render() {
-        return "Recipient History";
+        return (
+            <div id="card-container">
+                <ClaimedCard />
+            </div>
+        );
     }
 }
 

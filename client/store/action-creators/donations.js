@@ -26,9 +26,10 @@ export const createDonation = (donation) => {
     };
 };
 
-export const claimDonation = (donation) => {
+export const claimDonation = (donation, userId) => {
     return {
         type: CLAIM_DONATION,
-        donation
-    }
+        donation,
+        userId,
+    };
 };
