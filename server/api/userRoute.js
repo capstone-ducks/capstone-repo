@@ -26,8 +26,6 @@ router.post("/", async (req, res, next) => {
             clientWalletAddress,
         } = req.body;
 
-        console.log(req.body);
-
         const newUser = await User.create({
             firstName,
             lastName,
@@ -42,7 +40,6 @@ router.post("/", async (req, res, next) => {
 
         res.status(201).send(newUser);
     } catch (error) {
-        console.error(error);
         next(error);
     }
 });
