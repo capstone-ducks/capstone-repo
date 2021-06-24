@@ -73,7 +73,7 @@ export const claimDonationThunk = (donationId, userId, body) => {
                 body,
             );
 
-            dispatch(claimDonation(donation));
+            dispatch(claimDonation(donation, userId));
             // dispatch(fetchAllUsersDonations(userId));
         } catch (err) {
             console.log("Error in claimDonationThunk ", err);

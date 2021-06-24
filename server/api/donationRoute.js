@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const sendEmail = require("./utils/mail");
 const {
     models: { User, Donation, DonationsRecipients },
 } = require("../db/model/index");
@@ -103,14 +104,17 @@ router.post("/", async (req, res, next) => {
         });
 
         let donationRecipientInstances = [];
-        recipientIds.map((recipientId) => {
+        recipientIds.map( (recipientId) => {
+            const amountOwed = donation.amount / donation.numRecipients;
             donationRecipientInstances.push(
                 DonationsRecipients.create({
                     donationId: donation.id,
                     recipientId: recipientId,
-                    amountOwed: donation.amount / donation.numRecipients,
+                    amountOwed,
                 }),
             );
+            const recipient = User.findByPk(recipientId);
+            sendEmail(recipient.firstName, recipient.email, amountOwed, recipientId); // sends email to each recipient
         });
 
         await Promise.all(donationRecipientInstances);

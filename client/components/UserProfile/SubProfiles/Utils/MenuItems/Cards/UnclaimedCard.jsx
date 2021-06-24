@@ -43,12 +43,6 @@ class UnclaimedCard extends Component {
     }
 
     async clickApprove(donationId) {
-        // moved this here for debugging
-        await this.props.claimDonation(
-            donationId,
-            this.props.donations[0].users[0].id,
-        );
-        console.log(donationId, this.props.donations[0].users[0].id);
         const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
         if (metaMaskInstalled) {
             const clientAddress = await this.getClientAddress();
@@ -62,8 +56,6 @@ class UnclaimedCard extends Component {
             const networkId = await web3.eth.net.getId();
             const networkData = DonationContract.networks[networkId];
 
-            console.log("NETWORKS", networkData);
-
             if (networkData) {
                 const donationContract = new web3.eth.Contract(
                     DonationContract.abi,
@@ -75,18 +67,23 @@ class UnclaimedCard extends Component {
                     .send({
                         from: clientAddress,
                     })
-                    .on("confirmation", function (confirmationNumber, receipt) {
+                    .on("confirmation", (confirmationNumber, receipt) => {
                         console.log(confirmationNumber);
                     })
-                    .on("receipt", function (receipt) {
+                    .on("receipt", async (receipt) => {
                         console.log(receipt);
+
+                        // removes the claimed donation from UnclaimedCard on if we get a successful receipt.
+                        // otherwise, a donation was not successful
+                        await this.props.claimDonationThunk(
+                            donationId,
+                            this.props.donations[0].users[0].id,
+                        );
                     })
-                    .on("error", function (error) {
+                    .on("error", (error) => {
                         // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
                         console.log(error);
                     });
-                // removes the claimed donation from UnclaimedCard
-                // await this.props.claimDonation(donationId, this.props.donations[0].users[0].id);
             }
         } else {
             this.installMetaMask();
@@ -163,18 +160,17 @@ class UnclaimedCard extends Component {
     }
 }
 
-// function mapStateToProps(state) {
-//     return {
-//         donations: state.donations,
-//         user: state.auth.user,
-//     };
-// };
+function mapStateToProps(state) {
+    return {
+        user: state.auth.user,
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
-        claimDonation: (donationId, userId) =>
+        claimDonationThunk: (donationId, userId) =>
             dispatch(claimDonationThunk(donationId, userId)),
     };
 }
 
-export default connect(null, mapDispatchToProps)(UnclaimedCard);
+export default connect(mapStateToProps, mapDispatchToProps)(UnclaimedCard);
