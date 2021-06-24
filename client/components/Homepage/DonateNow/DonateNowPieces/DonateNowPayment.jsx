@@ -4,11 +4,12 @@ import { Form, Image, Message, Icon } from "semantic-ui-react";
 import ethereumLogo from "../../../../../public/images/ethereum-logo.svg";
 import MetaMaskOnboarding from "@metamask/onboarding";
 import Web3 from "web3";
-// import PaymentSplitter from '../../../../../build/contracts/PaymentSplitter.json';
 import DonationContract from "../../../../../build/contracts/DonationContract.json";
 import getExchangeRate from "../../../UserProfile/SubProfiles/Utils/MenuItems/getExchangeRate";
 import generateDonationId from "../../../../utils/generateDonationId";
 import { createDonationThunk } from "../../../../store/thunk/donations";
+import { addUser } from "../../../../store/thunk";
+import axios from "axios";
 
 // TODO
 // donor should input ethereum amount into form, that amount is sent to
@@ -22,6 +23,7 @@ class DonateNowPaymentForm extends Component {
             clientWalletAddress: "",
             donationContract: "",
             detailEthTotal: "",
+            loading: true,
         };
 
         this.isMetaMaskInstalled = this.isMetaMaskInstalled.bind(this);
@@ -42,7 +44,6 @@ class DonateNowPaymentForm extends Component {
                 },
                 async () => {
                     const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
-                    console.log(metaMaskInstalled);
                     if (metaMaskInstalled) {
                         const clientAddress = await this.getClientAddress();
 
@@ -63,6 +64,7 @@ class DonateNowPaymentForm extends Component {
 
                             this.setState({
                                 metaMaskInstalled,
+                                loading: false,
                                 donationContract,
                                 clientWalletAddress: clientAddress,
                                 exchangeRate: parseFloat(
@@ -72,6 +74,7 @@ class DonateNowPaymentForm extends Component {
                         }
                     } else {
                         this.setState({
+                            loading: false,
                             metaMaskInstalled,
                         });
                     }
@@ -183,12 +186,23 @@ class DonateNowPaymentForm extends Component {
         const amountEthToWei = await web3.utils.toHex(
             web3.utils.toWei(this.state.detailEthTotal.toString(), "ether"),
         );
+
+        const { data } = await axios.post("api/users/recipients", {
+            numRecipients: 1,
+            races: [],
+            genders: [],
+            cities: [],
+            states: [],
+        });
+
+        const { recipientIds, cryptoAddresses } = data;
         const donationId = await generateDonationId();
+
         await this.state.donationContract.methods
             .createDonation(
                 donationId,
-                ["0xd9dfa1c796354E3f26648408851AFb89059d6355"],
-                1, //numRecipient
+                cryptoAddresses,
+                1, // number of recipients
             )
             .send({
                 from: this.state.clientWalletAddress,
@@ -196,15 +210,31 @@ class DonateNowPaymentForm extends Component {
                 gas: 6721975, // should match given gas limit from ganache
             })
             .then(async (receipt) => {
-                // console.log(receipt);
+                const randomNumber = Math.floor(Math.random() * 9999999999) + 1;
+
+                // Create anonymous user first
+                await this.props.createUser({
+                    firstName: "anonymous",
+                    lastName: randomNumber.toString(),
+                    email: `anonymous${randomNumber}@gmail.com`,
+                    password: randomNumber.toString(),
+                    city: "anonymous",
+                    state: "anonymous",
+                    checked: "isDonor",
+                    clientWalletAddress: this.state.clientWalletAddress,
+                });
+
+                // Create donation object
                 const donation = {
                     id: donationId,
-                    donorId: NaN,
+                    donorId: this.props.lastCreatedUser.id,
                     amount: this.state.detailEthTotal, // NOTE this is not in Wei like when its sent to the contract
                     numRecipients: 1,
                     transactionHash: receipt.transactionHash,
                     contractAddress: receipt.to,
+                    recipientIds,
                 };
+
                 await this.props.createDonationThunk(donation);
             })
             .catch((err) => {
@@ -213,7 +243,22 @@ class DonateNowPaymentForm extends Component {
     }
 
     render() {
-        const { metaMaskInstalled, selectedCurrency } = this.state;
+        const { metaMaskInstalled, selectedCurrency, loading } = this.state;
+
+        if (loading) {
+            return (
+                <Form
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >
+                    <Icon name="circle notched" loading size="huge" />
+                </Form>
+            );
+        }
 
         // If meta mask is not installed, show this
         if (!metaMaskInstalled)
@@ -312,6 +357,7 @@ class DonateNowPaymentForm extends Component {
 function mapStateToProps(state) {
     return {
         user: state.auth.user,
+        lastCreatedUser: state.auth.lastCreatedUser,
     };
 }
 
@@ -319,6 +365,7 @@ function mapDispatchToProps(dispatch) {
     return {
         createDonationThunk: (donation) =>
             dispatch(createDonationThunk(donation)),
+        createUser: (newUser) => dispatch(addUser(newUser)),
     };
 }
 
