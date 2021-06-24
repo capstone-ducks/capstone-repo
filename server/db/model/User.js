@@ -115,6 +115,9 @@ User.init(
         state: {
             type: DataTypes.STRING,
         },
+        walletBalance: {
+            type: DataTypes.FLOAT,
+        },
     },
     { sequelize: db, modelName: "user" },
 );
