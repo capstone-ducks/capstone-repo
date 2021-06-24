@@ -43,7 +43,7 @@ export default class MapBox extends Component {
         'data': recipients,
         });
 
-
+      // Adds the heatmap data layer
       map.addLayer(
         {
           'id': 'recipients-heat',
