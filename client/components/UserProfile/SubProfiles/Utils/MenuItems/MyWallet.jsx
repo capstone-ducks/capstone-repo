@@ -4,29 +4,21 @@ class MyWallet extends Component {
     constructor(props) {
         super(props);
         this.state = {};
-        //this.showMenu = this.showMenu.bind(this);
     }
 
-    // showMenu = () => {
-    //     console.log('clicked');
-    //     //const linkdoc = document.getElementById('links');
-    //     //console.log(linkdoc);
-
-    //         document.getElementById('links').style.display = "block";
-    // };
 
     render() {
-        const {walletBalance, clientWalletAddress} = this.props;
+        const {walletBalance, cryptoAddress} = this.props;
         console.log(walletBalance, 'wallet balance');
         return (
             <div>
                 <p>
-                    Wallet Address: {clientWalletAddress}
+                    Wallet Address: {cryptoAddress}
                 </p>
                 <p>
-                    Wallet Balance: {walletBalance} <Icon name='ethereum' />
+                    Wallet Balance: <Icon name='ethereum' /> {walletBalance}
                 </p>
-                <h3>
+                <h3> 
                     Cash out your Ether through some of the below online retailers:
                 </h3>
                 <Popup position='bottom left' trigger={
