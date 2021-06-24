@@ -10,9 +10,9 @@ class RecipientHistory extends Component {
     }
     render() {
         return (
-            <Card.Group>
+            <div id="card-container">
                 <ClaimedCard />
-            </Card.Group>
+            </div>
         );
     }
 }

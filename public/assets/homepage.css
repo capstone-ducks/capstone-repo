@@ -219,3 +219,7 @@ p {
     position: relative;
     left: 15px;
 }
+
+#card-container {
+    padding: 1rem;
+}

@@ -14,13 +14,13 @@ class UnclaimedDonations extends Component {
         );
 
         return (
-            <Card.Group>
+            <div id="card-container">
                 {unClaimed.length > 0 ? (
                     <UnclaimedCard donations={unClaimed} />
                 ) : (
                     "No pending donations."
                 )}
-            </Card.Group>
+            </div>
         );
     }
 }

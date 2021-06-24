@@ -10,9 +10,9 @@ class DonateHistory extends Component {
 
     render() {
         return (
-            <Card.Group>
+            <div id="card-container">
                 <DonationCard />
-            </Card.Group>
+            </div>
         );
     }
 }
