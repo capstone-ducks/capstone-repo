@@ -78,7 +78,7 @@ const DonationDetails = (props) => {
                         placeholder=""
                         readOnly
                     />
-                    <Form.Group widths="equal">
+
                         <Form.Field
                             value={numRecipients}
                             name="detailNumRecipients"
@@ -87,7 +87,7 @@ const DonationDetails = (props) => {
                             placeholder="Number of Recipients"
                             onChange={handleEdit}
                         />
-                        </Form.Group>
+
                    </Form.Group>
                         <Divider horizontal>Recipient Information</Divider>
                         <Form.Group widths="equal">
