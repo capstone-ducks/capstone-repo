@@ -35,6 +35,7 @@ class AboutUs extends Component {
                         src="/images/utils/TheGoodBlockModel.png"
                         centered
                         size="huge"
+                        id="about-us-pic"
                     />
                 </div>
                 <div className="about-us-container">
