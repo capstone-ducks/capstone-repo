@@ -1,10 +1,10 @@
-import axios from 'axios';
+import axios from "axios";
 
 // Creates a JWT token to attempt to log in
 const authenticate = async ({ email, password }) => {
     await axios
         // Create a token with the username and password
-        .post('/api/auth', {
+        .post("/api/auth", {
             email,
             password,
         })
@@ -12,7 +12,7 @@ const authenticate = async ({ email, password }) => {
         .then(({ data: { token } }) => {
             // Set new token
             if (token) {
-                window.localStorage.setItem('token', token);
+                window.localStorage.setItem("token", token);
             }
         })
         // If bad credentials, throw
