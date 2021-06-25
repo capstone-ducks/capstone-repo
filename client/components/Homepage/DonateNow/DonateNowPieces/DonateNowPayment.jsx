@@ -245,7 +245,7 @@ class DonateNowPaymentForm extends Component {
         const { recipientIds, cryptoAddresses } = data;
         const donationId = await generateDonationId();
 
-        await this.state.donationContract.methods
+      await this.state.donationContract.methods
             .createDonation(
                 donationId,
                 cryptoAddresses,
