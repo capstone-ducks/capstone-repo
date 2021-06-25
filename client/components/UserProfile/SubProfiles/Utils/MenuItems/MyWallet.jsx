@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Icon, Popup, Grid, Header } from 'semantic-ui-react';
-import { connect } from "react-redux";
+import Web3 from "web3";
 
 class MyWallet extends Component {
     constructor(props) {
@@ -10,28 +10,31 @@ class MyWallet extends Component {
         };
     }
 
-    componentDidMount() {
-        console.log(this.state.walletBalance, "wallet bal from state");
-        console.log(this.props.walletBalance, "wallet bal from props");
+    async componentDidMount() {
+        window.web3 = new Web3(window.ethereum);
+        const web3 = window.web3;
+        let balance = await web3.eth.getBalance(this.props.cryptoAddress) / 1000000000000000000;
+
         this.setState({
-            walletBalance: this.props.walletBalance
+            walletBalance: balance
         });
     }
 
-    componentDidUpdate(prevProps) {
-        console.log(prevProps.walletBalance, 'old');
-        console.log(this.props.walletBalance, 'new');
+    async componentDidUpdate(prevProps) {
+        window.web3 = new Web3(window.ethereum);
+        const web3 = window.web3;
+        let balance = await web3.eth.getBalance(this.props.cryptoAddress) / 1000000000000000000;
+
         if (prevProps.walletBalance !== this.props.walletBalance) {
-            console.log('update');
             this.setState({
-                walletBalance: this.props.walletBalance
+                walletBalance: balance
             });
         }
     }
 
     render() {
         const {cryptoAddress} = this.props;
-        const {walletBalance} = this.props;
+        const {walletBalance} = this.state;
         console.log(walletBalance, 'wallet balance');
         return (
             <div>
@@ -166,11 +169,4 @@ class MyWallet extends Component {
     }
 }
 
-// function mapStateToProps(state) {
-//     return {
-//         walletBalance: state.walletBalance
-//     };
-// }
-
-// export default connect(mapStateToProps)(MyWallet);
 export default MyWallet;

@@ -42,7 +42,8 @@ class DonorMenu extends Component {
                         walletBalance: balance,
                     });
                 }
-            });
+            }
+            );
         }
     }
 
