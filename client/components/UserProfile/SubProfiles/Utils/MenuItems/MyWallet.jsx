@@ -1,14 +1,37 @@
 import React, { Component } from "react";
 import { Button, Icon, Popup, Grid, Header } from 'semantic-ui-react';
+import { connect } from "react-redux";
+
 class MyWallet extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            walletBalance: 0
+        };
     }
 
+    componentDidMount() {
+        console.log(this.state.walletBalance, "wallet bal from state");
+        console.log(this.props.walletBalance, "wallet bal from props");
+        this.setState({
+            walletBalance: this.props.walletBalance
+        });
+    }
+
+    componentDidUpdate(prevProps) {
+        console.log(prevProps.walletBalance, 'old');
+        console.log(this.props.walletBalance, 'new');
+        if (prevProps.walletBalance !== this.props.walletBalance) {
+            console.log('update');
+            this.setState({
+                walletBalance: this.props.walletBalance
+            });
+        }
+    }
 
     render() {
-        const {walletBalance, cryptoAddress} = this.props;
+        const {cryptoAddress} = this.props;
+        const {walletBalance} = this.props;
         console.log(walletBalance, 'wallet balance');
         return (
             <div>
@@ -143,4 +166,11 @@ class MyWallet extends Component {
     }
 }
 
+// function mapStateToProps(state) {
+//     return {
+//         walletBalance: state.walletBalance
+//     };
+// }
+
+// export default connect(mapStateToProps)(MyWallet);
 export default MyWallet;
