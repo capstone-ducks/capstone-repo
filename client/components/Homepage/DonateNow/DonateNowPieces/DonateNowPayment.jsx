@@ -8,6 +8,7 @@ import DonationContract from "../../../../../build/contracts/DonationContract.js
 import getExchangeRate from "../../../UserProfile/SubProfiles/Utils/MenuItems/getExchangeRate";
 import generateDonationId from "../../../../utils/generateDonationId";
 import { createDonationThunk } from "../../../../store/thunk/donations";
+import ThankYouMessage from "../../../ThankYouMessage";
 import { addUser } from "../../../../store/thunk";
 import axios from "axios";
 
@@ -23,6 +24,7 @@ class DonateNowPaymentForm extends Component {
             clientWalletAddress: "",
             donationContract: "",
             detailEthTotal: "",
+            receipt:{},
             loading: true,
         };
 
@@ -174,6 +176,10 @@ class DonateNowPaymentForm extends Component {
     async handleSubmit() {
         console.log("SUBMIT DONATION!");
         await this.donate();
+        if(this.state.receipt.status === true){
+            alert('Thank you Anonymous user  for your generous donation! You truly make the difference for us, and we are extremely grateful!');
+            window.location.href = '/';
+        }
     }
 
     async handleChange(ev) {
@@ -236,6 +242,9 @@ class DonateNowPaymentForm extends Component {
                 };
 
                 await this.props.createDonationThunk(donation);
+                this.setState({
+                    receipt: receipt
+                })
             })
             .catch((err) => {
                 console.log("Donate function error ", err);
