@@ -20,15 +20,16 @@ class MainPanel extends Component {
 
     render() {
         const { firstName, lastName, city, state, isDonor } = this.props.user;
-        if(this.props.donations.length && !isDonor){
+        const unclaimed = this.props.donations.filter((donation) => !donation.users[0].donationsRecipients.isClaimed)
+        if(unclaimed.length && !isDonor){
 
         return (
             <Segment id="user-main-panel" vertical>
                 <Message icon color='teal'>
                     <Icon name='info circle' />
                     <Message.Content>
-                    <Message.Header> Hi {firstName} {lastName}!</Message.Header>
-                    You have ({this.props.donations.length}) unclaimed donation(s)
+                        <Message.Header> Hi {firstName} {lastName}!</Message.Header>
+                    You have ({unclaimed.length}) unclaimed donation(s)
                     </Message.Content>
                 </Message>
                 <Grid padded>
