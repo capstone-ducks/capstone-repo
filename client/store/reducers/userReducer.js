@@ -2,6 +2,7 @@ import { CREATE_USER, SIGNIN, LOGOUT, UPDATE_USER } from "../action-types";
 
 const initialState = {
     user: null,
+    lastCreatedUser: null,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -12,6 +13,8 @@ const userReducer = (state = initialState, action) => {
         state = { ...state, user: null };
     } else if (action.type === UPDATE_USER) {
         state = { ...state, user: action.user };
+    } else if (action.type === CREATE_USER) {
+        state = { ...state, lastCreatedUser: action.user };
     }
 
     return state;

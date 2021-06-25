@@ -1,3 +1,10 @@
 .map-container {
-  height: 400px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+#donate-by-region-header {
+  padding-left: .5em;
 }

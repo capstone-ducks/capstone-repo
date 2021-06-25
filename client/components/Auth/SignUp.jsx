@@ -11,7 +11,7 @@ import {
 } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { addUser, signIn } from "../../store/thunk";
-import authenticate from "./authenticate";
+import authenticate from "./authorize";
 import {
     genderOptions,
     raceOptions,

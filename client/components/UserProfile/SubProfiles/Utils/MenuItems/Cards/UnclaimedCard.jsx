@@ -92,11 +92,10 @@ class UnclaimedCard extends Component {
 
     render() {
         // console.log('STATE', this.state)
-        console.log(this.props);
         const { donations } = this.props;
         // return (<div></div>)
         return (
-            <div>
+            <React.Fragment>
                 {!donations ? (
                     <div>No donations to claim at this time</div>
                 ) : (
@@ -105,6 +104,8 @@ class UnclaimedCard extends Component {
                         const { donationId } =
                             donation.users[0].donationsRecipients;
                         // const {contractAddress} = donation;
+                        const createdAt = new Date(donation.createdAt);
+
                         return (
                             <Card key={donationId}>
                                 <Card.Content>
@@ -121,7 +122,9 @@ class UnclaimedCard extends Component {
                                         }{" "}
                                         ETH
                                     </Card.Header>
-                                    <Card.Meta>{donation.createdAt}</Card.Meta>{" "}
+                                    <Card.Meta>
+                                        {createdAt.toDateString()}
+                                    </Card.Meta>{" "}
                                     {/*  reformat createdAt data */}
                                     <Card.Description>
                                         User {donation.donor.firstName}{" "}
@@ -152,10 +155,9 @@ class UnclaimedCard extends Component {
                                 </Card.Content>
                             </Card>
                         );
-                        // }
                     })
                 )}
-            </div>
+            </React.Fragment>
         );
     }
 }

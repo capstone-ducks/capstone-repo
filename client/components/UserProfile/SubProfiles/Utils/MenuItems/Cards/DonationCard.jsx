@@ -20,12 +20,13 @@ class DonationCard extends Component {
         const { donations } = this.props;
 
         return (
-            <div>
+            <React.Fragment>
                 {!donations ? (
                     <div>Send a donation to see history.</div>
                 ) : (
                     donations.map((donation) => {
                         const { id } = donation;
+                        const createdAt = new Date(donation.createdAt);
 
                         return (
                             <Card key={id}>
@@ -40,7 +41,9 @@ class DonationCard extends Component {
                                         ETH to {donation.numRecipients}{" "}
                                         recipients.
                                     </Card.Header>
-                                    <Card.Meta>{donation.createdAt}</Card.Meta>{" "}
+                                    <Card.Meta>
+                                        {createdAt.toDateString()}
+                                    </Card.Meta>{" "}
                                     {/*  reformat updatedAt data */}
                                     <Card.Description>
                                         Some description maybe...
@@ -59,7 +62,7 @@ class DonationCard extends Component {
                         );
                     })
                 )}
-            </div>
+            </React.Fragment>
         );
     }
 }

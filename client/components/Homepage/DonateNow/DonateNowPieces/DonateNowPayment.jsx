@@ -6,14 +6,13 @@ import ethereumLogo from "../../../../../public/images/ethereum-logo.svg";
 import MetaMaskOnboarding from "@metamask/onboarding";
 import Web3 from "web3";
 import DonationContract from '../../../../../build/contracts/DonationContract.json'
+
 import getExchangeRate from "../../../UserProfile/SubProfiles/Utils/MenuItems/getExchangeRate";
-import generateDonationId from '../../../../utils/generateDonationId';
+import generateDonationId from "../../../../utils/generateDonationId";
 import { createDonationThunk } from "../../../../store/thunk/donations";
 import axios from 'axios';
 import ThankYouMessage from "../../../ThankYouMessage";
-
-
-
+import { addUser } from "../../../../store/thunk";
 
 
 // TODO
@@ -25,10 +24,12 @@ class DonateNowPaymentForm extends Component {
         super(props);
         this.state = {
             metaMaskInstalled: false,
-            clientWalletAddress:  "",
+            clientWalletAddress: "",
             donationContract: "",
             detailEthTotal:'',
-            receipt:{}
+            receipt:{},
+            loading: true,
+
         };
 
         this.isMetaMaskInstalled = this.isMetaMaskInstalled.bind(this);
@@ -39,12 +40,14 @@ class DonateNowPaymentForm extends Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
-    // On mount, see if MetaMask is installed. If it is, get wallet balance/information     
-    async componentDidMount(){
+
+    // On mount, see if MetaMask is installed. If it is, get wallet balance/information
+    async componentDidMount() {
         try {
+            const exchangeRate = await getExchangeRate();
             this.setState(
                 {
-                    exchangeRate: parseFloat(await getExchangeRate()),
+                    exchangeRate: parseFloat(exchangeRate),
                 },
                 async () => {
                     const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
@@ -68,6 +71,7 @@ class DonateNowPaymentForm extends Component {
 
                             this.setState({
                                 metaMaskInstalled,
+                                loading: false,
                                 donationContract,
                                 clientWalletAddress: clientAddress,
                                 exchangeRate: parseFloat(
@@ -75,6 +79,11 @@ class DonateNowPaymentForm extends Component {
                                 ),
                             });
                         }
+                    } else {
+                        this.setState({
+                            loading: false,
+                            metaMaskInstalled,
+                        });
                     }
                 },
             );
@@ -83,12 +92,41 @@ class DonateNowPaymentForm extends Component {
         }
     }
 
-
-
     // Used to detect if a user installs MetaMask now. Not working yet.
     async componentDidUpdate(prevProps, prevState) {
-        if (prevState.metaMaskInstalled !== this.state.metaMaskInstalled) {
-            console.log("USER CONNECTED TO METAMASK");
+        // If metamask installation status changes
+        if (prevState.metaMaskInstalled !== this.isMetaMaskInstalled()) {
+            const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
+            if (metaMaskInstalled) {
+                const clientAddress = await this.getClientAddress();
+
+                // Gives Web3 Blockchain provider (MetaMask)
+                window.web3 = new Web3(window.ethereum);
+                const web3 = window.web3;
+
+                // making dynamic network
+                const networkId = await web3.eth.net.getId();
+                const networkData = DonationContract.networks[networkId];
+
+                if (networkData) {
+                    const donationContract = new web3.eth.Contract(
+                        DonationContract.abi,
+                        networkData.address,
+                    );
+
+                    if (this._isMounted) {
+                        this.setState({
+                            metaMaskInstalled,
+                            donationContract,
+                            clientWalletAddress: clientAddress,
+                        });
+                    }
+                }
+            } else {
+                this.setState({
+                    metaMaskInstalled,
+                });
+            }
         }
     }
 
@@ -99,7 +137,6 @@ class DonateNowPaymentForm extends Component {
 
         return accounts[0];
     }
-
 
     //Created check function to see if the MetaMask extension is installed
     isMetaMaskInstalled() {
@@ -112,10 +149,24 @@ class DonateNowPaymentForm extends Component {
 
     // Sends user to MetaMask to install it
     installMetaMask() {
-        // We create a new MetaMask onboarding object to use in our app
-        const forwarderOrigin = "http://localhost:4500";
-        const onboarding = new MetaMaskOnboarding({ forwarderOrigin });
-        onboarding.startOnboarding();
+        // If metamask is installed, just connect
+        if (this.isMetaMaskInstalled()) {
+            this.setState(
+                {
+                    metaMaskInstalled: true,
+                },
+                async () => {
+                    await window.ethereum.request({
+                        method: "eth_requestAccounts",
+                    });
+                },
+            );
+        } else {
+            // We create a new MetaMask onboarding object to use in our app
+            const forwarderOrigin = "http://localhost:4500";
+            const onboarding = new MetaMaskOnboarding({ forwarderOrigin });
+            onboarding.startOnboarding();
+        }
     }
 
     async getClientWalletAddress() {
@@ -128,6 +179,7 @@ class DonateNowPaymentForm extends Component {
 
     // Handles the donation submission
     async handleSubmit() {
+      console.log("SUBMIT DONATION!");
         await this.donate();
         if(this.state.receipt.status === true){
             alert('Thank you Anonymous user  for your generous donation! You truly make the difference for us, and we are extremely grateful!');
@@ -142,11 +194,20 @@ class DonateNowPaymentForm extends Component {
 
     }
 
-    async donate(){
-        console.log('In donate function')
+    async donate() {
         const amountEthToWei = await web3.utils.toHex(
             web3.utils.toWei(this.state.detailEthTotal.toString(), "ether"),
         );
+
+        const { data } = await axios.post("api/users/recipients", {
+            numRecipients: 1,
+            races: [],
+            genders: [],
+            cities: [],
+            states: [],
+        });
+
+        const { recipientIds, cryptoAddresses } = data;
         const donationId = await generateDonationId();
         const { data } = await axios.post("api/users/recipients", {
             numRecipients: 1,
@@ -158,23 +219,39 @@ class DonateNowPaymentForm extends Component {
                 donationId,
                 ['0x7292160Dde5D4547760d16D66A0702f816149C5b'],
                 recipientIds.length, //numRecipient
+
             )
             .send({
                 from: this.state.clientWalletAddress,
                 value: amountEthToWei.toString(),
                 gas: 6721975, // should match given gas limit from ganache
             })
-            .then( async (receipt) => {
-                // console.log(receipt);
+            .then(async (receipt) => {
+                const randomNumber = Math.floor(Math.random() * 9999999999) + 1;
+
+                // Create anonymous user first
+                await this.props.createUser({
+                    firstName: "anonymous",
+                    lastName: randomNumber.toString(),
+                    email: `anonymous${randomNumber}@gmail.com`,
+                    password: randomNumber.toString(),
+                    city: "anonymous",
+                    state: "anonymous",
+                    checked: "isDonor",
+                    clientWalletAddress: this.state.clientWalletAddress,
+                });
+
+                // Create donation object
                 const donation = {
                     id: donationId,
-                    donorId: NaN,
+                    donorId: this.props.lastCreatedUser.id,
                     amount: this.state.detailEthTotal, // NOTE this is not in Wei like when its sent to the contract
                     numRecipients: recipientIds.length,
                     transactionHash: receipt.transactionHash,
                     contractAddress: receipt.to,
                     recipientIds,
                 };
+
                 await this.props.createDonationThunk(donation);
                 this.setState({
                     receipt: receipt
@@ -182,12 +259,27 @@ class DonateNowPaymentForm extends Component {
 
             })
             .catch((err) => {
-                console.log('Donate function error ', err);
+                console.log("Donate function error ", err);
             });
     }
 
     render() {
-        const { metaMaskInstalled, selectedCurrency } = this.state;
+        const { metaMaskInstalled, selectedCurrency, loading } = this.state;
+
+        if (loading) {
+            return (
+                <Form
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >
+                    <Icon name="circle notched" loading size="huge" />
+                </Form>
+            );
+        }
 
         // If meta mask is not installed, show this
         if (!metaMaskInstalled)
@@ -288,14 +380,19 @@ class DonateNowPaymentForm extends Component {
 function mapStateToProps(state) {
     return {
         user: state.auth.user,
+        lastCreatedUser: state.auth.lastCreatedUser,
     };
-};
+}
 
 function mapDispatchToProps(dispatch) {
     return {
-        createDonationThunk: (donation) => dispatch(createDonationThunk(donation))
-    }
+        createDonationThunk: (donation) =>
+            dispatch(createDonationThunk(donation)),
+        createUser: (newUser) => dispatch(addUser(newUser)),
+    };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DonateNowPaymentForm);
-
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(DonateNowPaymentForm);

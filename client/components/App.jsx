@@ -11,6 +11,7 @@ import { Homepage } from "./Homepage";
 import { AppHeader } from "./AppHeader";
 import { SignInForm, SignUp } from "./Auth";
 import { UserProfile } from "./UserProfile";
+import AboutUs from "./AboutUs/AboutUs.jsx";
 
 class App extends Component {
     constructor(props) {
@@ -36,6 +37,7 @@ class App extends Component {
                         <Route exact path="/sign-in" component={SignInForm} />
                         <Route exact path="/sign-up" component={SignUp} />
                         <Route path="/user/:id" component={UserProfile} />
+                        <Route path="/about-us" component={AboutUs} />
                     </Switch>
                 </main>
             </React.Fragment>

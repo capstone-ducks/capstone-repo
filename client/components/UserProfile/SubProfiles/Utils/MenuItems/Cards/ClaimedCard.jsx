@@ -35,6 +35,8 @@ class ClaimedCard extends Component {
                     }
                 }
             }
+
+            return acc;
         }, []);
 
         return claimedDonations;
@@ -42,13 +44,14 @@ class ClaimedCard extends Component {
 
     render() {
         const { claimedDonations, loading } = this.state;
-        console.log(claimedDonations);
+
         return (
-            <div>
-                {!claimedDonations ? (
+            <React.Fragment>
+                {!claimedDonations.length ? (
                     <div>No claimed donations.</div>
                 ) : (
                     claimedDonations.map((donation, idx) => {
+                        const updatedAt = new Date(donation.updatedAt);
                         return (
                             <Card key={idx}>
                                 <Card.Content>
@@ -61,7 +64,9 @@ class ClaimedCard extends Component {
                                         You claimed a donation of{" "}
                                         {donation.amountOwed} ETH
                                     </Card.Header>
-                                    <Card.Meta>{donation.updatedAt}</Card.Meta>{" "}
+                                    <Card.Meta>
+                                        {updatedAt.toDateString()}
+                                    </Card.Meta>{" "}
                                     {/*  reformat updatedAt data */}
                                     <Card.Description>
                                         User {donation.donor.firstName}{" "}
@@ -76,7 +81,7 @@ class ClaimedCard extends Component {
                         );
                     })
                 )}
-            </div>
+            </React.Fragment>
         );
     }
 }
