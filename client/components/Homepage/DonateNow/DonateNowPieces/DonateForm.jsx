@@ -16,6 +16,7 @@ class DonateNowForm extends Component {
         };
         this.handleEdit = this.handleEdit.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+
     }
 
     handleEdit(e) {
@@ -43,7 +44,6 @@ class DonateNowForm extends Component {
         if (!nameError && !emailError) {
             setStep(2);
         }
-
         this.setState({
             ...this.state,
             nameError,
