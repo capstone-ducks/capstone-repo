@@ -87,7 +87,8 @@ class UnclaimedCard extends Component {
                         console.log(error);
                     });
             }
-        } else {
+        } 
+        else {
             this.installMetaMask();
         }
     }

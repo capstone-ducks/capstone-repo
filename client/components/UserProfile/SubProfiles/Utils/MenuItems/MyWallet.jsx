@@ -11,13 +11,18 @@ class MyWallet extends Component {
     }
 
     async componentDidMount() {
+        this._isMounted = true;
         window.web3 = new Web3(window.ethereum);
         const web3 = window.web3;
         let balance = await web3.eth.getBalance(this.props.cryptoAddress) / 1000000000000000000;
-
-        this.setState({
-            walletBalance: balance
-        });
+        if(this._isMounted){
+            this.setState({
+                walletBalance: balance
+            });
+        }
+        // this.setState({
+        //     walletBalance: this.props.walletBalance
+        // });
     }
 
     async componentDidUpdate(prevProps) {
@@ -30,6 +35,10 @@ class MyWallet extends Component {
                 walletBalance: balance
             });
         }
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     render() {
