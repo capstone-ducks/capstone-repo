@@ -244,7 +244,7 @@ const newDonation = (name, email, amount, id) => {
 
           <!-- start unsubscribe -->
           <tr>
-              <p style="margin: 0;">The Good Block 5 Hanover Square, New York, NY 10004</p>
+              <p align="center" style="margin: 0;">The Good Block 5 Hanover Square, New York, NY 10004</p>
             </td>
           </tr>
           <!-- end unsubscribe -->

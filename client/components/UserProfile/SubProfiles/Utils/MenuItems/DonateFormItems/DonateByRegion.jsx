@@ -37,7 +37,7 @@ export default class DonateByRegion extends Component {
     });
 
     map.on('load', function() {
-      map.resize(); // shifts view when user moves around on map
+      // map.resize(); // shifts view when user moves around on map
       map.addSource('recipients', {
         'type': 'geojson',
         'data': recipients,
