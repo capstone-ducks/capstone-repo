@@ -176,10 +176,11 @@ class DonateNowPaymentForm extends Component {
     async handleSubmit() {
         console.log("SUBMIT DONATION!");
         await this.donate();
-        if(this.state.receipt.status === true){
-            alert('Thank you Anonymous user  for your generous donation! You truly make the difference for us, and we are extremely grateful!');
-            window.location.href = '/';
-        }
+        window.setTimeout(function(){
+            window.location.href = "/";
+    
+        }, 3000);
+
     }
 
     async handleChange(ev) {
@@ -252,7 +253,7 @@ class DonateNowPaymentForm extends Component {
     }
 
     render() {
-        const { metaMaskInstalled, selectedCurrency, loading } = this.state;
+        const { metaMaskInstalled, selectedCurrency, loading, receipt } = this.state;
 
         if (loading) {
             return (
@@ -312,6 +313,7 @@ class DonateNowPaymentForm extends Component {
 
         // Otherwise, return this!
         return (
+            !receipt.status ?
             <Form
                 style={{
                     display: "flex",
@@ -359,6 +361,8 @@ class DonateNowPaymentForm extends Component {
                     </p>
                 </Message>
             </Form>
+            :
+            <ThankYouMessage/>
         );
     }
 }
