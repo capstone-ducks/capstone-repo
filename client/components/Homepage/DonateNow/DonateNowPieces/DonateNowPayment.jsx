@@ -1,20 +1,27 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {Redirect} from 'react-router'
-import { Form, Image, Message, Icon } from "semantic-ui-react";
+import { Redirect } from "react-router";
+import {
+    Form,
+    Image,
+    Message,
+    Icon,
+    Input,
+    Label,
+    Header,
+} from "semantic-ui-react";
 import ethereumLogo from "../../../../../public/images/ethereum-logo.svg";
 import MetaMaskOnboarding from "@metamask/onboarding";
 import Web3 from "web3";
-import DonationContract from '../../../../../build/contracts/DonationContract.json'
+import DonationContract from "../../../../../build/contracts/DonationContract.json";
 
 import getExchangeRate from "../../../UserProfile/SubProfiles/Utils/MenuItems/getExchangeRate";
 import generateDonationId from "../../../../utils/generateDonationId";
 import { createDonationThunk } from "../../../../store/thunk/donations";
 
-import axios from 'axios';
+import axios from "axios";
 import ThankYouMessage from "../../../ThankYouMessage";
 import { addUser } from "../../../../store/thunk";
-
 
 // TODO
 // donor should input ethereum amount into form, that amount is sent to
@@ -27,10 +34,10 @@ class DonateNowPaymentForm extends Component {
             metaMaskInstalled: false,
             clientWalletAddress: "",
             donationContract: "",
-            detailEthTotal:'',
-            receipt:{},
+            receipt: {},
             loading: true,
-
+            ethTotal: 0,
+            usdTotal: 0,
         };
 
         this.isMetaMaskInstalled = this.isMetaMaskInstalled.bind(this);
@@ -40,7 +47,6 @@ class DonateNowPaymentForm extends Component {
         this.donate = this.donate.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
-
 
     // On mount, see if MetaMask is installed. If it is, get wallet balance/information
     async componentDidMount() {
@@ -95,33 +101,39 @@ class DonateNowPaymentForm extends Component {
 
     // Used to detect if a user installs MetaMask now. Not working yet.
     async componentDidUpdate(prevProps, prevState) {
+        const metaMaskInstalled = this.isMetaMaskInstalled();
+
         // If metamask installation status changes
-        if (prevState.metaMaskInstalled !== this.isMetaMaskInstalled()) {
-            const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
-            if (metaMaskInstalled) {
-                const clientAddress = await this.getClientAddress();
+        if (!prevState.metaMaskInstalled && metaMaskInstalled) {
+            // Gives Web3 Blockchain provider (MetaMask)
+            window.web3 = new Web3(window.ethereum);
+            const web3 = window.web3;
 
-                // Gives Web3 Blockchain provider (MetaMask)
-                window.web3 = new Web3(window.ethereum);
-                const web3 = window.web3;
+            // making dynamic network
+            const networkId = await web3.eth.net.getId();
+            const networkData = DonationContract.networks[networkId];
 
-                // making dynamic network
-                const networkId = await web3.eth.net.getId();
-                const networkData = DonationContract.networks[networkId];
+            if (networkData) {
+                const donationContract = new web3.eth.Contract(
+                    DonationContract.abi,
+                    networkData.address,
+                );
 
-                if (networkData) {
-                    const donationContract = new web3.eth.Contract(
-                        DonationContract.abi,
-                        networkData.address,
-                    );
-
-                    if (this._isMounted) {
-                        this.setState({
+                if (this._isMounted) {
+                    this.setState(
+                        {
                             metaMaskInstalled,
                             donationContract,
-                            clientWalletAddress: clientAddress,
-                        });
-                    }
+                            clientWalletAddress,
+                        },
+                        async () => {
+                            const clientWalletAddress =
+                                await this.getClientWalletAddress();
+                            this.setState({
+                                clientWalletAddress,
+                            });
+                        },
+                    );
                 }
             } else {
                 this.setState({
@@ -180,24 +192,46 @@ class DonateNowPaymentForm extends Component {
 
     // Handles the donation submission
     async handleSubmit() {
-      console.log("SUBMIT DONATION!");
+        console.log("SUBMIT DONATION!");
         await this.donate();
-        window.setTimeout(function(){
+        window.setTimeout(function () {
             window.location.href = "/";
-    
         }, 3000);
     }
 
-    async handleChange(ev){
-     this.setState({
-         [ev.target.name]: ev.target.value
-     })
+    async handleChange(ev) {
+        let value = ev.target.value;
 
+        // Remove commas to store number
+        if (ev.target.name === "usdTotal") {
+            value = parseFloat(value.replace(/,/g, "")) || 0;
+        }
+
+        this.setState(
+            {
+                [ev.target.name]: value,
+            },
+            () => {
+                const { exchangeRate } = this.state;
+
+                // Update the Ethereum conversion if we updated donation amount
+                if (ev.target.name === "usdTotal") {
+                    this.setState({
+                        ethTotal:
+                            (parseFloat(value) * exchangeRate).toFixed(8) || 0,
+                    });
+                } else if (ev.target.name === "ethTotal") {
+                    this.setState({
+                        usdTotal: parseFloat(value) / exchangeRate || 0,
+                    });
+                }
+            },
+        );
     }
 
     async donate() {
         const amountEthToWei = await web3.utils.toHex(
-            web3.utils.toWei(this.state.detailEthTotal.toString(), "ether"),
+            web3.utils.toWei(this.state.ethTotal.toString(), "ether"),
         );
 
         const { data } = await axios.post("api/users/recipients", {
@@ -210,17 +244,12 @@ class DonateNowPaymentForm extends Component {
 
         const { recipientIds, cryptoAddresses } = data;
         const donationId = await generateDonationId();
-        const { data } = await axios.post("api/users/recipients", {
-            numRecipients: 1,
-        });
-        //console.log(data, 'DonateNowPayment')
-        const { recipientIds, cryptoAddresses } = data;
+
         await this.state.donationContract.methods
             .createDonation(
                 donationId,
-                ['0x7292160Dde5D4547760d16D66A0702f816149C5b'],
+                ["0x7292160Dde5D4547760d16D66A0702f816149C5b"],
                 recipientIds.length, //numRecipient
-
             )
             .send({
                 from: this.state.clientWalletAddress,
@@ -246,7 +275,7 @@ class DonateNowPaymentForm extends Component {
                 const donation = {
                     id: donationId,
                     donorId: this.props.lastCreatedUser.id,
-                    amount: this.state.detailEthTotal, // NOTE this is not in Wei like when its sent to the contract
+                    amount: this.state.ethTotal, // NOTE this is not in Wei like when its sent to the contract
                     numRecipients: recipientIds.length,
                     transactionHash: receipt.transactionHash,
                     contractAddress: receipt.to,
@@ -255,9 +284,8 @@ class DonateNowPaymentForm extends Component {
 
                 await this.props.createDonationThunk(donation);
                 this.setState({
-                    receipt: receipt
-                })
-
+                    receipt: receipt,
+                });
             })
             .catch((err) => {
                 console.log("Donate function error ", err);
@@ -265,7 +293,14 @@ class DonateNowPaymentForm extends Component {
     }
 
     render() {
-        const { metaMaskInstalled, selectedCurrency, loading, receipt } = this.state;
+        const {
+            metaMaskInstalled,
+            selectedCurrency,
+            loading,
+            receipt,
+            usdTotal,
+            ethTotal,
+        } = this.state;
 
         if (loading) {
             return (
@@ -324,8 +359,7 @@ class DonateNowPaymentForm extends Component {
             );
 
         // Otherwise, return this!
-        return (
-            !receipt.status ?
+        return !receipt.status ? (
             <Form
                 style={{
                     display: "flex",
@@ -333,7 +367,64 @@ class DonateNowPaymentForm extends Component {
                     alignItems: "center",
                 }}
             >
-                <Image src={ethereumLogo} size="mini" />
+                <Header as="h3">Payment</Header>
+                <Form.Group widths="equal">
+                    <Form.Field>
+                        <Input
+                            labelPosition="left"
+                            type="text"
+                            placeholder="Amount"
+                            value={parseFloat(usdTotal).toLocaleString("en-US")}
+                            name="usdTotal"
+                            onChange={this.handleChange}
+                        >
+                            <Label basic>$</Label>
+                            <input />
+                        </Input>
+                    </Form.Field>
+                </Form.Group>
+                <Form.Group widths="equal">
+                    <Form.Field readOnly>
+                        <Input
+                            labelPosition="left"
+                            type="text"
+                            placeholder="Amount"
+                            value={
+                                ethTotal === 0
+                                    ? 0
+                                    : ethTotal.toLocaleString("en-US")
+                            }
+                            name="ethTotal"
+                            onChange={this.handleChange}
+                        >
+                            <Label basic>Ξ</Label>
+                            <input />
+                        </Input>
+                    </Form.Field>
+                </Form.Group>
+                {/* <Form.Field
+                        value={parseFloat(usdTotal).toLocaleString("en-US")}
+                        name="usdTotal"
+                        control={Input}
+                        label="$USD"
+                    /> */}
+                {/* <Form.Field>
+                        ΞETH (estimate)
+                        <Input
+                            readOnly
+                            id="ethTotal"
+                            name="ethTotal"
+                            value={
+                                ethTotal === 0
+                                    ? 0
+                                    : parseFloat(
+                                          parseFloat(ethTotal).toFixed(4),
+                                      ).toLocaleString("en-US")
+                            }
+                        />
+                    </Form.Field> */}
+
+                {/* <Image src={ethereumLogo} size="mini" />
                 <Form.Group grouped>
                     <Form.Input
                         label="Amount"
@@ -344,7 +435,7 @@ class DonateNowPaymentForm extends Component {
                         value={this.state.detailEthTotal}
                         onChange={this.handleChange}
                     />
-                </Form.Group>
+                </Form.Group> */}
                 <Form.Button
                     style={{
                         backgroundColor: "#2654ba",
@@ -373,9 +464,8 @@ class DonateNowPaymentForm extends Component {
                     </p>
                 </Message>
             </Form>
-            :
-            <ThankYouMessage/>
-            
+        ) : (
+            <ThankYouMessage />
         );
     }
 }
