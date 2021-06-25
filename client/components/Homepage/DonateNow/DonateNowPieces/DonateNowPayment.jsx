@@ -209,15 +209,11 @@ class DonateNowPaymentForm extends Component {
 
         const { recipientIds, cryptoAddresses } = data;
         const donationId = await generateDonationId();
-        const { data } = await axios.post("api/users/recipients", {
-            numRecipients: 1,
-        });
         //console.log(data, 'DonateNowPayment')
-        const { recipientIds, cryptoAddresses } = data;
         await this.state.donationContract.methods
             .createDonation(
                 donationId,
-                ['0x7292160Dde5D4547760d16D66A0702f816149C5b'],
+                cryptoAddresses,
                 recipientIds.length, //numRecipient
 
             )
@@ -371,8 +367,8 @@ class DonateNowPaymentForm extends Component {
                     </p>
                 </Message>
             </Form>
-            
-            
+
+
         );
     }
 }
