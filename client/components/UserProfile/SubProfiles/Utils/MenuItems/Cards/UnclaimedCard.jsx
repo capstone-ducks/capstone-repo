@@ -44,9 +44,10 @@ class UnclaimedCard extends Component {
 
     async clickApprove(donationId) {
         const metaMaskInstalled = this.isMetaMaskInstalled(); // Confirms MetaMask Installation
+        
         if (metaMaskInstalled) {
             const clientAddress = await this.getClientAddress();
-
+            console.log(clientAddress, 'client address');
             // Gives Web3 Blockchain provider (MetaMask)
             window.web3 = new Web3(window.ethereum);
             const web3 = window.web3;
@@ -66,12 +67,13 @@ class UnclaimedCard extends Component {
                     .claimDonation(donationId, clientAddress)
                     .send({
                         from: clientAddress,
+                        gas: 6721975,
                     })
                     .on("confirmation", (confirmationNumber, receipt) => {
-                        console.log(confirmationNumber);
+                        console.log(confirmationNumber, 'confirmation number');
                     })
                     .on("receipt", async (receipt) => {
-                        console.log(receipt);
+                        console.log(receipt, 'reciept');
 
                         // removes the claimed donation from UnclaimedCard on if we get a successful receipt.
                         // otherwise, a donation was not successful
@@ -85,7 +87,8 @@ class UnclaimedCard extends Component {
                         console.log(error);
                     });
             }
-        } else {
+        } 
+        else {
             this.installMetaMask();
         }
     }

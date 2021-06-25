@@ -1,32 +1,59 @@
 import React, { Component } from "react";
 import { Button, Icon, Popup, Grid, Header } from 'semantic-ui-react';
+import Web3 from "web3";
+
 class MyWallet extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
-        //this.showMenu = this.showMenu.bind(this);
+        this.state = {
+            walletBalance: 0
+        };
     }
 
-    // showMenu = () => {
-    //     console.log('clicked');
-    //     //const linkdoc = document.getElementById('links');
-    //     //console.log(linkdoc);
+    async componentDidMount() {
+        this._isMounted = true;
+        window.web3 = new Web3(window.ethereum);
+        const web3 = window.web3;
+        let balance = await web3.eth.getBalance(this.props.cryptoAddress) / 1000000000000000000;
+        if(this._isMounted){
+            this.setState({
+                walletBalance: balance
+            });
+        }
+        // this.setState({
+        //     walletBalance: this.props.walletBalance
+        // });
+    }
 
-    //         document.getElementById('links').style.display = "block";
-    // };
+    async componentDidUpdate(prevProps) {
+        window.web3 = new Web3(window.ethereum);
+        const web3 = window.web3;
+        let balance = await web3.eth.getBalance(this.props.cryptoAddress) / 1000000000000000000;
+
+        if (prevProps.walletBalance !== this.props.walletBalance) {
+            this.setState({
+                walletBalance: balance
+            });
+        }
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
 
     render() {
-        const {walletBalance, clientWalletAddress} = this.props;
+        const {cryptoAddress} = this.props;
+        const {walletBalance} = this.state;
         console.log(walletBalance, 'wallet balance');
         return (
             <div>
                 <p>
-                    Wallet Address: {clientWalletAddress}
+                    Wallet Address: {cryptoAddress}
                 </p>
                 <p>
-                    Wallet Balance: {walletBalance} <Icon name='ethereum' />
+                    Wallet Balance: <Icon name='ethereum' /> {walletBalance}
                 </p>
-                <h3>
+                <h3> 
                     Cash out your Ether through some of the below online retailers:
                 </h3>
                 <Popup position='bottom left' trigger={
