@@ -15,6 +15,7 @@ class UnclaimedCard extends Component {
         this.isMetaMaskInstalled = this.isMetaMaskInstalled.bind(this);
         this.installMetaMask = this.installMetaMask.bind(this);
         this.getClientAddress = this.getClientAddress.bind(this);
+        //this.handleApprove = this.handleApprove.bind(this)
         this.clickApprove = this.clickApprove.bind(this);
     }
 
@@ -114,7 +115,7 @@ class UnclaimedCard extends Component {
                                         src="/images/ethereum-logo.svg"
                                     />
                                     <Card.Header>
-                                        You have an unclaimed donation of{" "}
+                                        You have an unclaimed donation of {" "}
                                         {
                                             donation.users[0]
                                                 .donationsRecipients.amountOwed
