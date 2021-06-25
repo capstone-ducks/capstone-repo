@@ -1,16 +1,20 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import {Redirect} from 'react-router'
 import { Form, Image, Message, Icon } from "semantic-ui-react";
 import ethereumLogo from "../../../../../public/images/ethereum-logo.svg";
 import MetaMaskOnboarding from "@metamask/onboarding";
 import Web3 from "web3";
-import DonationContract from "../../../../../build/contracts/DonationContract.json";
+import DonationContract from '../../../../../build/contracts/DonationContract.json'
+
 import getExchangeRate from "../../../UserProfile/SubProfiles/Utils/MenuItems/getExchangeRate";
 import generateDonationId from "../../../../utils/generateDonationId";
 import { createDonationThunk } from "../../../../store/thunk/donations";
+
+import axios from 'axios';
 import ThankYouMessage from "../../../ThankYouMessage";
 import { addUser } from "../../../../store/thunk";
-import axios from "axios";
+
 
 // TODO
 // donor should input ethereum amount into form, that amount is sent to
@@ -23,9 +27,10 @@ class DonateNowPaymentForm extends Component {
             metaMaskInstalled: false,
             clientWalletAddress: "",
             donationContract: "",
-            detailEthTotal: "",
+            detailEthTotal:'',
             receipt:{},
             loading: true,
+
         };
 
         this.isMetaMaskInstalled = this.isMetaMaskInstalled.bind(this);
@@ -35,6 +40,7 @@ class DonateNowPaymentForm extends Component {
         this.donate = this.donate.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
+
 
     // On mount, see if MetaMask is installed. If it is, get wallet balance/information
     async componentDidMount() {
@@ -174,19 +180,19 @@ class DonateNowPaymentForm extends Component {
 
     // Handles the donation submission
     async handleSubmit() {
-        console.log("SUBMIT DONATION!");
+      console.log("SUBMIT DONATION!");
         await this.donate();
         window.setTimeout(function(){
             window.location.href = "/";
     
         }, 3000);
-
     }
 
-    async handleChange(ev) {
-        this.setState({
-            [ev.target.name]: ev.target.value,
-        });
+    async handleChange(ev){
+     this.setState({
+         [ev.target.name]: ev.target.value
+     })
+
     }
 
     async donate() {
@@ -204,12 +210,17 @@ class DonateNowPaymentForm extends Component {
 
         const { recipientIds, cryptoAddresses } = data;
         const donationId = await generateDonationId();
-
+        const { data } = await axios.post("api/users/recipients", {
+            numRecipients: 1,
+        });
+        //console.log(data, 'DonateNowPayment')
+        const { recipientIds, cryptoAddresses } = data;
         await this.state.donationContract.methods
             .createDonation(
                 donationId,
-                cryptoAddresses,
-                1, // number of recipients
+                ['0x7292160Dde5D4547760d16D66A0702f816149C5b'],
+                recipientIds.length, //numRecipient
+
             )
             .send({
                 from: this.state.clientWalletAddress,
@@ -236,7 +247,7 @@ class DonateNowPaymentForm extends Component {
                     id: donationId,
                     donorId: this.props.lastCreatedUser.id,
                     amount: this.state.detailEthTotal, // NOTE this is not in Wei like when its sent to the contract
-                    numRecipients: 1,
+                    numRecipients: recipientIds.length,
                     transactionHash: receipt.transactionHash,
                     contractAddress: receipt.to,
                     recipientIds,
@@ -246,6 +257,7 @@ class DonateNowPaymentForm extends Component {
                 this.setState({
                     receipt: receipt
                 })
+
             })
             .catch((err) => {
                 console.log("Donate function error ", err);
@@ -363,6 +375,7 @@ class DonateNowPaymentForm extends Component {
             </Form>
             :
             <ThankYouMessage/>
+            
         );
     }
 }

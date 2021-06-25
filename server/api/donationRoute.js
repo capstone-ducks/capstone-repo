@@ -89,7 +89,8 @@ router.post("/", async (req, res, next) => {
                 isDonor: true,
             });
             donorId = newUser.id;
-            console.log(donorId, "DonationRoute");
+            // recipientId = Number(1);
+            console.log(donorId, "DonationRoute")
         }
         const donation = await Donation.create({
             id,

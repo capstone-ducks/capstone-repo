@@ -11,6 +11,7 @@ class ThankYouMessage extends Component {
         return (
             this.props.user !== null 
             ?
+
                 <Message success icon color='green'>
                     <Icon name='thumbs up outline' />
                     <Message.Content>

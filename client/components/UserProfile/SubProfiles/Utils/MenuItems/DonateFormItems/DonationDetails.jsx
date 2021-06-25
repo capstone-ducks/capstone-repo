@@ -80,6 +80,19 @@ const DonationDetails = (props) => {
         { key: "oh", text: "OH", value: "OH" },
     ];
 
+    const employmentStatus = [
+        { key: "employed", text: "Employed", value: "Employed" },
+        { key: "unemployed", text: "Unemployed", value: "Unemployed" },
+        { key: "student", text: "Student", value: "Student" },
+        { key: "smallBusinessOwner", text: "Small Business Owner", value: "Small Business Owner" },
+    ];
+
+    const familyStatus = [
+        { key: "single", text: "Single", value: "Single" },
+        { key: "singleParent", text: "Single Parent", value: "Single Parent" },
+        { key: "headOfHousehold", text: "Head of Household", value: "Head of Household" },
+    ];
+
     return (
         <React.Fragment>
             <Accordion.Title active={active} index={1} onClick={handleClick}>
@@ -147,6 +160,16 @@ const DonationDetails = (props) => {
                             options={genders}
                             onChange={handleEdit}
                         />
+                        <Form.Dropdown
+                            label="Family Status"
+                            name="familyStatus" // delete?
+                            placeholder="Family Status"
+                            fluid
+                            multiple
+                            selection
+                            options={familyStatus}
+                            onChange={handleEdit}
+                        />
                     </Form.Group>
                     <Form.Group widths="equal">
                         <Form.Dropdown
@@ -167,6 +190,16 @@ const DonationDetails = (props) => {
                             multiple
                             selection
                             options={states}
+                            onChange={handleEdit}
+                        />
+                        <Form.Dropdown
+                            label="Employment Status"
+                            name="employmentStatus" // delete?
+                            placeholder="Employment Status"
+                            fluid
+                            multiple
+                            selection
+                            options={employmentStatus}
                             onChange={handleEdit}
                         />
                     </Form.Group>

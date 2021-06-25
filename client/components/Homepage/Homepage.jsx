@@ -3,8 +3,8 @@ import "../../../public/assets/homepage.css";
 // import mainImg from "../../../public/images/charity-img.png";
 import mainImg from "../../../public/images/multicultural.png";
 import HomepagePanel from "./HomepagePanel.jsx";
-import { DonateNowModal } from "./DonateNow";
-import { Link, NavLink } from "react-router-dom";
+import { DonateNowModal} from "./DonateNow";
+import { Link, NavLink, Route } from "react-router-dom";
 
 class Homepage extends Component {
     constructor(props) {
@@ -46,7 +46,7 @@ class Homepage extends Component {
                             <div className="homepage-btn">
                                 <DonateNowModal
                                     trigger={
-                                        <NavLink to="/" id="donate-button">
+                                        <NavLink to='/' id="donate-button">
                                             Donate Now
                                         </NavLink>
                                     }
