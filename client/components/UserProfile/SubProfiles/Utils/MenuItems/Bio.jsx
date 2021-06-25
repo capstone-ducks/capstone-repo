@@ -12,7 +12,7 @@ class Bio extends Component {
     render() {
         const { email, publicKey, cryptoAddress, firstName, lastName, phone, gender, race, city, state } =
             this.props.user;
-
+        
         return (
             <React.Fragment>
                 <div id="bio-menu">
