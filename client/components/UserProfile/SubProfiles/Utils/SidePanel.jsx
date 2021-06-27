@@ -5,7 +5,6 @@ import {
     Grid,
     Divider,
     Card,
-    Header,
     Image,
     Icon,
 } from "semantic-ui-react";
@@ -13,7 +12,6 @@ import { connect } from "react-redux";
 
 import nanPic from "../../../../../public/images/profile-pictures/nan.png";
 import matthewPic from "../../../../../public/images/profile-pictures/matthew.png";
-// import unnamedPic from "../../../../../public/images/utils/user.svg";
 
 class SidePanel extends Component {
     constructor(props) {
@@ -42,9 +40,6 @@ class SidePanel extends Component {
 
     calculateSidePanelStats(user, donations) {
         const { isDonor } = user;
-
-        console.log(donations);
-
         const totalDonations = isDonor ? donations.length : "";
 
         const totalFundsDonated = isDonor

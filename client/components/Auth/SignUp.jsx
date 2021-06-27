@@ -70,7 +70,6 @@ class SignUp extends Component {
     }
 
     handleSelect(e, { value }) {
-        // console.log(value);
         this.setState({
             gender: value,
         });

@@ -23,9 +23,6 @@ import axios from "axios";
 import ThankYouMessage from "../../../ThankYouMessage";
 import { addUser } from "../../../../store/thunk";
 
-// TODO
-// donor should input ethereum amount into form, that amount is sent to
-// a recipient in the paymentsplitter contract: i.e. PaymentSplitter(["recipient ethereum address"], [1])
 
 class DonateNowPaymentForm extends Component {
     constructor(props) {
@@ -192,7 +189,6 @@ class DonateNowPaymentForm extends Component {
 
     // Handles the donation submission
     async handleSubmit() {
-        console.log("SUBMIT DONATION!");
         await this.donate();
         window.setTimeout(function () {
             window.location.href = "/";
@@ -235,7 +231,7 @@ class DonateNowPaymentForm extends Component {
         );
 
         const { data } = await axios.post("api/users/recipients", {
-            numRecipients: 1,
+            numRecipients: 10,
             races: [],
             genders: [],
             cities: [],

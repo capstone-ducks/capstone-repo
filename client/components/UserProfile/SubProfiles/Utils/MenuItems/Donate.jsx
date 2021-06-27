@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Form, Accordion} from "semantic-ui-react";
+import { Form, Accordion, Message, Popup } from "semantic-ui-react";
 import MetaMaskOnboarding from "@metamask/onboarding";
 import Web3 from "web3";
 import axios from "axios";
@@ -17,7 +17,6 @@ import {
 } from "./DonateFormItems";
 
 import getExchangeRate from "./getExchangeRate";
-import {MainPanel} from "../../Utils";
 
 
 class Donate extends Component {
@@ -191,7 +190,6 @@ class Donate extends Component {
         const amountEthToWei = await web3.utils.toHex(
             web3.utils.toWei(this.state.detailEthTotal.toString(), "ether"),
         );
-        //console.log(this.state.recipientOptions, 'recipient options');
         const { data } = await axios.post("api/users/recipients", {
             numRecipients: this.state.detailNumRecipients,
             races: this.state.raceOptions,
@@ -233,7 +231,6 @@ class Donate extends Component {
             .catch((err) => {
                 console.log("Donate function error ", err);
             });
-            //console.log(returnedReceipt, 'receipt returned')
     }
 
     // Handles Form Field Edits
@@ -309,7 +306,7 @@ class Donate extends Component {
         } = this.state;
 
         return (
-            !receipt.status 
+            !receipt.status
             ?
               <Form onSubmit={this.handleSubmit}>
                 {metaMaskInstalled ? (
@@ -350,27 +347,35 @@ class Donate extends Component {
                         />
                     </Accordion>
                 ) : (
-                    <Form.Button
-                        style={{
-                            backgroundColor: "#d76f63",
-                            color: "white",
-                            fontFamily: "lato",
-                            fontWeight: 400,
-                            fontSize: 14,
-                            width: 125,
-                            height: 60,
-                            position: "relative",
-                            right: -3,
-                            textAlign: "center",
-                        }}
-                        size="medium"
-                        onClick={async (e) => {
-                            e.preventDefault();
-                            await this.installMetaMask();
-                        }}
-                    >
-                        Connect MetaMask
-                    </Form.Button>
+                    <Popup position='bottom left' trigger={
+                        <Form.Button
+                            style={{
+                                backgroundColor: "#d76f63",
+                                color: "white",
+                                fontFamily: "lato",
+                                fontWeight: 400,
+                                fontSize: 14,
+                                width: 125,
+                                height: 60,
+                                position: "relative",
+                                right: -3,
+                                textAlign: "center",
+                            }}
+                            size="medium"
+                            onClick={async (e) => {
+                                e.preventDefault();
+                                await this.installMetaMask();
+                            }}
+                        >
+                            Connect MetaMask
+                        </Form.Button>
+                        } flowing hoverable>
+                            <Message
+                                info
+                                header="Connect your MetaMask wallet to make a donation"
+                                content="If you don't already have the extension, you will instead be guided through MetaMask's installation steps."
+                            />
+                        </Popup>
                 )}
             </Form>
             : <ThankYouMessage/>

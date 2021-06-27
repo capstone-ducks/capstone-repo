@@ -2,10 +2,10 @@ import React from "react";
 import {
     Form,
     Input,
+    Field,
     Icon,
     Header,
     Accordion,
-    Dropdown,
     Segment,
     Divider,
 } from "semantic-ui-react";
@@ -84,6 +84,15 @@ const DonationDetails = (props) => {
         { key: "employed", text: "Employed", value: "Employed" },
         { key: "unemployed", text: "Unemployed", value: "Unemployed" },
         { key: "student", text: "Student", value: "Student" },
+    ];
+
+    const occupation = [
+        { key: "theArts", text: "The Arts", value: "The Arts" },
+        { key: "service", text: "Service Industry", value: "Service Industry" },
+        { key: "fitness", text: "Fitness Professional", value: "Fitness Professional" },
+        { key: "retail", text: "Retail", value: "Retail" },
+        { key: "healthcare", text: "Healthcare", value: "Healthcare" },
+        { key: "manufacturing", text: "Manufacturing", value: "Manufacturing" },
         { key: "smallBusinessOwner", text: "Small Business Owner", value: "Small Business Owner" },
     ];
 
@@ -173,6 +182,28 @@ const DonationDetails = (props) => {
                     </Form.Group>
                     <Form.Group widths="equal">
                         <Form.Dropdown
+                            label="Employment Status"
+                            name="employmentStatus"
+                            placeholder="Employment Status"
+                            fluid
+                            multiple
+                            selection
+                            options={employmentStatus}
+                            onChange={handleEdit}
+                        />
+                        <Form.Dropdown
+                            label="Occupation"
+                            name="occupation"
+                            placeholder="Occupation"
+                            fluid
+                            multiple
+                            selection
+                            options={occupation}
+                            onChange={handleEdit}
+                        />
+                    </Form.Group>
+                    <Form.Group widths="equal">
+                        <Form.Dropdown
                             label="City"
                             name="cityOptions"
                             placeholder="City"
@@ -192,14 +223,11 @@ const DonationDetails = (props) => {
                             options={states}
                             onChange={handleEdit}
                         />
-                        <Form.Dropdown
-                            label="Employment Status"
-                            name="employmentStatus" // delete?
-                            placeholder="Employment Status"
-                            fluid
-                            multiple
-                            selection
-                            options={employmentStatus}
+                        <Form.Field
+                            label="Country"
+                            control={Input}
+                            name="country" // delete?
+                            placeholder="Country"
                             onChange={handleEdit}
                         />
                     </Form.Group>

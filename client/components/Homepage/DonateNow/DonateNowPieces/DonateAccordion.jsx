@@ -28,6 +28,22 @@ class DonateAccordion extends Component {
                     onClick={this.handleClick}
                 >
                     <Icon name="dropdown" />
+                    Who will receive your donation?
+                </Accordion.Title>
+                <Accordion.Content
+                    active={activeIndex === 0}
+                    style={{ fontSize: 11, color: "#383838" }}
+                >
+                    <p>
+                        Your donation will be evenly split among 10 of TheGoodBlock's registered recipients
+                    </p>
+                </Accordion.Content>
+                <Accordion.Title
+                    active={activeIndex === 1}
+                    index={0}
+                    onClick={this.handleClick}
+                >
+                    <Icon name="dropdown" />
                     Why do we need your name?
                 </Accordion.Title>
                 <Accordion.Content
@@ -43,7 +59,7 @@ class DonateAccordion extends Component {
                 </Accordion.Content>
 
                 <Accordion.Title
-                    active={activeIndex === 1}
+                    active={activeIndex === 2}
                     index={1}
                     onClick={this.handleClick}
                 >
