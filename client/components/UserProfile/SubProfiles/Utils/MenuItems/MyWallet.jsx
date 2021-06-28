@@ -44,7 +44,6 @@ class MyWallet extends Component {
     render() {
         const {cryptoAddress} = this.props;
         const {walletBalance} = this.state;
-        console.log(walletBalance, 'wallet balance');
         return (
             <div>
                 <p>
@@ -53,7 +52,7 @@ class MyWallet extends Component {
                 <p>
                     Wallet Balance: <Icon name='ethereum' /> {walletBalance}
                 </p>
-                <h3> 
+                <h3>
                     Cash out your Ether through some of the below online retailers:
                 </h3>
                 <Popup position='bottom left' trigger={

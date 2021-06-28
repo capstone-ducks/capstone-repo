@@ -20,7 +20,7 @@ class AboutUs extends Component {
                     <div className="about-us-description">
                         <p className="centertext">
                             TheGoodBlock is a decentralized platform that
-                            enables doners to give directly to recipients
+                            enables donors to give directly to recipients
                             without requiring a third-party trust. By making
                             transactions on the blockchain, our site removes the
                             ‘middle man’ of charities and banking organizations.

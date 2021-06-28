@@ -72,7 +72,10 @@ export default class DonateByRegion extends Component {
         <Accordion.Content active={active}>
           <Header as="h5" textAlign="left" id="donate-by-region-header" content="Target your donation by geographic communities" />
           <Segment style={{minWidth: "500px", height: "480px" }}>
-            <div ref={this.mapContainer} style={{minWidth: "100%", height: "100%" }} className="map-container" />
+            <div
+              ref={this.mapContainer}
+              style={{minWidth: "100%", height: "100%", overflow: "visible" }}
+              className="map-container" />
           </Segment>
         </Accordion.Content>
       </React.Fragment>

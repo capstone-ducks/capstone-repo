@@ -89,7 +89,6 @@ router.post("/", async (req, res, next) => {
                 isDonor: true,
             });
             donorId = newUser.id;
-            // recipientId = Number(1);
             console.log(donorId, "DonationRoute")
         }
         const donation = await Donation.create({
@@ -103,7 +102,7 @@ router.post("/", async (req, res, next) => {
         });
 
         let donationRecipientInstances = [];
-        recipientIds.map( (recipientId) => {
+        recipientIds.map( async (recipientId) => {
             const amountOwed = donation.amount / donation.numRecipients;
             donationRecipientInstances.push(
                 DonationsRecipients.create({
@@ -112,7 +111,8 @@ router.post("/", async (req, res, next) => {
                     amountOwed,
                 }),
             );
-            const recipient = User.findByPk(recipientId);
+            const recipient = await User.findByPk(recipientId);
+            console.log(recipient)
             sendEmail(recipient.firstName, recipient.email, amountOwed, recipientId); // sends email to each recipient
         });
 

@@ -235,12 +235,6 @@ router.post("/recipients", async (req, res, next) => {
             );
         }
 
-        // console.log(usersbyGender.length, 'Gender Users');
-        // console.log(usersbyRace.length, 'Race Users');
-        // console.log(usersbyCity.length, 'City Users');
-        // console.log(usersbyState.length, 'State Users');
-        // console.log(allRecipients.length, 'All Users');
-
         const recipients = await User.randomRecipients(
             numRecipients,
             allRecipients,

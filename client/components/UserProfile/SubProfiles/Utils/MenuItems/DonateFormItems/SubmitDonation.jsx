@@ -32,6 +32,7 @@ const SubmitDonation = (props) => {
                 <Form.Field
                     checked={agreeToTerms}
                     control={Checkbox}
+                    required
                     name="agreeToTerms"
                     label="I agree to the Terms and Conditions"
                     onChange={handleEdit}

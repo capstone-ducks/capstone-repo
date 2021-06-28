@@ -98,38 +98,38 @@ const seedUsers = async () => {
         const recipient1 = await User.create({
             firstName: "Tiny",
             lastName: "Tim",
-            email: "recipient1@gmail.com",
+            email: "tinytim@gmail.com",
             password: "123",
             gender: "Male",
             race: "Multiracial",
             isDonor: false,
-            cryptoAddress: "0xEf458366e6b01621cD938eA60e7eEDf3777171C3",
+            cryptoAddress: "0x405Ad7dD1CC8bC9BB61a2AD9e35Aa32C0D7be5e6",
         });
 
         const recipient2 = await User.create({
             firstName: "Billy",
             lastName: "Valentine",
-            email: "recipient2@gmail.com",
+            email: "billy@gmail.com",
             password: "123",
             gender: "Female",
             race: "Black / African American",
             city: "Queens",
             state: "NY",
             isDonor: false,
-            cryptoAddress: "0x20818eA22d7dbc9A4306a3dA08ce5D0F67369283",
+            cryptoAddress: "0xaF58401aF7e7B3A61Da3B101574b4a7D1Fae059D",
         });
 
         const recipient3 = await User.create({
             firstName: "Joe",
-            lastName: "Shmo",
-            email: "recipient3@gmail.com",
+            lastName: "Schmo",
+            email: "schmo@gmail.com",
             password: "123",
             gender: "Female",
             race: "Hispanic or Latino",
             city: "Hartford",
             state: "CT",
             isDonor: false,
-            cryptoAddress: "0x98812555e15c0Da8Cb499C9c0ec94dF744b8daE3",
+            cryptoAddress: "0x1600247657d8F4e8f5d6700e5b5C622B7A99F2Ac",
         });
 
         const recipient4 = await User.create({
@@ -142,33 +142,33 @@ const seedUsers = async () => {
             city: "Los Angeles",
             state: "CA",
             isDonor: false,
-            cryptoAddress: "0xD8a60894574D7233092ea64d7b63970Ae25e1297",
+            cryptoAddress: "0x3b07d4607c01ac708dbFa78d336860372100e6CD",
         });
 
         const recipient5 = await User.create({
             firstName: "Thomas",
             lastName: "Hobbes",
-            email: "recipient5@gmail.com",
+            email: "hobbes@gmail.com",
             password: "123",
             gender: "Transgender",
             race: "Asian",
             city: "San Diego",
             state: "CA",
             isDonor: false,
-            cryptoAddress: "0x6A9B0Ad6134d1eeF84D1D557B6b8B80803AA3e0a",
+            cryptoAddress: "0xe8816A786d3DFfc326989545a457221b9dFbFa5E",
         });
 
         const recipient6 = await User.create({
             firstName: "Mike",
             lastName: "Wazowski",
-            email: "recipient6@gmail.com",
+            email: "wazowski@gmail.com",
             password: "123",
             gender: "Non-Binary",
             race: "Native Hawaiian or Other Pacific Islander",
             city: "Queens",
             state: "NY",
             isDonor: false,
-            cryptoAddress: "0x484b3EdD4CF8f2e2e536a44861d950079bcF4909",
+            cryptoAddress: "0x1D2b6905FF9254Ed1f1FC527e6462CEce048E586",
         });
 
         const recipient7 = await User.create({
@@ -181,7 +181,7 @@ const seedUsers = async () => {
             city: "New York",
             state: "NY",
             isDonor: false,
-            cryptoAddress: "0x753189287758810dB103e123cA1c724eeE987A34",
+            cryptoAddress: "0x135435f99670159ccb63080334084781694a6A55",
         });
 
         const recipient8 = await User.create({
@@ -194,7 +194,7 @@ const seedUsers = async () => {
             city: "Brooklyn",
             state: "NY",
             isDonor: false,
-            cryptoAddress: "0x484b3EdD4CF8f2e2e536a44861d950079bcF4909",
+            cryptoAddress: "0xe10EB92A20E034E38695479b4Fc2aAa6F7E3Ca86",
         });
 
         const recipient9 = await User.create({
@@ -207,7 +207,7 @@ const seedUsers = async () => {
             city: "Akron",
             state: "OH",
             isDonor: false,
-            cryptoAddress: "0x753189287758810dB103e123cA1c724eeE987A34",
+            cryptoAddress: "0x922eb29464eDF731b22499Fab16745389afc19E1",
         });
 
         const donation1 = await Donation.create({
