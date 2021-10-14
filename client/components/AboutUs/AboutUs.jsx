@@ -17,6 +17,24 @@ class AboutUs extends Component {
                         </Header>
                         <Image centered size="large" />
                     </div>
+                    <div
+                        className="video-container"
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            margin: "0 1rem 1rem 1rem",
+                        }}
+                    >
+                        <iframe
+                            width="560"
+                            height="315"
+                            src="https://www.youtube.com/embed/mOx78uqb8IA"
+                            title="YouTube video player"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                        ></iframe>
+                    </div>
                     <div className="about-us-description">
                         <p className="centertext">
                             TheGoodBlock is a decentralized platform that
